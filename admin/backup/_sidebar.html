@@ -1,0 +1,54 @@
+<!-- Sidebar -->
+<div id="sidebar-wrapper" class="position-fixed border-right">
+    <a ng-href="#!/myquizzen">
+        <div class="position-relative sidebar-logo-container">
+            <img src="images/game-controller.png" />
+        </div>
+    </a>
+    <ul class="sidebar-nav">
+        <li>
+            <a ng-href="#!/myquizzen"><i class="fas fa-book fa-lg"></i></a>
+        </li>
+        <li>
+            <a ng-href="#!/sectionslist"><i class="fas fa-users fa-lg"></i></a>
+        </li>
+        <li class="border-right border-primary rounded-left">
+            <a href="#"><i class="fas fa-user"></i></a>
+        </li>
+    </ul>
+</div>
+
+<!-- Navbar -->
+<nav class="col-md-12 navbar navbar-expand-lg navbar-light bg-white d-flex justify-content-end position-fixed shadow-sm main-nav">
+    <div class="mr-3">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text bg-white border-0">
+                    <i class="fas fa-search"></i>
+                </span>
+            </div>
+            <input type="text" class="form-control border-top-0 border-left-0 border-right-0 border-bottom" placeholder="Type to search..." ng-model="searchTxt">            
+        </div>
+    </div>
+    <div class="border-left position-relative text-center float-left dropdown" style="width: 65px; height: 65px;">
+        <div class="dropdown-toggle h-100 w-100" data-toggle="dropdown">
+            <i class="far fa-bell fa-lg" style="line-height: 65px;"></i>
+        </div>        
+        <div class="dropdown-menu dropdown-menu-right px-4 py-3" style="width: 16rem;">
+            <div class="col-md-12 text-center">
+                <img src="images/check.png">
+                <h4>All caught up!</h4>
+            </div>
+        </div>
+    </div>
+    <div class="media border-left float-left dropdown" style="height: 65px;">
+        <img class="align-self-center ml-4 mr-2 rounded-circle dropdown-toggle" data-toggle="dropdown" src="images/marianne.jpg" width="40" height="40" />
+        <div class="align-self-center media-body dropdown-toggle" data-toggle="dropdown">
+            <h6 class="m-0">Marianne De Asis</h6>
+        </div>
+        <div class="dropdown-menu">
+            <a ng-href="#!/logout" class="dropdown-item text-qzndanger">
+                <i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,275 @@
+* {
+    font-family: Roboto-Regular;
+}
+
+body, html {
+    background-color: #fafbfd;
+    height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: ProductSans-Regular;
+}
+
+.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+
+    > .col,
+    > [class*="col-"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+#wrapper {
+    height: 100%;
+}
+
+// 
+// Sidebar
+// 
+
+#sidebar-wrapper {
+    z-index: 1031;
+    position: absolute;
+    width: 65px;
+    height: 100%;
+    overflow: hidden;
+    background-color: white;
+    opacity: 0.9;
+
+    .sidebar-logo-container {
+        width: 65px;
+        height: 65px;
+        cursor: pointer;
+
+        img {
+            width: 32px;
+            height: 32px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -16px;
+            margin-left: -16px;
+        }
+    }
+}
+
+.sidebar-nav {
+    padding: 0;
+    list-style: none;
+
+    li {
+        line-height: 65px;
+    }
+
+    li a {
+        text-align: center;
+        display: block;
+        text-decoration: none;
+        color: #c0c6d2;
+
+        &:hover {
+            background-color: #4c84ff;
+            color: white;
+        }
+    }
+
+    // Active tab
+    // color: #4c84ff;
+}
+
+// 
+// Navbar
+// 
+
+.main-nav {
+    height: 65px;
+    z-index: 1030;
+}
+
+
+// 
+// Page Content
+// 
+
+#page-content-wrapper {
+    width: 100%;
+    padding-left: 65px;
+    position: absolute;
+    margin-top: 60px;
+}
+
+// 
+// Accordion
+// 
+
+.accordion {
+    .card:not(:first-of-type):not(:last-of-type) {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;
+      }
+    
+      .card:not(:first-of-type) {
+        .card-header:first-child {
+          border-radius: 0.25rem;
+        }
+      }
+    
+      .card:first-of-type {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+        border-bottom-right-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+      }
+    
+      .card:last-of-type {
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+      }
+}
+
+// 
+// Table
+// 
+
+.table {
+    thead th {
+        background-color: #f5f6fa;
+        border: none;
+        color: #848d94;
+        font-weight: normal;
+        padding-bottom: 5px;
+    }
+
+    tr {
+        background-color: white;
+    }
+
+    td {
+        border: none;
+    }
+
+    td {
+        &:first-child {
+            border-top-left-radius: 7px;
+            border-bottom-left-radius: 7px;
+        }
+
+        &:last-child {
+            border-top-right-radius: 7px;
+            border-bottom-right-radius: 7px;
+        }
+    }
+
+    td button {
+        width: 32%;
+    }
+}
+
+// 
+// Mini circle profile
+// 
+
+.img-stacks {
+    position: relative;
+
+    img {
+        position: absolute;
+        border: 2px solid white;
+
+        &:nth-child(1) {
+            left: 0px;
+        }
+
+        &:nth-child(2) {
+            left: 24px;
+        }
+
+        &:nth-child(3) {
+            left: 46px;
+        }
+    }
+}
+
+// 
+// Cards
+// 
+
+.card-body {
+    padding: 10px;
+}
+
+.card.student-cards {
+    .student-img-container {
+        position: relative;
+        width: 100%;
+        height: 150px;
+
+        img {
+            width: 128px;
+            height: 128px;
+            border-radius: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -64px;
+            margin-left: -64px;
+        }
+    }
+
+    .student-info {
+        width: 100%;
+        height: 95px;
+        color: #212121;
+        text-align: center;
+    }
+}
+
+.student-status {
+    width: 80px;
+    padding: 1px;
+    border-radius: 50px;
+    margin: auto;
+}
+
+.student-ACTIVE {
+    color: rgba(13,101,45,.72);
+    background-color: #CEEAD6;
+}
+
+.student-INACTIVE {
+    width: 100px;
+    color: rgba(165,14,14,.72);
+    background-color: #FAD2CF;
+}
+
+// 
+// Section
+// 
+
+.section-count-players {
+    left: 85px;
+    line-height: 32px;
+    background-color: rgba(0, 123, 255, 0.1);
+    color: rgba(0, 123, 255, 0.7);
+    padding: 0px 10px;
+    border-radius: 50px;
+}
+
+// 
+// Breadcrumb
+// 
+
+.breadcrumb {
+    background-color: #fafbfd;
+}
+
+// 
+// Parts Card
+// 
+
+.part-card {
+    color: #848d95;
+}

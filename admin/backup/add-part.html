@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--    Required meta tags    -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <!--    Bootstrap CSS    -->
+        <link rel="stylesheet" type="text/css" href="../css/app.css">
+        
+        <!--    Font Awesome CSS    -->
+        <link rel="stylesheet" type="text/css" href="../css/fontawesome/css/all.css">
+
+      
+        <title>Add Part</title>
+    </head>
+    <body ng-app="theApp">
+
+        <h1>Add Part</h1>
+        <form name="partForm">
+            <label>Question Type: </label>
+            <select ng-model="typeName" required>
+                <option>Multiple Choice</option>
+                <option>True or False</option>
+                <option>Guess the Word</option>
+                <option>Arrange the Sequence</option>
+            </select>
+            <br>
+            <label>Part title: </label>
+            <input type="text" ng-model="partTitle" required>
+            <br>
+            <label>Duration: </label>
+            <input type="text" ng-model="duration" required>
+            <label>in Seconds </label>
+            <br>
+            <input type="button" value="Add Part" ng-disabled="partForm.$invalid" ng-click="addPart()">    
+        </form>
+
+          <!-- Scripts -->
+          <script type="text/javascript" src="../js/angular.min.js"></script>
+          <script type="text/javascript" src="../js/angular_modules.js"></script>
+          <script type="text/javascript" src="../js/angular_controllers.js"></script>
+          <script type="text/javascript" src="../js/angular-route-min.js"></script>
+
+    </body>
+</html>

@@ -1,0 +1,40 @@
+<div class="container-fluid h-100 bg-white">
+    <div class="row d-flex align-items-center h-100">
+        <div class="col-12 col-md-3 ml-auto mx-auto bg-white rounded">
+            <form name="myForm">
+                <div class="col-md-12 text-center">
+                    <img src="images/game-controller (2).png">
+                </div>
+
+                <h1 class="text-primary mb-3 text-center">Sign In</h1>
+                <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                    <label>{{error.error}}</label>
+                    <button type="button" class="close" data-ng-click="reply = null">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="far fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Username" ng-model="angUsername" required>
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                    </div>
+                    <input type="password" class="form-control" placeholder="Password" ng-model="angPassword" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="button" class="btn btn-outline-primary btn-block" value="Sign In" ng-click="logIn()" ng-disabled="myForm.$invalid">
+                </div>
+
+                <p class="text-center">Forgot your password?</p>
+                <p class="text-primary text-center"><a href="#!/signup">Don't have an account? Sign Up</a></p>
+            </form>
+        </div>
+    </div>
+</div>

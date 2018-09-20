@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--    Required meta tags    -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <!--    Bootstrap CSS    -->
+        <link rel="stylesheet" type="text/css" href="../css/app.css">
+        
+        <!--    Font Awesome CSS    -->
+        <link rel="stylesheet" type="text/css" href="../css/fontawesome/css/all.css">
+
+        <script type="text/javascript" src="../js/angular.min.js"></script>
+
+        <script type="text/javascript" src="../js/angular_modules.js"></script>
+
+        <script type="text/javascript" src="../js/angular_controllers.js"></script>
+        
+        <title>Add Student</title>
+    </head>
+    <body ng-app="theApp" ng-controller="addSectionCtrlr">
+        <div class="container-fluid">
+            <div class="row">
+                
+                <!--        SIDEBAR        -->
+                
+                <div class="col-md-9 mx-auto bg-warning" style="height: 100vh;">
+                    <form name="myForm">
+                        <h1 class="text-primary my-3">Add Section</h1>
+                        <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                            {{error.message}}
+                            <button type="button" class="close" data-dismiss="alert" ng-click="error = null">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-sitemap"></i></span>
+                            </div>
+                            <select class="custom-select" ng-options="c.course_id as c.course for c in reply" ng-model="courseId" required>
+
+                            </select>
+
+                        </div>               
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-beer"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Section Name" ng-model="section" required>
+                        </div>
+                        <div class="forn-group">
+                            <input type="button" class="btn btn-outline-primary btn-block" value="Add New Section" ng-disabled="myForm.$invalid" ng-click="addSection()">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <script src="../js/jquery-3.3.1.min.js"></script>
+        <script src="../bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script src="../js/script.js"></script>
+    </body>
+</html>

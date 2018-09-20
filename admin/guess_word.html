@@ -1,0 +1,39 @@
+
+<!-- Page content -->
+<div id="page-content-wrapper">
+    <div class="container-fluid p-0">                
+        <div class="row no-gutters">
+            <div class="col-md-6 mt-4 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-md-12 py-3 text-center">
+                            <p class="text-center mb-3 h5">Guess the Word</p>
+                            <form name="myForm" ng-submit="insert()">
+                                <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                                    {{error.message}}
+                                    <button type="button" class="close" data-dismiss="alert">
+                                        <span>&times;</span>
+                                    </button>                            
+                                </div>
+
+                                <div class="form-group">
+                                    <textarea class="form-control" placeholder="Question" rows="3" ng-model="question" required></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <input only-letters-input type="text" class="form-control" placeholder="Answer" ng-model="answer" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <button class="btn btn-primary btn-block" type="button" ng-disabled="myForm.$invalid" ng-click="guessQuestion()">
+                                        <i class="fas fa-plus"></i> Add Question
+                                    </button>
+                                </div>
+                            </form>
+                        </div>                                                           
+                    </div>                                    
+                </div>
+            </div>
+        </div>
+    </div>                    
+</div>

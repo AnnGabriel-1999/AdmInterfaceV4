@@ -1,0 +1,194 @@
+<body ng-app="theApp" ng-controller="listCtrlr">
+    <!-- Modal -->
+    <!-- New Part Modal -->
+    <div class="modal fade" id="newPart-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h4 id="modalTitle" class="modal-title text-qznprimary">New Part</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form name="partForm">
+                        <select class="custom-select mb-3" ng-model="typeName" required>
+                            <option disabled hidden value="">Question Types</option>
+                            <option>Multiple Choice</option>
+                            <option>True or False</option>
+                            <option>Guess the Word</option>
+                            <option>Arrange the Sequence</option>
+                        </select>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Part title" ng-model="partTitle" required>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Duration in seconds" ng-model="duration" required>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="button" class="btn btn-qznprimary btn-block" value="Add Part" ng-disabled="partForm.$invalid" ng-click="addPart()">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TRUE OR FALSE and Guess word (not yet finalized) -->
+    <div class="modal fade" id="modalUpdateQues" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h4 id="modalTitle" class="modal-title text-qznprimary">Update Question</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Question" rows="3" ng-model="question" id="question" required></textarea>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="answer" id="answer" placeholder="Answer">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer border-top-0">
+                    <p class="text-right">
+                        <a href="#" class="card-link text-qzndanger" data-dismiss="modal">Cancel</a>
+                        <a ng-click="updateQuestion(QuestionID, QuizID, PartID, question, answer)" class="card-link text-qznprimary">Save</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid p-0">
+            <div class="row no-gutters">
+                <div class="col-md-12 pt-5" style="padding: 6rem; padding-bottom: 3rem;">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <span class="h1 text-dark">Parts</span>
+                        </div>
+
+                        <div class="col-md-3 py-1">
+                            <a id="addStudent" class="btn btn-qznprimary text-white float-right" data-toggle="modal" data-target="#newPart-modal" role="button">
+                                <i class="far fa-plus-square"></i>
+                                New Part
+                            </a>
+                        </div>
+
+                        <nav class="col-md-12">
+                            <ol class="breadcrumb px-0">
+                                <li class="breadcrumb-item">
+                                    <a href="#">Home</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                {{quizTitle}}
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="accordion" id="parts-accordion">
+                                <div ng-repeat="part in parts | filter: searchTxt" class="card mt-2 part-card">
+                                    <div class="card-body py-3 px-0">
+                                        <div class="row px-3" style="height: 119px;">
+                                            <div class="col-md-6 pl-4">
+                                                <div class="mb-1" ng-style="set_color(part.TypeID)">{{part.Type}}</div>
+                                                <h4>{{part.PartTitle}}</h4>
+                                                <p class="mb-1"><i class="far fa-question-circle fa-lg" style="color: #a9e34b;"></i> {{part.TotalQs}} questions</p>
+                                                <p class="mb-0"><i class="far fa-clock fa-lg" style="color: #748ffc;"></i> {{part.Duration}} secs per question</p>
+                                            </div>
+
+                                            <div class="col-md-6 px-0">
+                                                <div class="row" style="padding: 7.5% 0;">
+                                                    <!-- ADD QUESTION -->                                                    
+                                                    <a href="#!/checker/{{part.TypeID}}/{{part.QuizID}}/{{part.PartID}}">
+                                                        <button class="btn btn-qznprimary">
+                                                            <i class="far fa-plus-square"></i> Add Question
+                                                        </button>
+                                                    </a>
+
+                                                    <a href="#!/updatePart/{{part.PartID}}/{{part.TotalQs}}"><button class="btn btn-qznwarning mx-2">
+                                                        <i class="far fa-edit"></i> Update
+                                                    </button>
+                                                    </a>
+
+                                                    <button class="btn btn-qzndanger">
+                                                        <i class="far fa-trash-alt"></i> Delete
+                                                    </button>
+
+                                                    <button ng-click="view(part.PartID)" data-ng-disabled="checkQuestions(part.TotalQs)" class="btn btn-qznsuccess mx-2" data-toggle="collapse" data-target="#ques_{{part.PartID}}_{{part.TypeID}}">
+                                                        <i class="far fa-eye"></i> View Questions
+                                                    </button>                                        
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="collapse" id="ques_{{part.PartID}}_{{part.TypeID}}" data-parent="#parts-accordion">
+                                            <div class="row px-3">
+                                                <div class="col-md-12 mt-2">
+                                                    <h6 class="text-right text-qznprimary" data-toggle="collapse" data-target="#show_{{part.QuizID}}_{{part.PartID}}_{{part.TypeID}}" style="cursor: pointer;">Show answers</h6>
+                                                    <div ng-repeat="question in questions" class="card">
+                                                        <div class="card-body">
+                                                            <i class="far fa-question-circle" style="color: #748ffc;"></i>
+                                                            {{question.Question}}
+
+                                                            <!-- DELETE QUESTION BUTTON (No FUNCTION) -->
+                                                            <a id="deleteQuestion" data-toggle="modal" data-target="#modalDeleteQues" class="btn btn-qzndanger float-right mx-2">
+                                                                <i class="far fa-trash-alt"></i> Delete
+                                                            </a>
+
+                                                            <!-- UPDATE QUESTION BUTTON -->
+                                                            <a id="updateQuestion" ng-click="transferQuestionData(question.QuestionID, question.QuizID, question.PartID, question.Question, question.Answer)" data-toggle="modal" data-target="#modalUpdateQues" class="btn btn-qznwarning float-right">
+                                                                <i class="far fa-edit"></i> Update
+                                                            </a>                                                        
+                                                            <!--MULTIPLE CHOICE-->
+                                                            <div class="collapse border-top mt-4" id="show_{{part.QuizID}}_{{part.PartID}}_1">
+                                                                <ul class="list-group list-group-flush">
+                                                                    <li class="list-group-item"><i class="fas fa-heart" style="color: #ea5a5a;"></i>   {{question.a}} <i class="far fa-check-circle text-qznsuccess"></i></li>
+                                                                    <li class="list-group-item"><i class="fas fa-square" style="color: #0181c4;"></i>   {{question.b}} <i class="far fa-times-circle text-qzndanger"></i></li>
+                                                                    <li class="list-group-item"><i class="fas fa-circle" style="color: #32b9c4;"></i>   {{question.c}} <i class="far fa-times-circle text-qzndanger"></i></li>
+                                                                    <li class="list-group-item"><i class="fas fa-star" style="color: #ffd011;"></i>   {{question.d}} <i class="far fa-times-circle text-qzndanger"></i></li>
+                                                                </ul>
+                                                            </div>
+
+                                                            <!--TRUE OR FALSE-->
+                                                            <div class="collapse border-top mt-4" id="show_{{part.QuizID}}_{{part.PartID}}_2">
+                                                                <ul class="list-group list-group-flush">
+                                                                    <li class="list-group-item"><i class="fas fa-heart" style="color: #ea5a5a;"></i>{{question.Answer}} <i class="far fa-check-circle text-qznsuccess"></i></li>
+                                                                </ul>
+                                                            </div>
+
+                                                            <div class="collapse border-top mt-4" id="show_{{part.QuizID}}_{{part.PartID}}_4">
+                                                                <ul class="list-group list-group-flush">
+                                                                    <li class="list-group-item"><i class="fas fa-heart" style="color: #ea5a5a;"></i>   {{question.Answer}} <i class="far fa-check-circle text-qznsuccess"></i></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

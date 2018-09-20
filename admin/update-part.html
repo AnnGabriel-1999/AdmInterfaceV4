@@ -1,0 +1,44 @@
+<!-- Page content -->
+<div id="page-content-wrapper">
+    <div class="container-fluid p-0">                
+        <div class="row no-gutters">
+            <div class="col-md-6 mt-4 mx-auto">
+                <div class="card">
+                    <div class="card-body px-7 py-6">
+                        <h2 class="text-center">Update Part</h2>
+                        <form name="partForm">
+                            <div class="form-group">
+                                <label>Question type</label>
+                                <select class="custom-select" ng-model="type" ng-disabled="total > 0"  required>
+                                    <option selected>Multiple Choice</option>
+                                    <option>True or False</option>
+                                    <option>Guess the Word</option>
+                                    <option>Arrange The Sequence</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Part title</label>
+                                <input class="form-control" type="text" ng-model="part_title" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Duration: </label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control border-right-0" ng-model="duration" required>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text bg-white">in Seconds </span>
+                                    </div>                                    
+                                </div>                                
+                            </div>
+                            
+                            <button class="btn btn-qznprimary" ng-disabled="partForm.$invalid" ng-click="updatePart()">
+                                <i class="far fa-plus-square"></i> Add Part
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>                    
+    </div>
+</div>

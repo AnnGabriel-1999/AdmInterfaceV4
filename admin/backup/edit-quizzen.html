@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--    Required meta tags    -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <!--    Bootstrap CSS    -->
+        <link rel="stylesheet" type="text/css" href="../css/app.css">
+        
+        <!--    Font Awesome CSS    -->
+        <link rel="stylesheet" type="text/css" href="../css/fontawesome/css/all.css">
+
+        <script type="text/javascript" src="../js/angular.min.js"></script>
+
+        <script type="text/javascript" src="../js/angular_modules.js"></script>
+
+        <script type="text/javascript" src="../js/angular_controllers.js"></script>
+        
+        <title>Homepage | Quizzen</title>
+    </head>
+    <body ng-app="theApp" ng-controller="updateQuizCtrlr" ng-onload="fillFields()">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top border-bottom">
+            <a class="navbar-brand" href="home.html">
+                <img src="images/shape.png" width="30" height="30" class="d-inline-block align-top">
+                Quizzen
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="mainMenu">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Allen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Vega</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Chris</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+        <div class="container-fluid" style="margin-top: 80px;">
+            <div class="row">
+                <div class="col-12 px-5">
+                    <p class="text-center mb-3 h5">Edit Quizzen</p>
+                    <form name="myForm">
+                        <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                            All fields are required
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Quiz title" ng-model="quizTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Quiz Description" rows="3" ng-model="quizDesc" required></textarea>
+                        </div>
+                        <div class="custom-file mb-3">
+                            <input type="file" accept="image/*" class="custom-file-input">
+                            <label class="custom-file-label">Choose image</label>
+                        </div>
+                        <div class="fomr-group">
+                            <button class="btn btn-primary btn-block" type="button" ng-disabled="myForm.$invalid" ng-click="updateQuiz()">
+                                <i class="fas fa-edit" ng-click="save()"></i> Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <script src="../js/jquery-3.3.1.min.js"></script>
+        <script src="../bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script src="../js/script.js"></script>
+    </body>
+</html>

@@ -1,0 +1,163 @@
+<!-- Modal -->
+<!-- New Quiz Modal -->
+<div class="modal fade" id="newQuiz-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h5 id="modalTitle" class="modal-title text-qznprimary">New Quiz</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="myForm">
+                    <div class="alert alert-danger alert-dismissible fade show" ng-show="error1">
+                        {{error1}}
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Quiz title" ng-model="quizTitle"
+                            required>
+                    </div>
+                        <div class="form-group">
+                        <textarea class="form-control" maxlength="250" placeholder="Quiz Description" rows="3" ng-model="quizDesc"
+                            required></textarea>
+                    </div>
+                    <div class="custom-file mb-3">
+                        <input type="file" accept="image/*" class="custom-file-input" file-input="files">
+                        <label class="custom-file-label">Choose image</label>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" type="button" ng-click="addNewQuiz()">
+                            <i class="fas fa-plus"></i> Add New Quiz
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Quiz Modal -->
+<div class="modal fade" id="editQuiz-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h4 id="modalTitle" class="modal-title text-qznprimary">Edit Quiz</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="myForm">
+                    <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                        All fields are required
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Quiz title" ng-model="quizTitle"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" maxlength="250" placeholder="Quiz Description" rows="3" ng-model="quizDesc"
+                            required></textarea>
+                    </div>
+                    <div class="custom-file mb-3">
+                        <input type="file" accept="image/*" class="custom-file-input">
+                        <label class="custom-file-label">Choose image</label>
+                    </div>
+                    <div class="fomr-group">
+                        <button class="btn btn-primary btn-block" type="button" ng-disabled="myForm.$invalid"
+                            ng-click="updateQuiz(quizID, quizTitle, quizDesc)">
+                            <i class="fas fa-edit" ng-click="save()"></i> Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page content -->
+<div id="page-content-wrapper">
+    <div class="container-fluid p-0">
+        <div class="row no-gutters">
+            <div class="col-md-12 pt-5" style="padding: 6rem; padding-bottom: 3rem;">
+                <div class="row">
+                    <div class="col-md-9">
+                        <span class="h1 text-dark">My Quizzen</span>
+                    </div>
+                    <div class="col-md-3 py-1">
+                        <button id="addStudent" class="btn btn-qznprimary float-right" data-toggle="modal"
+                            data-target="#newQuiz-modal">
+                            <i class="far fa-plus-square"></i>
+                            Add Quiz
+                        </button>
+                    </div>
+                    <nav class="col-md-12">
+                        <ol class="breadcrumb px-0">
+                            <li class="breadcrumb-item">
+                                <a href="#">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                My Quizzen
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-4" ng-repeat="info in quizInfo | filter: searchTxt">
+                        <div class="card">
+                            <div class="position-absolute" style="top: 5px; right: 10px; color: white;">
+                                <!-- Favorite -->
+                                <i class="far fa-heart fa-lg"></i>
+
+                                <!-- Options -->
+                                <div class="dropdown d-inline-block pl-1">
+                                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fas fa-ellipsis-h fa-lg"></i></a>
+
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" data-toggle="modal" data-target="#editQuiz-modal"
+                                            ng-click="getQuizData(info.quizID)">
+                                            <i class="far fa-edit text-qznwarning"></i> Edit</a>
+                                        <a href="#" class="dropdown-item">
+                                            <i class="far fa-trash-alt text-qzndanger"></i> Delete</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <img class="card-img-top" ng-src="{{info.filepath}}" alt="Card image cap">
+                            <div class="card-body">
+                                <button type="button" class="btn btn-qznsuccess">
+                                    <i class="far fa-play-circle"></i> Play
+                                </button>
+                                <h4 class="mb-0 mt-3">{{info.quizTitle}}</h4>
+                                <p class="text-qznsuccess mb-1" style="font-size: 14px;"><i class="far fa-play-circle"></i>
+                                    69 times played</p>
+                                <p class="text-secondary" style="font-size: 14px;">{{info.description}}</p>
+                                <p class="text-secondary" style="font-size: 14px;">{{info.date_created}}</p>
+                            </div>
+                            <div class="card-footer bg-white pt-0 border-top-0">
+                                <a ng-href="#!/viewparts/{{info.quizID}}" style="color: rgba(104,29,168,.72);"><i class="far fa-arrow-alt-circle-right"></i> View questions</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div class="col-12 text-center" ng-show="error">
+                        <h3>No quiz created.</h3>
+                        <p>
+                            <a href="#!/createquiz"> <button class="btn btn-primary">Create now</button></a>
+                        </p>
+
+                    </div>
+                </div> <!-- End row -->
+            </div>
+        </div>
+    </div> <!-- End container-fluid -->
+</div> <!-- End page-content-wrapper -->

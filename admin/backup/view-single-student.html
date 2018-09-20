@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--    Required meta tags    -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <!--    Bootstrap CSS    -->
+        <link rel="stylesheet" type="text/css" href="../css/app.css">
+        
+        <!--    Font Awesome CSS    -->
+        <link rel="stylesheet" type="text/css" href="../css/fontawesome/css/all.css">
+        
+        <title>Sign In | Quizzen</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top border-bottom">
+            <a class="navbar-brand" href="home.html">
+                <img src="images/shape.png" width="30" height="30" class="d-inline-block align-top">
+                Quizzen
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="mainMenu">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Allen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Marianne</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Chris</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+        <div class="container-fluid" style="margin-top: 80px;">
+            <div class="row">
+                <div class="col-12 mb-2 text-center">
+                    <img class="img-fluid rounded-circle student-pic-pro" src="images/chris.jpg">
+                    <p class="my-2"><span class="btn btn-success rounded py-0">Active</span></p>
+                    <p class="h4">Test Student</p>
+                    <p class="h5 text-secondary">2015693505</p>
+                    <p class="h5 text-secondary">BSIT 4C-G1</p>
+                    <p class="h5 text-secondary">Java with Ma'am Lorraine</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <a href="update-student.html"><button type="button" class="col-5 btn btn-primary">Update</button></a>
+                    <button type="button" class="col-5 btn btn-danger">Deactivate</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-11 mx-auto my-2 py-3 border rounded shadow-sm">
+                    <p class="h6 mb-2 text-secondary">Winning Rate: <span class="text-dark">31%</span></p>
+                    <div class="progress" style="height: 5%;">
+                        <div class="progress-bar bg-success" style="width: 31%;"></div>
+                    </div>
+                    <p class="h6 mb-2 text-secondary">Lose: <span class="text-dark">69%</span></p>
+                    <div class="progress" style="height: 5%;">
+                        <div class="progress-bar bg-info" style="width: 69%;"></div>
+                    </div>
+                    <p class="h6 mb-2 text-secondary">Point average: <span class="text-dark">35%</span></p>
+                    <div class="progress mb-4" style="height: 5%;">
+                        <div class="progress-bar bg-warning" style="width: 35%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script src="../js/jquery-3.3.1.min.js"></script>
+        <script src="../bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script src="../js/script.js"></script>
+    </body>
+</html>

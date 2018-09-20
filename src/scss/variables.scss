@@ -1,0 +1,25 @@
+@font-face {
+    font-family: Roboto-Regular;
+    src: url("../assets/fonts/Roboto-Regular.ttf");
+}
+
+@font-face {
+    font-family: ProductSans-Regular;
+    src: url("../assets/fonts/Product\ Sans\ Regular.ttf");
+}
+
+// Dropdown caret
+$enable-caret: false !default;
+
+$qznprimary: #1e96ff;
+$qznsuccess: #32b964;
+$qznwarning: #ffd011;
+$qzndanger: #ef596e;
+
+// Add theme colors
+$theme-colors: (
+  "qznsuccess": $qznsuccess,
+  "qznprimary": $qznprimary,
+  "qzndanger": $qzndanger,
+  "qznwarning": $qznwarning
+);

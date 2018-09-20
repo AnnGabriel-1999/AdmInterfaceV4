@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>LIST SECTION STUDENTS</title>
+	<style type="text/css">
+		div{
+			background-color: red;
+			height: 300px;
+			width: 203px;
+			float: left;
+			margin-left: 1px;
+			margin-bottom: 1px;
+		}
+	</style>
+</head>
+<body ng-app="theApp">
+	<div ng-repeat="x in students">
+		Fullname:{{x.fname + x.mname + x.lname}}
+		Student Id: {{x.student_id}}/
+		<a ng-href="#!/updatestudent/{{x.student_id}}"><button>UPDATE</button></a>
+		{{students}}
+	</div>
+</body>
+</html>
