@@ -89,8 +89,9 @@
             <div class="col-md-12 pt-5" style="padding: 6rem; padding-bottom: 3rem;">
                 <div class="row">
                     <div class="col-md-9">
-                        <span class="h1 text-dark">My Quizzen</span>
+                        <span class="h1">My Quizzen</span>
                     </div>
+
                     <div class="col-md-3 py-1">
                         <button id="addStudent" class="btn btn-qznprimary float-right" data-toggle="modal"
                             data-target="#newQuiz-modal">
@@ -98,6 +99,7 @@
                             Add Quiz
                         </button>
                     </div>
+
                     <nav class="col-md-12">
                         <ol class="breadcrumb px-0">
                             <li class="breadcrumb-item">
@@ -107,6 +109,11 @@
                                 My Quizzen
                             </li>
                         </ol>
+                    </nav>
+
+                    <nav class="nav nav-tabs">
+                        <a href="#" class="nav-link active">Quizzes</a>
+                        <a href="#" class="nav-link">Favorites</a>
                     </nav>
                 </div>
 
@@ -131,7 +138,7 @@
                                 </div>
 
                             </div>
-                            <img class="card-img-top" ng-src="{{info.filepath}}" alt="Card image cap">
+                            <img class="card-img-top" height="226" ng-src="{{info.filepath}}" alt="Card image cap">
                             <div class="card-body">
                                 <button type="button" class="btn btn-qznsuccess">
                                     <i class="far fa-play-circle"></i> Play
