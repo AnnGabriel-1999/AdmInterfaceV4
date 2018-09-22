@@ -5,6 +5,8 @@
       color: color-yiq($background);
   }
 
+  border-bottom: 4px solid darken($background, 10%) !important;
+
   @include gradient-bg($background);
   border-color: $border;
   @include box-shadow($btn-box-shadow);

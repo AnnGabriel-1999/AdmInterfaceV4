@@ -1699,6 +1699,7 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: white;
+  border-bottom: 4px solid #0062cc !important;
   background-color: #007bff;
   border-color: #007bff; }
   .btn-primary:hover {
@@ -1722,6 +1723,7 @@ fieldset:disabled a.btn {
 
 .btn-secondary {
   color: white;
+  border-bottom: 4px solid #545b62 !important;
   background-color: #6c757d;
   border-color: #6c757d; }
   .btn-secondary:hover {
@@ -1745,6 +1747,7 @@ fieldset:disabled a.btn {
 
 .btn-success {
   color: white;
+  border-bottom: 4px solid #1e7e34 !important;
   background-color: #28a745;
   border-color: #28a745; }
   .btn-success:hover {
@@ -1768,6 +1771,7 @@ fieldset:disabled a.btn {
 
 .btn-info {
   color: white;
+  border-bottom: 4px solid #117a8b !important;
   background-color: #17a2b8;
   border-color: #17a2b8; }
   .btn-info:hover {
@@ -1791,6 +1795,7 @@ fieldset:disabled a.btn {
 
 .btn-warning {
   color: white;
+  border-bottom: 4px solid #d39e00 !important;
   background-color: #ffc107;
   border-color: #ffc107; }
   .btn-warning:hover {
@@ -1814,6 +1819,7 @@ fieldset:disabled a.btn {
 
 .btn-danger {
   color: white;
+  border-bottom: 4px solid #bd2130 !important;
   background-color: #dc3545;
   border-color: #dc3545; }
   .btn-danger:hover {
@@ -1837,6 +1843,7 @@ fieldset:disabled a.btn {
 
 .btn-light {
   color: white;
+  border-bottom: 4px solid #dae0e5 !important;
   background-color: #f8f9fa;
   border-color: #f8f9fa; }
   .btn-light:hover {
@@ -1860,6 +1867,7 @@ fieldset:disabled a.btn {
 
 .btn-dark {
   color: white;
+  border-bottom: 4px solid #1d2124 !important;
   background-color: #343a40;
   border-color: #343a40; }
   .btn-dark:hover {
@@ -1883,6 +1891,7 @@ fieldset:disabled a.btn {
 
 .btn-qznsuccess {
   color: white;
+  border-bottom: 4px solid #27914e !important;
   background-color: #32b964;
   border-color: #32b964; }
   .btn-qznsuccess:hover {
@@ -1906,6 +1915,7 @@ fieldset:disabled a.btn {
 
 .btn-qznprimary {
   color: white;
+  border-bottom: 4px solid #007dea !important;
   background-color: #1e96ff;
   border-color: #1e96ff; }
   .btn-qznprimary:hover {
@@ -1929,6 +1939,7 @@ fieldset:disabled a.btn {
 
 .btn-qzndanger {
   color: white;
+  border-bottom: 4px solid #eb2a45 !important;
   background-color: #ef596e;
   border-color: #ef596e; }
   .btn-qzndanger:hover {
@@ -1952,6 +1963,7 @@ fieldset:disabled a.btn {
 
 .btn-qznwarning {
   color: white;
+  border-bottom: 4px solid #ddb100 !important;
   background-color: #ffd011;
   border-color: #ffd011; }
   .btn-qznwarning:hover {
@@ -6931,6 +6943,7 @@ body, html {
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
+  color: #676868;
   font-family: ProductSans-Regular; }
 
 .no-gutters {
@@ -6945,13 +6958,12 @@ h1, h2, h3, h4, h5, h6,
   height: 100%; }
 
 #sidebar-wrapper {
-  z-index: 1031;
+  z-index: 1029;
   position: absolute;
   width: 65px;
   height: 100%;
   overflow: hidden;
-  background-color: white;
-  opacity: 0.9; }
+  background-color: white; }
   #sidebar-wrapper .sidebar-logo-container {
     width: 65px;
     height: 65px;
@@ -6967,21 +6979,27 @@ h1, h2, h3, h4, h5, h6,
 
 .sidebar-nav {
   padding: 0;
+  padding-top: 65px;
   list-style: none; }
   .sidebar-nav li {
     line-height: 65px; }
+    .sidebar-nav li a:hover, .sidebar-nav li .side-selected {
+      border-left: 4px solid #4c84ff;
+      color: #4c84ff; }
   .sidebar-nav li a {
     text-align: center;
     display: block;
     text-decoration: none;
     color: #c0c6d2; }
-    .sidebar-nav li a:hover {
-      background-color: #4c84ff;
-      color: white; }
 
 .main-nav {
   height: 65px;
   z-index: 1030; }
+
+#nav-loggedUser {
+  font-size: 1.1rem;
+  letter-spacing: 0.05rem;
+  cursor: pointer; }
 
 #page-content-wrapper {
   width: 100%;

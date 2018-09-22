@@ -9,6 +9,7 @@ body, html {
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: $titleColor;
     font-family: ProductSans-Regular;
 }
 
@@ -32,13 +33,12 @@ h1, h2, h3, h4, h5, h6,
 // 
 
 #sidebar-wrapper {
-    z-index: 1031;
+    z-index: 1029;
     position: absolute;
     width: 65px;
     height: 100%;
     overflow: hidden;
     background-color: white;
-    opacity: 0.9;
 
     .sidebar-logo-container {
         width: 65px;
@@ -59,10 +59,16 @@ h1, h2, h3, h4, h5, h6,
 
 .sidebar-nav {
     padding: 0;
+    padding-top: 65px;
     list-style: none;
 
     li {
         line-height: 65px;
+
+        a:hover, .side-selected {
+            border-left: 4px solid #4c84ff;
+            color: #4c84ff;
+        }
     }
 
     li a {
@@ -70,15 +76,7 @@ h1, h2, h3, h4, h5, h6,
         display: block;
         text-decoration: none;
         color: #c0c6d2;
-
-        &:hover {
-            background-color: #4c84ff;
-            color: white;
-        }
     }
-
-    // Active tab
-    // color: #4c84ff;
 }
 
 // 
@@ -88,6 +86,12 @@ h1, h2, h3, h4, h5, h6,
 .main-nav {
     height: 65px;
     z-index: 1030;
+}
+
+#nav-loggedUser {
+    font-size: 1.1rem;
+    letter-spacing: 0.05rem;
+    cursor: pointer;
 }
 
 
