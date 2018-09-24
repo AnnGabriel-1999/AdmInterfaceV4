@@ -111,47 +111,51 @@
                         </ol>
                     </nav>
 
-                    <nav class="nav nav-tabs">
+                    <!-- Experimental Nav -->
+                    <!-- <nav class="nav nav-tabs">
                         <a href="#" class="nav-link active">Quizzes</a>
                         <a href="#" class="nav-link">Favorites</a>
-                    </nav>
+                    </nav> -->
                 </div>
 
                 <div class="row">
-                    <div class="col-md-4 mb-4" ng-repeat="info in quizInfo | filter: searchTxt">
+                    <div class="col-md-3 mb-4 px-1" ng-repeat="info in quizInfo | filter: searchTxt">
                         <div class="card">
-                            <div class="position-absolute" style="top: 5px; right: 10px; color: white;">
-                                <!-- Favorite -->
-                                <i class="far fa-heart fa-lg"></i>
-
-                                <!-- Options -->
-                                <div class="dropdown d-inline-block pl-1">
-                                    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fas fa-ellipsis-h fa-lg"></i></a>
-
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" data-toggle="modal" data-target="#editQuiz-modal"
-                                            ng-click="getQuizData(info.quizID)">
-                                            <i class="far fa-edit text-qznwarning"></i> Edit</a>
-                                        <a href="#" class="dropdown-item">
-                                            <i class="far fa-trash-alt text-qzndanger"></i> Delete</a>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <img class="card-img-top" height="226" ng-src="{{info.filepath}}" alt="Card image cap">
+                            <a ng-href="#!/viewparts/{{info.quizID}}"><img class="card-img-top" height="226" ng-src="{{info.filepath}}" alt="Card image cap"></a>
                             <div class="card-body">
-                                <button type="button" class="btn btn-qznsuccess">
-                                    <i class="far fa-play-circle"></i> Play
-                                </button>
-                                <h4 class="mb-0 mt-3">{{info.quizTitle}}</h4>
-                                <p class="text-qznsuccess mb-1" style="font-size: 14px;"><i class="far fa-play-circle"></i>
-                                    69 times played</p>
+                                <a ng-href="#!/viewparts/{{info.quizID}}"><h4 class="mb-0">{{info.quizTitle}}</h4></a>
+                                <p class="text-secondary my-1" style="font-size: 14px;">{{info.date_created}}</p>
                                 <p class="text-secondary" style="font-size: 14px;">{{info.description}}</p>
-                                <p class="text-secondary" style="font-size: 14px;">{{info.date_created}}</p>
                             </div>
-                            <div class="card-footer bg-white pt-0 border-top-0">
+
+                            <!-- <div class="card-footer bg-white pt-0 border-top-0">
                                 <a ng-href="#!/viewparts/{{info.quizID}}" style="color: rgba(104,29,168,.72);"><i class="far fa-arrow-alt-circle-right"></i> View questions</a>
+                            </div> -->
+                            <div class="card-footer bg-white">
+                                <ul class="nav nav-justified">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link text-qznprimary">
+                                            <i class="far fa-play-circle text-qznsuccess fa-lg"></i>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a ng-click="getQuizData(info.quizID)" data-toggle="modal" data-target="#editQuiz-modal" class="nav-link text-qznwarning">
+                                            <i class="far fa-edit fa-lg"></i>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link text-qzndanger">
+                                            <i class="far fa-trash-alt fa-lg"></i>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link" style="color: #e0245e;">
+                                            <i class="far fa-heart fa-lg"></i>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
+
                         </div>
                     </div>
 

@@ -182,8 +182,10 @@
                                             <div class="col-md-6 pl-4">
                                                 <div class="mb-1" ng-style="set_color(part.TypeID)">{{part.Type}}</div>
                                                 <h4>{{part.PartTitle}}</h4>
-                                                <p class="mb-1"><i class="far fa-question-circle fa-lg" style="color: #a9e34b;"></i> {{part.TotalQs}} questions</p>
-                                                <p class="mb-0"><i class="far fa-clock fa-lg" style="color: #748ffc;"></i> {{part.Duration}} secs per question</p>
+                                                <p class="mb-1">
+                                                    <i class="far fa-question-circle fa-lg" style="color: #a9e34b;"></i> {{part.TotalQs}} questions &middot; 
+                                                    <i class="far fa-clock fa-lg" style="color: #748ffc;"></i> {{part.Duration}} secs per question
+                                                </p>                               
                                             </div>
 
                                             <div class="col-md-6 px-0">
