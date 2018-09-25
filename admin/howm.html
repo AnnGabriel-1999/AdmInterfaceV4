@@ -121,35 +121,36 @@
                 <div class="row">
                     <div class="col-md-3 mb-4 px-1" ng-repeat="info in quizInfo | filter: searchTxt">
                         <div class="card">
-                            <a ng-href="#!/viewparts/{{info.quizID}}"><img class="card-img-top" height="226" ng-src="{{info.filepath}}" alt="Card image cap"></a>
+                            <a ng-href="#!/viewparts/{{info.quizID}}"><img class="card-img-top" height="152" ng-src="{{info.filepath}}" alt="Card image cap"></a>
                             <div class="card-body">
                                 <a ng-href="#!/viewparts/{{info.quizID}}"><h4 class="mb-0">{{info.quizTitle}}</h4></a>
                                 <p class="text-secondary my-1" style="font-size: 14px;">{{info.date_created}}</p>
-                                <p class="text-secondary" style="font-size: 14px;">{{info.description}}</p>
+                                <p class="text-qznprimary my-1" style="font-size: 14px;">
+                                    <i class="far fa-play-circle"></i>
+                                    6 times played
+                                </p>
+                                <!-- <p class="text-secondary" style="font-size: 14px;">{{info.description}}</p> -->
                             </div>
 
-                            <!-- <div class="card-footer bg-white pt-0 border-top-0">
-                                <a ng-href="#!/viewparts/{{info.quizID}}" style="color: rgba(104,29,168,.72);"><i class="far fa-arrow-alt-circle-right"></i> View questions</a>
-                            </div> -->
                             <div class="card-footer bg-white">
-                                <ul class="nav nav-justified">
+                                <ul class="nav nav-justified quiz-options">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link text-qznprimary">
-                                            <i class="far fa-play-circle text-qznsuccess fa-lg"></i>
+                                        <a href="#" class="nav-link text-secondary">
+                                            <i class="far fa-play-circle fa-lg"></i>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a ng-click="getQuizData(info.quizID)" data-toggle="modal" data-target="#editQuiz-modal" class="nav-link text-qznwarning">
+                                        <a ng-click="getQuizData(info.quizID)" data-toggle="modal" data-target="#editQuiz-modal" class="nav-link text-secondary">
                                             <i class="far fa-edit fa-lg"></i>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link text-qzndanger">
+                                        <a href="#" class="nav-link text-secondary">
                                             <i class="far fa-trash-alt fa-lg"></i>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link" style="color: #e0245e;">
+                                        <a href="#" class="nav-link text-secondary">
                                             <i class="far fa-heart fa-lg"></i>
                                         </a>
                                     </li>

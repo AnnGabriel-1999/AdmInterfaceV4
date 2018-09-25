@@ -7110,3 +7110,15 @@ h1, h2, h3, h4, h5, h6,
 
 .part-card {
   color: #848d95; }
+
+.quiz-options li:nth-child(1) a:hover {
+  color: #32b964 !important; }
+
+.quiz-options li:nth-child(2) a:hover {
+  color: #ffd011 !important; }
+
+.quiz-options li:nth-child(3) a:hover {
+  color: #ef596e !important; }
+
+.quiz-options li:nth-child(4) a:hover {
+  color: #e0245e !important; }
