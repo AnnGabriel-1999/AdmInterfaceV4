@@ -799,6 +799,22 @@ theApp.controller('multipleCtrlr', function($scope,$http,sessionService,$routePa
 	});
 
    };
+
+	$scope.uploadCSV = function(){
+		var fd = new FormData();
+		fd.append('multiple',$scope.files[0]);
+		fd.append('quiz_id',$routeParams.quiz_id);
+		fd.append('part_id',$routeParams.part_id);
+
+		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
+			transfromRequest:angular.identity,
+			headers:{'Content-Type':undefined}
+		}).then(function(response){
+			console.log(response.data);
+		}).catch(function(response){
+			console.log(response.data);
+		});
+	};
 });
 
 theApp.controller('addCtrlr', function($scope,$http,sessionService,$routeParams){
@@ -818,6 +834,28 @@ theApp.controller('addCtrlr', function($scope,$http,sessionService,$routeParams)
 	});
 
    };
+
+   	$scope.uploadCSV = function(){
+		var fd = new FormData();
+		fd.append('TorF',$scope.files[0]);
+		fd.append('quiz_id',$routeParams.quiz_id);
+		fd.append('part_id',$routeParams.part_id);
+
+		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
+			transfromRequest:angular.identity,
+			headers:{'Content-Type':undefined}
+		}).then(function(response){
+			if(response.data.error){
+				$scope.csvsuccess = null;
+				$scope.csverror = response.data;
+			}else{
+				$scope.csverror = null;
+				$scope.csvsuccess = response.data;
+			}
+		}).catch(function(response){
+			console.log(response.data);
+		});
+	};
 });
 
 theApp.controller('guessCtrlr', function($scope,$http,sessionService,$routeParams){
@@ -836,4 +874,27 @@ theApp.controller('guessCtrlr', function($scope,$http,sessionService,$routeParam
 	});
 
    };
+
+   $scope.uploadCSV = function(){
+   		var fd = new FormData();
+		fd.append('GTW',$scope.files[0]);
+		fd.append('quiz_id',$routeParams.quiz_id);
+		fd.append('part_id',$routeParams.part_id);
+
+		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
+			transfromRequest:angular.identity,
+			headers:{'Content-Type':undefined}
+		}).then(function(response){
+			if(response.data.error){
+				$scope.csvsuccess = null;
+				$scope.csverror = response.data;
+			}else{
+				$scope.csverror = null;
+				$scope.csvsuccess = response.data;
+			}
+		}).catch(function(response){
+			console.log(response.data);
+		});
+   };
+
 });
