@@ -810,7 +810,13 @@ theApp.controller('multipleCtrlr', function($scope,$http,sessionService,$routePa
 			transfromRequest:angular.identity,
 			headers:{'Content-Type':undefined}
 		}).then(function(response){
-			console.log(response.data);
+			if(response.data.error){
+				$scope.csvsuccess = null;
+				$scope.csverror = response.data;
+			}else{
+				$scope.csverror = null;
+				$scope.csvsuccess = response.data;
+			}
 		}).catch(function(response){
 			console.log(response.data);
 		});
