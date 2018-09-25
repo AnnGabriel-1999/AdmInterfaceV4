@@ -243,7 +243,7 @@ theApp.config(['$routeProvider', function($routeProvider) {
 
 theApp.controller('registerCtrlr', function($scope,$http,$location){
 	$scope.signUp = function(){
-		sendData = JSON.stringify({"fname" : $scope.firstname , "mname" : $scope.middlename , "lname" : $scope.lastname  , "password" : $scope.password1 ,  "username" : $scope.username ,  "confirm_pw" : $scope.password2 });
+		sendData = JSON.stringify({"fname" : $scope.firstname , "mname" : $scope.middlename , "lname" : $scope.lastname  , "password" : $scope.password1 ,  "username" : $scope.username ,  "confirm_pw" : $scope.password2, "mirror_id" : 1111112321 });
 
 		link = "/restAPI/api/Hosts/register_hosts.php";
 
