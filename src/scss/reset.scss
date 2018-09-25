@@ -277,3 +277,41 @@ h1, h2, h3, h4, h5, h6,
 .part-card {
     color: #848d95;
 }
+
+// 
+// Quizzes
+// 
+
+.quiz-options {
+    li:nth-child(1) {
+        a {
+            &:hover {
+                color: $qznsuccess !important;
+            }
+        }
+    }
+
+    li:nth-child(2) {
+        a {
+            &:hover {
+                color: $qznwarning !important;
+            }
+        }
+    }
+
+    li:nth-child(3) {
+        a {
+            &:hover {
+                color: $qzndanger !important;
+            }
+        }
+    }
+
+    li:nth-child(4) {
+        a {
+            &:hover {
+                color: #e0245e !important;
+            }
+        }
+    }
+}
