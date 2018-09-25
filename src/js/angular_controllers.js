@@ -501,14 +501,14 @@ theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 
 theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams,$location){
 
+   $scope.quizTitle = 'MyQuizzenNo.0';
    getLink = "/restAPI/api/quizzes/read_quiz.php?admin_id="+ localStorage.getItem('user_id');
    $http.get(getLink).then(function(response){
        if(response.data.message){
 		   $scope.error = response.data.message;
-		   console.log($scope.error);
        }else{
 		$scope.quizInfo = response.data;
-
+		$scope.quizTitle = 'MyQuizzenNo.'+(response.data.length+1);
        }
    });
 
@@ -561,7 +561,7 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams,$loc
 				$('#newQuiz-modal').modal('show').modal('hide');
 			}else{
 				$scope.error1 = response.data.message;
-				console.log($scope.error1);
+				console.log(response.data);
 			}
 		}).catch(function(response){
 			console.log(response);
