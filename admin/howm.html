@@ -1,4 +1,12 @@
-<!-- Modal -->
+<style>
+.ng-dirty.ng-invalid {
+     border-color: red !important;
+}
+span {
+     color: red;
+     font-size: 15px;
+}
+</style>
 <!-- New Quiz Modal -->
 <div class="modal fade" id="newQuiz-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
@@ -10,7 +18,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form name="myForm">
+                <form name="form">
                     <div class="alert alert-danger alert-dismissible fade show" ng-show="error1">
                         {{error1}}
                         <button type="button" class="close" data-dismiss="alert">
@@ -21,16 +29,22 @@
                         <input type="text" class="form-control" placeholder="Quiz title" ng-model="quizTitle"
                             required>
                     </div>
-                        <div class="form-group">
+                       <!-- <div class="form-group">
                         <textarea class="form-control" maxlength="250" placeholder="Quiz Description" rows="3" ng-model="quizDesc"
                             required></textarea>
+                    </div>-->
+                    <div class="form-group">  
+                       <textarea class="form-control" placeholder="Quiz Description" rows="3" name="quizDesc" ng-model="quizDesc" ng-minlength='{{user.quizDesc.minlength}}' ng-maxlength="{{user.quizDesc.maxlength}}" ng-required='user.quizDesc.required' /></textarea>
+                      <span ng-show="form.quizDesc.$dirty && form.quizDesc.$error.required">Description is required!</span>
+                      <span ng-show="form.quizDesc.$error.minlength">Quiz Description length has a minimum of 10!</span>
+                      <span ng-show="form.quizDesc.$error.maxlength">Quiz Description length has a maximum of 250!</span>
                     </div>
                     <div class="custom-file mb-3">
                         <input type="file" accept="image/*" class="custom-file-input" file-input="files">
                         <label class="custom-file-label">Choose image</label>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary btn-block" type="button" ng-click="addNewQuiz()">
+                        <button class="btn btn-primary btn-block" ng-disabled="form.$invalid" type="button" ng-click="addNewQuiz()">
                             <i class="fas fa-plus"></i> Add New Quiz
                         </button>
                     </div>

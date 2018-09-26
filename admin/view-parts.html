@@ -62,7 +62,7 @@
                 <div class="modal-footer border-top-0">
                     <p class="text-right">
                         <a href="#" class="card-link text-qzndanger" data-dismiss="modal">Cancel</a>
-                        <a ng-click="updateQuestion(QuestionID, QuizID, PartID, question, answer)" class="card-link text-qznprimary">Save</a>
+                        <a ng-click="updateTrueorFalse(QuestionID, QuizID, PartID, question, answer)" class="card-link text-qznprimary">Save</a>
                     </p>
                 </div>
             </div>
@@ -70,7 +70,7 @@
     </div>
     
     <!-- MODAL FOR GUESS WORD -->
-    <div class="modal fade" id="multipleChoicemodal_2" tabindex="-1" role="dialog">
+    <div class="modal fade" id="multipleChoicemodal_4" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header border-bottom-0">
@@ -94,7 +94,7 @@
                 <div class="modal-footer border-top-0">
                     <p class="text-right">
                         <a href="#" class="card-link text-qzndanger" data-dismiss="modal">Cancel</a>
-                        <a ng-click="updateQuestion(QuestionID, QuizID, PartID, question, answer)" class="card-link text-qznprimary">Save</a>
+                        <a ng-click="updateGuessWord(QuestionID, QuizID, PartID, question, answer)" class="card-link text-qznprimary">Save</a>
                     </p>
                 </div>
             </div>
@@ -170,6 +170,9 @@
                                 {{quizTitle}}
                                 </li>
                             </ol>
+                        </nav>
+                         <nav class="col-md-12">
+                            {{description}}
                         </nav>
                     </div>
 
