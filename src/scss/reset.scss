@@ -101,9 +101,9 @@ h1, h2, h3, h4, h5, h6,
 
 #page-content-wrapper {
     width: 100%;
+    height: 100%;
     padding-left: 65px;
     position: absolute;
-    margin-top: 60px;
 }
 
 // 
@@ -314,4 +314,17 @@ h1, h2, h3, h4, h5, h6,
             }
         }
     }
+}
+
+.quizlist-item-container:hover {
+    box-shadow: $box-shadow-sm;
+}
+
+.text-remaining-indicator {
+    position: absolute;
+    text-align: right;
+    top: 7px;
+    right: 10px;
+    color: #848d95;
+    display: none;
 }

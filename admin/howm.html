@@ -25,23 +25,36 @@ span {
                             <span>&times;</span>
                         </button>
                     </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Quiz title" ng-model="quizTitle"
-                            required>
+                    <div class="form-group d-flex position-relative">
+                        <input type="text" class="form-control" id="text_title" placeholder="Quiz title" ng-model="quizTitle" onclick="showTxtRemaining();" onblur="hideMe('#text_feedback');" required>
+                        <div class="text-remaining-indicator align-self-center" id="text_feedback"></div>
                     </div>
-                       <!-- <div class="form-group">
-                        <textarea class="form-control" maxlength="250" placeholder="Quiz Description" rows="3" ng-model="quizDesc"
-                            required></textarea>
-                    </div>-->
-                    <div class="form-group">  
-                       <textarea class="form-control" placeholder="Quiz Description" rows="3" name="quizDesc" ng-model="quizDesc" ng-minlength='{{user.quizDesc.minlength}}' ng-maxlength="{{user.quizDesc.maxlength}}" ng-required='user.quizDesc.required' /></textarea>
-                      <span ng-show="form.quizDesc.$dirty && form.quizDesc.$error.required">Description is required!</span>
-                      <span ng-show="form.quizDesc.$error.minlength">Quiz Description length has a minimum of 10!</span>
-                      <span ng-show="form.quizDesc.$error.maxlength">Quiz Description length has a maximum of 250!</span>
+                    <div class="form-group">
+                        <textarea class="form-control" maxlength="250" placeholder="Quiz Description" rows="3" ng-model="quizDesc" required></textarea>
                     </div>
                     <div class="custom-file mb-3">
                         <input type="file" accept="image/*" class="custom-file-input" file-input="files">
                         <label class="custom-file-label">Choose image</label>
+                    </div>
+                    <div class="btn-group btn-group-toggle mx-auto my-2" data-toggle="buttons">
+                        <label class="btn btn-secondary opt-quizMode active">
+                            <input type="radio" name="quizMode" id="opt-freeflow" autocomplete="off" selected> Freeflow
+                        </label>
+                        <label class="btn btn-secondary opt-quizMode">
+                            <input type="radio" name="quizMode" id="opt-segments" autocomplete="off"> Segments
+                        </label>
+                    </div>
+                    <div class="form-group" id="freeflowOptions">
+                        <select class="custom-select mb-3" ng-model="typeName" required>
+                            <option disabled hidden value="">Question Types</option>
+                            <option>Multiple Choice</option>
+                            <option>True or False</option>
+                            <option>Guess the Word</option>
+                            <option>Arrange the Sequence</option>
+                        </select>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Duration in seconds" ng-model="duration" required>
+                        </div>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary btn-block" ng-disabled="form.$invalid" type="button" ng-click="addNewQuiz()">
@@ -73,8 +86,7 @@ span {
                         </button>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Quiz title" ng-model="quizTitle"
-                            required>
+                        <input type="text" class="form-control" placeholder="Quiz title" ng-model="quizTitle" required>
                     </div>
                     <div class="form-group">
                         <textarea class="form-control" maxlength="250" placeholder="Quiz Description" rows="3" ng-model="quizDesc"
@@ -98,10 +110,10 @@ span {
 
 <!-- Page content -->
 <div id="page-content-wrapper">
-    <div class="container-fluid p-0">
-        <div class="row no-gutters">
-            <div class="col-md-12 pt-5" style="padding: 6rem; padding-bottom: 3rem;">
-                <div class="row">
+    <div class="container-fluid p-0 h-100">
+        <!-- <div class="row no-gutters"> -->
+            <div class="col-md-12 pt-7 h-100" style="padding: 6rem; padding-bottom: 3rem;">
+                <div class="row" ng-show="!error">
                     <div class="col-md-9">
                         <span class="h1">My Quizzen</span>
                     </div>
@@ -115,7 +127,7 @@ span {
                     </div>
 
                     <nav class="col-md-12">
-                        <ol class="breadcrumb px-0">
+                        <ol class="breadcrumb p-0">
                             <li class="breadcrumb-item">
                                 <a href="#">Home</a>
                             </li>
@@ -132,8 +144,8 @@ span {
                     </nav> -->
                 </div>
 
-                <div class="row">
-                    <div class="col-md-3 mb-4 px-1" ng-repeat="info in quizInfo | filter: searchTxt">
+                <div class="row" ng-show="!error">
+                    <!-- <div class="col-md-3 mb-4 px-1" ng-repeat="info in quizInfo | filter: searchTxt">
                         <div class="card">
                             <a ng-href="#!/viewparts/{{info.quizID}}"><img class="card-img-top" height="152" ng-src="{{info.filepath}}" alt="Card image cap"></a>
                             <div class="card-body">
@@ -143,7 +155,6 @@ span {
                                     <i class="far fa-play-circle"></i>
                                     6 times played
                                 </p>
-                                <!-- <p class="text-secondary" style="font-size: 14px;">{{info.description}}</p> -->
                             </div>
 
                             <div class="card-footer bg-white">
@@ -171,19 +182,62 @@ span {
                                 </ul>
                             </div>
 
+                        </div> -->
+                    </div>
+                    
+                    <div class="col-md-12 my-2 px-0 quizlist-item-container" ng-repeat="info in quizInfo | filter: searchTxt">
+                        <div class="card d-flex">
+                            <div class="card-body d-flex justify-content-between">
+                                <div class="quizlist-img">
+                                    <img ng-src="{{info.filepath}}" style="min-height: 9.75rem; max-height: 9.75rem; width: 14.625rem; background-size: cover;" alt="Marianne">
+                                </div>
+                                <div class="quizlist-info flex-grow-1 px-3">
+                                    <a ng-href="#!/viewparts/{{info.quizID}}"><h5>{{info.quizTitle}}</h5></a>
+                                    <p class="text-secondary">{{info.date_created}}</p>
+                                </div>
+                                <div class="quizlist-options align-self-center">
+                                    <ul class="nav nav-justified quiz-options">
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link text-secondary">
+                                                <i class="far fa-play-circle fa-lg"></i>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a ng-click="getQuizData(info.quizID)" data-toggle="modal" data-target="#editQuiz-modal" class="nav-link text-secondary">
+                                                <i class="far fa-edit fa-lg"></i>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link text-secondary">
+                                                <i class="far fa-trash-alt fa-lg"></i>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link text-secondary">
+                                                <i class="far fa-heart fa-lg"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Error Message -->
-                    <div class="col-12 text-center" ng-show="error">
-                        <h3>No quiz created.</h3>
-                        <p>
-                            <a href="#!/createquiz"> <button class="btn btn-primary">Create now</button></a>
-                        </p>
-
-                    </div>
-                </div> <!-- End row -->
+                <!-- </div> End row -->
             </div>
+
+            <!-- Error Message -->
+            <div class="row d-flex align-items-center h-100" ng-show="error">
+                <div class="col-12 text-center">
+                    <img src="images/thinking.png" class="img-reponsive">
+                    <h3>No quiz created.</h3>
+                    <p>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#newQuiz-modal">
+                            <i class="far fa-plus-square"></i>
+                            Create now
+                        </button>
+                    </p>
+                </div>
+            </div>  
         </div>
     </div> <!-- End container-fluid -->
 </div> <!-- End page-content-wrapper -->
