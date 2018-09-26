@@ -501,14 +501,14 @@ theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 
 theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams,$location){
 
+   $scope.quizTitle = 'MyQuizzenNo.0';
    getLink = "/restAPI/api/quizzes/read_quiz.php?admin_id="+ localStorage.getItem('user_id');
    $http.get(getLink).then(function(response){
        if(response.data.message){
 		   $scope.error = response.data.message;
-		   console.log($scope.error);
        }else{
 		$scope.quizInfo = response.data;
-
+		$scope.quizTitle = 'MyQuizzenNo.'+(response.data.length+1);
        }
    });
 
@@ -561,7 +561,7 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams,$loc
 				$('#newQuiz-modal').modal('show').modal('hide');
 			}else{
 				$scope.error1 = response.data.message;
-				console.log($scope.error1);
+				console.log(response.data);
 			}
 		}).catch(function(response){
 			console.log(response);
@@ -799,6 +799,28 @@ theApp.controller('multipleCtrlr', function($scope,$http,sessionService,$routePa
 	});
 
    };
+
+	$scope.uploadCSV = function(){
+		var fd = new FormData();
+		fd.append('multiple',$scope.files[0]);
+		fd.append('quiz_id',$routeParams.quiz_id);
+		fd.append('part_id',$routeParams.part_id);
+
+		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
+			transfromRequest:angular.identity,
+			headers:{'Content-Type':undefined}
+		}).then(function(response){
+			if(response.data.error){
+				$scope.csvsuccess = null;
+				$scope.csverror = response.data;
+			}else{
+				$scope.csverror = null;
+				$scope.csvsuccess = response.data;
+			}
+		}).catch(function(response){
+			console.log(response.data);
+		});
+	};
 });
 
 theApp.controller('addCtrlr', function($scope,$http,sessionService,$routeParams){
@@ -818,6 +840,28 @@ theApp.controller('addCtrlr', function($scope,$http,sessionService,$routeParams)
 	});
 
    };
+
+   	$scope.uploadCSV = function(){
+		var fd = new FormData();
+		fd.append('TorF',$scope.files[0]);
+		fd.append('quiz_id',$routeParams.quiz_id);
+		fd.append('part_id',$routeParams.part_id);
+
+		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
+			transfromRequest:angular.identity,
+			headers:{'Content-Type':undefined}
+		}).then(function(response){
+			if(response.data.error){
+				$scope.csvsuccess = null;
+				$scope.csverror = response.data;
+			}else{
+				$scope.csverror = null;
+				$scope.csvsuccess = response.data;
+			}
+		}).catch(function(response){
+			console.log(response.data);
+		});
+	};
 });
 
 theApp.controller('guessCtrlr', function($scope,$http,sessionService,$routeParams){
@@ -836,4 +880,27 @@ theApp.controller('guessCtrlr', function($scope,$http,sessionService,$routeParam
 	});
 
    };
+
+   $scope.uploadCSV = function(){
+   		var fd = new FormData();
+		fd.append('GTW',$scope.files[0]);
+		fd.append('quiz_id',$routeParams.quiz_id);
+		fd.append('part_id',$routeParams.part_id);
+
+		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
+			transfromRequest:angular.identity,
+			headers:{'Content-Type':undefined}
+		}).then(function(response){
+			if(response.data.error){
+				$scope.csvsuccess = null;
+				$scope.csverror = response.data;
+			}else{
+				$scope.csverror = null;
+				$scope.csvsuccess = response.data;
+			}
+		}).catch(function(response){
+			console.log(response.data);
+		});
+   };
+
 });
