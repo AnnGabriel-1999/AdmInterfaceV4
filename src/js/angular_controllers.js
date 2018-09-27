@@ -817,16 +817,22 @@ theApp.controller('multipleCtrlr', function($scope,$http,sessionService,$routePa
 			headers:{'Content-Type':undefined}
 		}).then(function(response){
 			if(response.data.error){
-				$scope.csvsuccess = null;
+				$scope.clearResponse();
 				$scope.csverror = response.data;
 			}else{
-				$scope.csverror = null;
+				$scope.clearResponse();
 				$scope.csvsuccess = response.data;
 			}
 		}).catch(function(response){
 			console.log(response.data);
 		});
 	};
+
+	$scope.clearResponse = function(){
+   		$scope.csverror = null;
+   		$scope.csvsuccess = null;
+   }
+
 });
 
 theApp.controller('addCtrlr', function($scope,$http,sessionService,$routeParams){
@@ -857,17 +863,22 @@ theApp.controller('addCtrlr', function($scope,$http,sessionService,$routeParams)
 			transfromRequest:angular.identity,
 			headers:{'Content-Type':undefined}
 		}).then(function(response){
-			if(response.data.error){
-				$scope.csvsuccess = null;
+			$scope.clearResponse();
+			if(response.data.error){	
 				$scope.csverror = response.data;
 			}else{
-				$scope.csverror = null;
 				$scope.csvsuccess = response.data;
 			}
 		}).catch(function(response){
 			console.log(response.data);
 		});
 	};
+
+	$scope.clearResponse = function(){
+   		$scope.csverror = null;
+   		$scope.csvsuccess = null;
+   }
+
 });
 
 theApp.controller('guessCtrlr', function($scope,$http,sessionService,$routeParams){
@@ -897,17 +908,21 @@ theApp.controller('guessCtrlr', function($scope,$http,sessionService,$routeParam
 			transfromRequest:angular.identity,
 			headers:{'Content-Type':undefined}
 		}).then(function(response){
+			$scope.clearResponse();
 			if(response.data.error){
-				$scope.csvsuccess = null;
 				$scope.csverror = response.data;
 			}else{
-				$scope.csverror = null;
 				$scope.csvsuccess = response.data;
 			}
 		}).catch(function(response){
 			console.log(response.data);
 		});
    };
+
+   $scope.clearResponse = function(){
+   		$scope.csverror = null;
+   		$scope.csvsuccess = null;
+   }
 
 });
 
