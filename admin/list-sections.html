@@ -16,11 +16,12 @@
                         <option disabled hidden value="">Courses Available</option>   
                     </select>
 
-                    <div class="input-group">
+                    <div class="input-group position-relative">
                         <div class="input-group-prepend">
                             <span class="input-group-text">{{prefix}}</span>
                         </div>
-                        <input type="text" class="form-control" ng-model="sectionName" id="sectionName" placeholder="Section Name">
+                        <input type="text" class="form-control" id="sectionName" ng-model="sectionName" placeholder="Section Name" onfocus="showTxtRemaining('#sectionName', '#text_feedback-sectionName', 30);" onblur="hideMe('#text_feedback-sectionName');">
+                        <div class="text-remaining-indicator align-self-center" id="text_feedback-sectionName"></div>
                     </div>
                 </form>
             </div>
@@ -55,7 +56,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">{{prefix}}</span>
                         </div>
-                        <input type="text" class="form-control" ng-model="sectionName" id="sectionName" placeholder="Section Name">
+                        <input type="text" class="form-control" ng-model="sectionName" placeholder="Section Name">
                     </div>
                 </form>
             </div>

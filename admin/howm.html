@@ -25,12 +25,13 @@ span {
                             <span>&times;</span>
                         </button>
                     </div>
-                    <div class="form-group d-flex position-relative">
-                        <input type="text" class="form-control" id="text_title" placeholder="Quiz title" ng-model="quizTitle" onclick="showTxtRemaining();" onblur="hideMe('#text_feedback');" required>
-                        <div class="text-remaining-indicator align-self-center" id="text_feedback"></div>
+                    <div class="form-group position-relative">
+                        <input type="text" class="form-control" id="text_title" placeholder="Quiz title" ng-model="quizTitle" onfocus="showTxtRemaining('#text_title', '#text_feedback-title', 90);" onblur="hideMe('#text_feedback-title');" required>
+                        <div class="text-remaining-indicator align-self-center" id="text_feedback-title"></div>
                     </div>
-                    <div class="form-group">
-                        <textarea class="form-control" maxlength="250" placeholder="Quiz Description" rows="3" ng-model="quizDesc" required></textarea>
+                    <div class="form-group position-relative">
+                        <textarea class="form-control" id="text_desc" placeholder="Quiz Description" rows="3" ng-model="quizDesc" onfocus="showTxtRemaining('#text_desc', '#text_feedback-desc', 250);" onblur="hideMe('#text_feedback-desc');" required></textarea>
+                        <div class="text-remaining-indicator align-self-center" id="text_feedback-desc"></div>
                     </div>
                     <div class="custom-file mb-3">
                         <input type="file" accept="image/*" class="custom-file-input" file-input="files">
@@ -52,8 +53,9 @@ span {
                             <option>Guess the Word</option>
                             <option>Arrange the Sequence</option>
                         </select>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Duration in seconds" ng-model="duration" required>
+                        <div class="form-group position-relative">
+                            <input type="text" class="form-control" id="text_duration" placeholder="Duration in seconds" ng-model="duration" onfocus="showTxtRemaining('#text_duration', '#text_feedback-duration', 10);" onblur="hideMe('#text_feedback-duration');" required>
+                            <div class="text-remaining-indicator align-self-center" id="text_feedback-duration"></div>
                         </div>
                     </div>
                     <div class="form-group">

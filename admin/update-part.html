@@ -17,19 +17,16 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group position-relative">
                                 <label>Part title</label>
-                                <input class="form-control" type="text" ng-model="part_title" required>
+                                <input class="form-control" id="text_partTitle" type="text" ng-model="part_title" onfocus="showTxtRemaining('#text_partTitle', '#text_feedback-partTitle', 250);" onblur="hideMe('#text_feedback-partTitle');" required>
+                                <div class="text-remaining-indicator align-self-center" id="text_feedback-partTitle"></div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group position-relative">
                                 <label>Duration: </label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control border-right-0" ng-model="duration" required>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text bg-white">in Seconds </span>
-                                    </div>                                    
-                                </div>                                
+                                <input type="text" class="form-control" id="text_duration" ng-model="duration" onfocus="showTxtRemaining('#text_duration', '#text_feedback-duration', 10);" onblur="hideMe('#text_feedback-duration');" required>
+                                <div class="text-remaining-indicator align-self-center" id="text_feedback-duration"></div>                                      
                             </div>
                             
                             <button class="btn btn-qznprimary" ng-disabled="partForm.$invalid" ng-click="updatePart()">
