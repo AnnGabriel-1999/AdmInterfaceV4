@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    console.log('The DOM is ready');
+
     $("#chk-newsid").change(function(){
         $("#lalala").toggleClass("d-none");
     });
@@ -11,21 +13,7 @@ $(document).ready(function(){
         modal.find('.modal-body input#sectionName').val(section);
     });
 
-    function showTxtRemaining() {
-        var text_max = 250;
-        $('#text_feedback').text(text_max).css("display","block");
-        $('#text_title').keyup(function(){
-            var text_length = $('#text_title').val().length;
-            var text_remaining = text_max - text_length;
-            
-            $('#text_feedback').text(text_remaining);
-        });
-    }
-    
-    function hideMe(elemToHide) {
-        $(elemToHide).css("display", "none");
-    }
-
+    // Quiz Mode option
     $('.opt-quizMode:first-child').click(function(){
         $('#opt-segments').removeAttr("selected");
         $('#opt-freeflow').attr("selected", "selected");
@@ -39,16 +27,20 @@ $(document).ready(function(){
         $('#freeflowOptions').css("display", "none");
         console.log('Segments selected');
     });
-
 });
 
-// function showTxtRemaining(elemToLimit, elemFeedback, maxInput) {
-//     var text_max = maxInput;
-//     $('#text_feedback').text(text_max).css("display","block");
-//     $('#text_title').keyup(function(){
-//         var text_length = $('#text_title').val().length;
-//         var text_remaining = text_max - text_length;
+// Text remaining counter
+function showTxtRemaining(elemToCount, textFeedback, textLimit) {
+    console.log('Text remaining will be displayed', elemToCount, textFeedback, textLimit);
+    $(textFeedback).text(textLimit).css("display","block");
+    $(elemToCount).keyup(function(){
+        var text_length = $(elemToCount).val().length;
+        var text_remaining = textLimit - text_length;
         
-//         $('#text_feedback').text(text_remaining);
-//     });
-// }
+        $(textFeedback).text(text_remaining);
+    });
+}
+
+function hideMe(elemToHide) {
+    $(elemToHide).css("display", "none");
+}

@@ -21,12 +21,14 @@
                             <option>Arrange the Sequence</option>
                         </select>
 
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Part title" ng-model="partTitle" required>
+                        <div class="form-group position-relative">
+                            <input type="text" class="form-control" id="text_partTitle" placeholder="Part title" ng-model="partTitle" onfocus="showTxtRemaining('#text_partTitle', '#text_feedback-partTitle', 90);" onblur="hideMe('#text_feedback-partTitle');" required>
+                            <div class="text-remaining-indicator align-self-center" id="text_feedback-partTitle"></div>
                         </div>
 
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Duration in seconds" ng-model="duration" required>
+                        <div class="form-group position-relative">
+                            <input type="text" class="form-control" id="text_duration" placeholder="Duration in seconds" ng-model="duration" onfocus="showTxtRemaining('#text_duration', '#text_feedback-duration', 10);" onblur="hideMe('#text_feedback-duration');" required>
+                            <div class="text-remaining-indicator align-self-center" id="text_feedback-duration"></div>
                         </div>
                         <div class="form-group">
                             <input type="button" class="btn btn-qznprimary btn-block" value="Add Part" ng-disabled="partForm.$invalid" ng-click="addPart()">
@@ -38,6 +40,7 @@
     </div>
 
     <!-- MODAL TRUE OR FALSE -->
+    <!-- NOT USED? -->
     <div class="modal fade" id="multipleChoicemodal_2" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -70,6 +73,7 @@
     </div>
     
     <!-- MODAL FOR GUESS WORD -->
+    <!-- NOT USED? -->
     <div class="modal fade" id="multipleChoicemodal_2" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -102,6 +106,7 @@
     </div>
     
     <!--UPDATE FOR MULTIPLE CHOICE-->
+    <!-- NOT USED? -->
     <div class="modal fade" id="multipleChoicemodal_1" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">

@@ -42,29 +42,35 @@
                                     </button>                            
                                 </div>
 
-                                <div class="form-group">
-                                    <textarea class="form-control" placeholder="Question" rows="3" ng-model="question" required></textarea>
+                                <div class="form-group position-relative">
+                                    <textarea class="form-control" id="text_ques" placeholder="Question" rows="3" ng-model="question" onfocus="showTxtRemaining('#text_ques', '#text_feedback-ques', 250);" onblur="hideMe('#text_feedback-ques');" required></textarea>
+                                    <div class="text-remaining-indicator align-self-center" id="text_feedback-ques"></div>
                                 </div>
 
-                                <div class="form-group">
-                                    <input only-letters-input type="text" class="form-control" placeholder="Answer" ng-model="answer" required>
+                                <div class="form-group position-relative">
+                                    <input only-letters-input type="text" id="text_answer" class="form-control" placeholder="Answer" ng-model="answer" onfocus="showTxtRemaining('#text_answer', '#text_feedback-answer', 60);" onblur="hideMe('#text_feedback-answer');" required>
+                                    <div class="text-remaining-indicator align-self-center" id="text_feedback-answer"></div>
                                 </div>
 
                                 <!--CHOICESSSSS-->
-                                <div class="form-group">
-                                    <input only-letters-input type="text" class="form-control" placeholder="A" ng-model="choice1" required>
+                                <div class="form-group position-relative">
+                                    <input only-letters-input type="text" id="text_choice1" class="form-control" placeholder="A" ng-model="choice1" onfocus="showTxtRemaining('#text_choice1', '#text_feedback-choice1');" onblur="hideMe('#text_feedback-choice1');" required>
+                                    <div class="text-remaining-indicator align-self-center" id="text_feedback-choice1"></div>
                                 </div>
                                 
-                                <div class="form-group">
-                                    <input only-letters-input type="text" class="form-control" placeholder="B" ng-model="choice2" required>
+                                <div class="form-group position-relative">
+                                    <input only-letters-input type="text" id="text_choice2" class="form-control" placeholder="B" ng-model="choice2" onfocus="showTxtRemaining('#text_choice2', '#text_feedback-choice2', 60);" onblur="hideMe('#text_feedback-choice2');" required>
+                                    <div class="text-remaining-indicator align-self-center" id="text_feedback-choice2"></div>
                                 </div>
                                 
-                                <div class="form-group">
-                                    <input only-letters-input type="text" class="form-control" placeholder="C" ng-model="choice3" required>
+                                <div class="form-group position-relative">
+                                    <input only-letters-input type="text" id="text_choice3" class="form-control" placeholder="C" ng-model="choice3" onfocus="showTxtRemaining('#text_choice3', '#text_feedback-choice3', 60);" onblur="hideMe('#text_feedback-choice3');" required>
+                                    <div class="text-remaining-indicator align-self-center" id="text_feedback-choice3"></div>
                                 </div>
                                 
-                                <div class="form-group">
-                                    <input only-letters-input type="text" class="form-control" placeholder="D" ng-model="choice4" required>
+                                <div class="form-group position-relative">
+                                    <input only-letters-input type="text" id="text_choice4" class="form-control" placeholder="D" ng-model="choice4" onfocus="showTxtRemaining('#text_choice4', '#text_feedback-choice4', 60);" onblur="hideMe('#text_feedback-chooice4');" required>
+                                    <div class="text-remaining-indicator align-self-center" id="text_feedback-choice4"></div>
                                 </div>
                                 <!--END OF CHOICESSSSS-->
 

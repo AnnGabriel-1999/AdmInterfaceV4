@@ -46,25 +46,28 @@
                             </select>
                         </div>
 
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-3 position-relative">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="far fa-user-circle"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="First Name" ng-model="fname" required>
+                            <input type="text" class="form-control" id="text_fname" placeholder="First Name" ng-model="fname" onfocus="showTxtRemaining('#text_fname', '#text_feedback-fname', 90);" onblur="hideMe('#text_feedback-fname');" required>
+                            <div class="text-remaining-indicator align-self-center" id="text_feedback-fname"></div>
                         </div>
 
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-3 position-relative">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="far fa-user-circle"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Middle Name" ng-model="mname" required>
+                            <input type="text" class="form-control" id="text_mname" placeholder="Middle Name"  onfocus="showTxtRemaining('#text_mname', '#text_feedback-mname', 90);" onblur="hideMe('#text_feedback-mname');" ng-model="mname" required>
+                            <div class="text-remaining-indicator align-self-center" id="text_feedback-mname"></div>
                         </div>
 
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-3 position-relative">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="far fa-user-circle"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Last Name" ng-model="lname" required>
+                            <input type="text" class="form-control" placeholder="Last Name" onfocus="showTxtRemaining('#text_lname', '#text_feedback-lname', 90);" onblur="hideMe('#text_feedback-lname');" ng-model="lname" required>
+                            <div class="text-remaining-indicator align-self-center" id="text_feedback-lname"></div>
                         </div>
 
                         <div class="forn-group">
