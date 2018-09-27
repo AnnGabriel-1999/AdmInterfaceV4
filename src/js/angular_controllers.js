@@ -186,6 +186,12 @@ theApp.config(['$routeProvider', function($routeProvider) {
                 controller: 'updateStudentCtrlr'
         })
 
+        .when('/uploadCS', {
+
+                templateUrl:'uploadCsvStudents.html',
+                controller: 'CSVSTUDENTS'
+        })
+
         .when('/checker/4/:quiz_id/:part_id', {
 					resolve:{
 							 "check": function($location,$localStorage){
@@ -457,7 +463,7 @@ theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 	$http.get(getLink).then(function(response){
 
 		if(response.data.message){
-			alert("WALA PANG STUD DITO PRE");
+			$scope.noStudents = response.data;
 		}else{
 			console.log(response.data);
 			$scope.students = response.data.data;
@@ -903,4 +909,22 @@ theApp.controller('guessCtrlr', function($scope,$http,sessionService,$routeParam
 		});
    };
 
+});
+
+theApp.controller('CSVSTUDENTS', function($scope,$http){
+	$scope.uploadCS = function(){
+		var fd = new FormData();
+		fd.append('students',$scope.files[0]);
+
+		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
+			transfromRequest:angular.identity,
+			headers:{'Content-Type':undefined}
+		}).then(function(response){
+			console.log(response.data);
+		}).catch(function(response){
+			console.log(response.data);
+			console.log('asdasd');
+		});
+
+	}
 });
