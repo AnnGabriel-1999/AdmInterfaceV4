@@ -151,9 +151,9 @@
 
     <!-- Page content -->
     <div id="page-content-wrapper">
-        <div class="container-fluid p-0">
-            <div class="row no-gutters">
-                <div class="col-md-12 pt-5" style="padding: 6rem; padding-bottom: 3rem;">
+        <div class="container-fluid p-0 h-100">
+            <!-- <div class="row no-gutters"> -->
+                <div class="col-md-12 pt-7 h-100" style="padding: 6rem; padding-bottom: 3rem;">
                     <div class="row">
                         <div class="col-md-9">
                             <span class="h1">Segments</span>
@@ -178,86 +178,103 @@
                         </nav>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="accordion" id="parts-accordion">
-                                <div ng-repeat="part in parts | filter: searchTxt" class="card mt-2 part-card">
-                                    <div class="card-body py-3 px-0">
-                                        <div class="row px-3" style="height: 119px;">
-                                            <div class="col-md-6 pl-4">
-                                                <div class="mb-1" ng-style="set_color(part.TypeID)">{{part.Type}}</div>
-                                                <h4>{{part.PartTitle}}</h4>
-                                                <p class="mb-1">
-                                                    <i class="far fa-question-circle fa-lg" style="color: #a9e34b;"></i> {{part.TotalQs}} questions &middot; 
-                                                    <i class="far fa-clock fa-lg" style="color: #748ffc;"></i> {{part.Duration}} secs per question
-                                                </p>                               
-                                            </div>
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li class="nav-item">
+                            <a href="#parts" target="_self" class="nav-link active" id="parts-tab" data-toggle="tab" role="tab">Parts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#taken" target="_self" class="nav-link" id="taken-by" data-toggle="tab" role="tab">Taken by</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#nottaken" target="_self" class="nav-link" id="not-taken" data-toggle="tab" role="tab">Not taken</a>
+                        </li>
+                    </ul>
 
-                                            <div class="col-md-6 px-0">
-                                                <div class="row" style="padding: 7.5% 0;">
-                                                    <!-- ADD QUESTION -->                                                    
-                                                    <a href="#!/checker/{{part.TypeID}}/{{part.QuizID}}/{{part.PartID}}">
-                                                        <button class="btn btn-qznprimary">
-                                                            <i class="far fa-plus-square"></i> Add Question
-                                                        </button>
-                                                    </a>
+                    <div class="row">                        
 
-                                                    <a href="#!/updatePart/{{part.PartID}}/{{part.TotalQs}}"><button class="btn btn-qznwarning mx-2">
-                                                        <i class="far fa-edit"></i> Update
-                                                    </button>
-                                                    </a>
-
-                                                    <button class="btn btn-qzndanger">
-                                                        <i class="far fa-trash-alt"></i> Delete
-                                                    </button>
-
-                                                    <button ng-click="view(part.PartID)" data-ng-disabled="checkQuestions(part.TotalQs)" class="btn btn-qznsuccess mx-2" data-toggle="collapse" data-target="#ques_{{part.PartID}}_{{part.TypeID}}">
-                                                        <i class="far fa-eye"></i> View Questions
-                                                    </button>                                        
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="collapse" id="ques_{{part.PartID}}_{{part.TypeID}}" data-parent="#parts-accordion">
-                                            <div class="row px-3">
-                                                <div class="col-md-12 mt-2">
-                                                    <h6 class="text-right text-qznprimary" data-toggle="collapse" data-target="#show_{{part.QuizID}}_{{part.PartID}}_{{part.TypeID}}" style="cursor: pointer;">Show answers</h6>
-                                                    <div ng-repeat="question in questions" class="card">
-                                                        <div class="card-body">
-                                                            <i class="far fa-question-circle" style="color: #748ffc;"></i>
-                                                            {{question.Question}}
-
-                                                            <!-- DELETE QUESTION BUTTON (No FUNCTION) -->
-                                                            <a id="deleteQuestion" data-toggle="modal" data-target="#modalDeleteQues" class="btn btn-qzndanger float-right mx-2">
-                                                                <i class="far fa-trash-alt"></i> Delete
+                        <div class="tab-content w-100">
+                            <div class="tab-pane active" id="parts" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="accordion" id="parts-accordion">
+                                        <div ng-repeat="part in parts | filter: searchTxt" class="card mt-2 part-card">
+                                            <div class="card-body py-3 px-0">
+                                                <div class="row px-3" style="height: 119px;">
+                                                    <div class="col-md-6 pl-4">
+                                                        <div class="mb-1" ng-style="set_color(part.TypeID)">{{part.Type}}</div>
+                                                        <h4>{{part.PartTitle}}</h4>
+                                                        <p class="mb-1">
+                                                            <i class="far fa-question-circle fa-lg" style="color: #a9e34b;"></i> {{part.TotalQs}} questions &middot; 
+                                                            <i class="far fa-clock fa-lg" style="color: #748ffc;"></i> {{part.Duration}} secs per question
+                                                        </p>                               
+                                                    </div>
+        
+                                                    <div class="col-md-6 px-0">
+                                                        <div class="row" style="padding: 7.5% 0;">
+                                                            <!-- ADD QUESTION -->                                                    
+                                                            <a href="#!/checker/{{part.TypeID}}/{{part.QuizID}}/{{part.PartID}}">
+                                                                <button class="btn btn-qznprimary">
+                                                                    <i class="far fa-plus-square"></i> Add Question
+                                                                </button>
                                                             </a>
-
-                                                             <!-- UPDATE QUESTION MULTIPLE TESTING -->
-                                                            <a id="updateMultiple" ng-click="transferMultipleData(question.QuestionID, question.QuizID, question.PartID,  question.Question, question.Answer,question.a,question.b,question.c,question.d)" data-toggle="modal" data-target="#multipleChoicemodal_{{part.TypeID}}" class="btn btn-qznwarning float-right">
+        
+                                                            <a href="#!/updatePart/{{part.PartID}}/{{part.TotalQs}}"><button class="btn btn-qznwarning mx-2">
                                                                 <i class="far fa-edit"></i> Update
-                                                            </a>     
-                                                                                                                                                                  
-                                                            <!--MULTIPLE CHOICE-->
-                                                            <div class="collapse border-top mt-4" id="show_{{part.QuizID}}_{{part.PartID}}_1">
-                                                                <ul class="list-group list-group-flush">
-                                                                    <li class="list-group-item"><i class="fas fa-heart" style="color: #ea5a5a;"></i>   {{question.a}} <i class="far fa-check-circle text-qznsuccess"></i></li>
-                                                                    <li class="list-group-item"><i class="fas fa-square" style="color: #0181c4;"></i>   {{question.b}} <i class="far fa-times-circle text-qzndanger"></i></li>
-                                                                    <li class="list-group-item"><i class="fas fa-circle" style="color: #32b9c4;"></i>   {{question.c}} <i class="far fa-times-circle text-qzndanger"></i></li>
-                                                                    <li class="list-group-item"><i class="fas fa-star" style="color: #ffd011;"></i>   {{question.d}} <i class="far fa-times-circle text-qzndanger"></i></li>
-                                                                </ul>
-                                                            </div>
-
-                                                            <!--TRUE OR FALSE-->
-                                                            <div class="collapse border-top mt-4" id="show_{{part.QuizID}}_{{part.PartID}}_2">
-                                                                <ul class="list-group list-group-flush">
-                                                                    <li class="list-group-item"><i class="fas fa-heart" style="color: #ea5a5a;"></i>{{question.Answer}} <i class="far fa-check-circle text-qznsuccess"></i></li>
-                                                                </ul>
-                                                            </div>
-
-                                                            <div class="collapse border-top mt-4" id="show_{{part.QuizID}}_{{part.PartID}}_4">
-                                                                <ul class="list-group list-group-flush">
-                                                                    <li class="list-group-item"><i class="fas fa-heart" style="color: #ea5a5a;"></i>   {{question.Answer}} <i class="far fa-check-circle text-qznsuccess"></i></li>
-                                                                </ul>
+                                                            </button>
+                                                            </a>
+        
+                                                            <button class="btn btn-qzndanger">
+                                                                <i class="far fa-trash-alt"></i> Delete
+                                                            </button>
+        
+                                                            <button ng-click="view(part.PartID)" data-ng-disabled="checkQuestions(part.TotalQs)" class="btn btn-qznsuccess mx-2" data-toggle="collapse" data-target="#ques_{{part.PartID}}_{{part.TypeID}}">
+                                                                <i class="far fa-eye"></i> View Questions
+                                                            </button>                                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+        
+                                                <div class="collapse" id="ques_{{part.PartID}}_{{part.TypeID}}" data-parent="#parts-accordion">
+                                                    <div class="row px-3">
+                                                        <div class="col-md-12 mt-2">
+                                                            <h6 class="text-right text-qznprimary" data-toggle="collapse" data-target="#show_{{part.QuizID}}_{{part.PartID}}_{{part.TypeID}}" style="cursor: pointer;">Show answers</h6>
+                                                            <div ng-repeat="question in questions" class="card">
+                                                                <div class="card-body">
+                                                                    <i class="far fa-question-circle" style="color: #748ffc;"></i>
+                                                                    {{question.Question}}
+        
+                                                                    <!-- DELETE QUESTION BUTTON (No FUNCTION) -->
+                                                                    <a id="deleteQuestion" data-toggle="modal" data-target="#modalDeleteQues" class="btn btn-qzndanger float-right mx-2">
+                                                                        <i class="far fa-trash-alt"></i> Delete
+                                                                    </a>
+        
+                                                                        <!-- UPDATE QUESTION MULTIPLE TESTING -->
+                                                                    <a id="updateMultiple" ng-click="transferMultipleData(question.QuestionID, question.QuizID, question.PartID,  question.Question, question.Answer,question.a,question.b,question.c,question.d)" data-toggle="modal" data-target="#multipleChoicemodal_{{part.TypeID}}" class="btn btn-qznwarning float-right">
+                                                                        <i class="far fa-edit"></i> Update
+                                                                    </a>     
+                                                                                                                                                                            
+                                                                    <!--MULTIPLE CHOICE-->
+                                                                    <div class="collapse border-top mt-4" id="show_{{part.QuizID}}_{{part.PartID}}_1">
+                                                                        <ul class="list-group list-group-flush">
+                                                                            <li class="list-group-item"><i class="fas fa-heart" style="color: #ea5a5a;"></i>   {{question.a}} <i class="far fa-check-circle text-qznsuccess"></i></li>
+                                                                            <li class="list-group-item"><i class="fas fa-square" style="color: #0181c4;"></i>   {{question.b}} <i class="far fa-times-circle text-qzndanger"></i></li>
+                                                                            <li class="list-group-item"><i class="fas fa-circle" style="color: #32b9c4;"></i>   {{question.c}} <i class="far fa-times-circle text-qzndanger"></i></li>
+                                                                            <li class="list-group-item"><i class="fas fa-star" style="color: #ffd011;"></i>   {{question.d}} <i class="far fa-times-circle text-qzndanger"></i></li>
+                                                                        </ul>
+                                                                    </div>
+        
+                                                                    <!--TRUE OR FALSE-->
+                                                                    <div class="collapse border-top mt-4" id="show_{{part.QuizID}}_{{part.PartID}}_2">
+                                                                        <ul class="list-group list-group-flush">
+                                                                            <li class="list-group-item"><i class="fas fa-heart" style="color: #ea5a5a;"></i>{{question.Answer}} <i class="far fa-check-circle text-qznsuccess"></i></li>
+                                                                        </ul>
+                                                                    </div>
+        
+                                                                    <div class="collapse border-top mt-4" id="show_{{part.QuizID}}_{{part.PartID}}_4">
+                                                                        <ul class="list-group list-group-flush">
+                                                                            <li class="list-group-item"><i class="fas fa-heart" style="color: #ea5a5a;"></i>   {{question.Answer}} <i class="far fa-check-circle text-qznsuccess"></i></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -266,12 +283,48 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>                            
+
+                            <div class="tab-pane fade" id="taken" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card card-body d-flex flex-row justify-content-between mt-2">
+                                        <div style="flex-grow:1; flex-basis:0;">BSIT 4C-G1</div>
+                                        <div style="flex-grow:1; flex-basis:0;">September 29 2018, 11:11 PM</div>
+                                        <div style="flex-grow:1; flex-basis:0;">69 Players</div>
+                                    </div>
+                                    <div class="card card-body d-flex flex-row justify-content-between mt-2">
+                                        <div style="flex-grow:1; flex-basis:0;">BSIT 3X-G2</div>
+                                        <div style="flex-grow:1; flex-basis:0;">February 31 2017, 12:03 AM</div>
+                                        <div style="flex-grow:1; flex-basis:0;">32 Players</div>
+                                    </div>
+                                    <div class="card card-body d-flex flex-row justify-content-between mt-2">
+                                        <div style="flex-grow:1; flex-basis:0;">BSIT 2S-G2</div>
+                                        <div style="flex-grow:1; flex-basis:0;">June 19 2018, 10:39 AM</div>
+                                        <div style="flex-grow:1; flex-basis:0;">26 Players</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="nottaken" role="tabpanel">
+                                <div class="col-md-12">
+                                    <div class="card card-body d-flex flex-row justify-content-between mt-2">
+                                        <div style="flex-grow:1; flex-basis:0;">BSIT 4C-G2</div>
+                                        <div style="flex-grow:1; flex-basis:0;">September 28 2018, 11:12 PM</div>
+                                        <div style="flex-grow:1; flex-basis:0;">90 Players</div>
+                                    </div>
+                                    <div class="card card-body d-flex flex-row justify-content-between mt-2">
+                                        <div style="flex-grow:1; flex-basis:0;">BSIT 3Y-G1</div>
+                                        <div style="flex-grow:1; flex-basis:0;">February 32 2017, 01:03 AM</div>
+                                        <div style="flex-grow:1; flex-basis:0;">42 Players</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
 
                     <!-- Pagination -->
-                    <nav>
+                    <nav class="mt-3">
                         <ul class="pagination justify-content-center">
                             <li class="page-item disabled">
                                 <span class="page-link">Previous</span>
@@ -292,7 +345,7 @@
                     </nav>
 
                 </div>
-            </div>
+            <!-- </div> -->
         </div>
     </div>
 </body>
