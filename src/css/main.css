@@ -7167,3 +7167,11 @@ h1, h2, h3, h4, h5, h6,
   border: 0;
   outline: 0;
   padding: 0.25em; }
+
+.hiddenFile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1; }
