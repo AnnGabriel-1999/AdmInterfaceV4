@@ -45,26 +45,6 @@ function hideMe(elemToHide) {
     $(elemToHide).css("display", "none");
 }
 
-// function addTag(event, targetInput, inputBox) {
-//     var key_press = (event.keyCode ? event.keyCode : event.which);
-//     if (key_press == 13) {
-//         alert('Enter is pressed!');
-//         var iBox = document.getElementById(inputBox);
-//         var tagEntered = document.createTextNode(iBox.value);
-//         var tagContainer = document.createElement('span');
-//         tagContainer.setAttribute('class', 'tag');
-//         tagContainer.appendChild(tagEntered);
-//         var tagClose = document.createElement('span');
-//         tagClose.setAttribute('class', 'tagClose');
-//         tagClose.addEventListener('click', function(){
-//             document.getElementById(targetInput).removeChild
-//         });
-//         tagContainer.appendChild(tagClose);
-//         document.getElementById(targetInput).insertBefore(tagContainer, iBox);
-//         iBox.value = "";
-//     }
-// }
-
 let tags = [];
 
 function addTag(event, el){
@@ -74,40 +54,30 @@ function addTag(event, el){
         mainInput = document.getElementById('addQ-main-input'),
         tagsInput = document.getElementsByClassName('tags-input')[0];     
 
-    // hiddenInput.setAttribute('type', 'hidden');
-    // hiddenInput.setAttribute('name', el.getAttribute('data-name'));
-
-    // mainInput.setAttribute('type', 'text');
-    // mainInput.classList.add('main-input');
-    // mainInput.addEventListener('input', function(){
-        if (key_press == 13) {
-            let tag = {
-                text : mainInput.value,
-                element : document.createElement('span'),
-            }
-    
-            tag.element.classList.add('tag');
-            tag.element.textContent = tag.text;
-    
-            let closeBtn = document.createElement('span');
-            closeBtn.classList.add('tagClose');
-            closeBtn.addEventListener('click', function(){
-                removeTag(tags.indexOf(tag));
-            });
-            tag.element.appendChild(closeBtn);
-    
-            tags.push(tag);
-    
-            tagsInput.insertBefore(tag.element, mainInput);
-
-            mainInput.value = "";
-    
-            refreshTags();
+    if (key_press == 13) {
+        let tag = {
+            text : mainInput.value,
+            element : document.createElement('span'),
         }
-    // });
 
-    // el.appendChild(mainInput);
-    // el.appendChild(hiddenInput);
+        tag.element.classList.add('tag');
+        tag.element.textContent = tag.text;
+
+        let closeBtn = document.createElement('span');
+        closeBtn.classList.add('tagClose');
+        closeBtn.addEventListener('click', function(){
+            removeTag(tags.indexOf(tag));
+        });
+        tag.element.appendChild(closeBtn);
+
+        tags.push(tag);
+
+        tagsInput.insertBefore(tag.element, mainInput);
+
+        mainInput.value = "";
+
+        refreshTags();
+    }
 
     function removeTag(index) {
         let tag = tags[index];

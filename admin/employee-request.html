@@ -82,10 +82,19 @@
 
             <div class="container-fluid h-100 bg-white">
                 <div class="row d-flex align-items-center h-100">
-                    <div class="col-md-3 mx-auto">
+                    <div class="col-md-4 mx-auto">
                         <div class="card p-4">
                             <div class="card-body text-center">
-                                <h4 class="">Enter your Employee ID</h4>
+
+                                <!-- Alert -->
+                                <div class="alert alert-danger alert-dismissible fade show">
+                                    Error here
+                                    <button type="button" class="close">
+                                        <span>&times;</span>
+                                    </button>
+                                </div>
+
+                                <h4>Enter your Employee ID</h4>
                                 <div class="form-group m-1">
                                     <input type="text" class="form-control" placeholder="Employee ID">
                                 </div>
@@ -97,6 +106,10 @@
                                 </div>
                                 <div class="form-group m-1">
                                     <input type="text" class="form-control" placeholder="Last Name">
+                                </div>
+                                <div class="form-group position-relative">
+                                    <textarea class="form-control" id="text_desc" placeholder="Message" rows="3" onfocus="showTxtRemaining('#text_desc', '#text_feedback-desc', 250);" onblur="hideMe('#text_feedback-desc');" required></textarea>
+                                    <div class="text-remaining-indicator align-self-center" id="text_feedback-desc"></div>
                                 </div>
                                 <div class="form-group m-0">
                                     <button class="btn btn-qznprimary btn-block my-2" type="button">Request</button>
