@@ -107,6 +107,10 @@
                                 <div class="form-group m-1">
                                     <input type="text" class="form-control" placeholder="Last Name">
                                 </div>
+                                <div class="form-group position-relative">
+                                    <textarea class="form-control" id="text_desc" placeholder="Message" rows="3" onfocus="showTxtRemaining('#text_desc', '#text_feedback-desc', 250);" onblur="hideMe('#text_feedback-desc');" required></textarea>
+                                    <div class="text-remaining-indicator align-self-center" id="text_feedback-desc"></div>
+                                </div>
                                 <div class="form-group m-0">
                                     <button class="btn btn-qznprimary btn-block my-2" type="button">Request</button>
                                 </div>
