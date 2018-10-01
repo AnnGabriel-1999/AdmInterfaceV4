@@ -503,7 +503,7 @@ theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 });
 
 
-theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams,$location){
+theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$location){
 
    $scope.quizTitle = 'MyQuizzenNo.0';
    getLink = "/restAPI/api/quizzes/read_quiz.php?admin_id="+ localStorage.getItem('user_id');
@@ -571,12 +571,12 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams,$loc
 
 	};
      $scope.user = {
-                    quizDesc: {
-                         required: true,
-                         minlength: 10,
-                         maxlength: 250
-                    }
-               }
+		quizDesc: {
+				required: true,
+				minlength: 10,
+				maxlength: 250
+		}
+	}
 });
 
 theApp.controller('partsCtrlr', function($scope,$http,$route, $routeParams){
@@ -715,6 +715,10 @@ $scope.updateMultiple = function(QuestionID, question, answer,a,b,c,d) {
 			console.log(response);
 		});
 	   };
+
+	$scope.printAnwerKey = function(){
+		window.open('../../../restAPI/api/Hosts/printPDF.php?id='+$routeParams.quiz_id);
+	}
 });
 
 theApp.controller('createQuizCtrlr', function($scope,$http,$location){
@@ -896,7 +900,7 @@ theApp.controller('guessCtrlr', function($scope,$http,sessionService,$routeParam
 			alert("Question Successfully Added!");
 		}else{
 			$scope.error = response.data;
-            console.log(response.data);
+	        console.log(response.data);
 		}
 	}).catch(function(response){
 		console.log(response);
