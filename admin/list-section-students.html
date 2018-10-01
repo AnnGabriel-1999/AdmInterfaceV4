@@ -1,159 +1,156 @@
-<body ng-app="theApp" ng-controller="listSecCtrlr">
-    <!--    MODAL    -->
-    <!-- New Student Modal -->
-    <div class="modal fade" id="newStudent-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header border-bottom-0">
-                    <h4 id="modalTitle" class="modal-title text-qznprimary">New Section</h4>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
 
-                <div class="modal-body">
-                    <form name="myForm">
-                        <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
-                            {{error.error}}
-                            <button type="button" class="close" data-dismiss="alert" ng-click="error = null">
-                                <span>&times;</span>
-                            </button>
-                        </div>
+<!--    MODAL    -->
+<!-- New Student Modal -->
+<div class="modal fade" id="newStudent-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h4 id="modalTitle" class="modal-title text-qznprimary">New Section</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
 
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="far fa-id-badge"></i></span>
-                            </div>
-                            <input type="number" class="form-control" placeholder="Student ID" ng-model="studid" required>
-                        </div>
+            <div class="modal-body">
+                <form name="myForm">
+                    <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                        {{error.error}}
+                        <button type="button" class="close" data-dismiss="alert" ng-click="error = null">
+                            <span>&times;</span>
+                        </button>
+                    </div>
 
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-sitemap"></i></span>
-                            </div>
-                            <select class="custom-select" ng-options="c.course_id as c.course for c in replyCourses" ng-model="courseId" required>
-                                    <option disabled hidden value="">Course</option>
-                            </select>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="far fa-id-badge"></i></span>
                         </div>
+                        <input type="number" class="form-control" placeholder="Student ID" ng-model="studid" required>
+                    </div>
 
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-sitemap"></i></span>
-                            </div>
-                            <select active class="custom-select" ng-change="soHot()" ng-options="s.section_id as s.section for s in replySections
-                            | filter:{course_id:courseId}" ng-model="sectionId" ng-disabled="!courseId" required>
-                                <option disabled hidden value="">Section</option>
-                            </select>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-sitemap"></i></span>
                         </div>
+                        <select class="custom-select" ng-options="c.course_id as c.course for c in replyCourses" ng-model="courseId" required>
+                                <option disabled hidden value="">Course</option>
+                        </select>
+                    </div>
 
-                        <div class="input-group mb-3 position-relative">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="far fa-user-circle"></i></span>
-                            </div>
-                            <input type="text" class="form-control" id="text_fname" placeholder="First Name" ng-model="fname" onfocus="showTxtRemaining('#text_fname', '#text_feedback-fname', 90);" onblur="hideMe('#text_feedback-fname');" required>
-                            <div class="text-remaining-indicator align-self-center" id="text_feedback-fname"></div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-sitemap"></i></span>
                         </div>
+                        <select active class="custom-select" ng-change="soHot()" ng-options="s.section_id as s.section for s in replySections
+                        | filter:{course_id:courseId}" ng-model="sectionId" ng-disabled="!courseId" required>
+                            <option disabled hidden value="">Section</option>
+                        </select>
+                    </div>
 
-                        <div class="input-group mb-3 position-relative">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="far fa-user-circle"></i></span>
-                            </div>
-                            <input type="text" class="form-control" id="text_mname" placeholder="Middle Name"  onfocus="showTxtRemaining('#text_mname', '#text_feedback-mname', 90);" onblur="hideMe('#text_feedback-mname');" ng-model="mname" required>
-                            <div class="text-remaining-indicator align-self-center" id="text_feedback-mname"></div>
+                    <div class="input-group mb-3 position-relative">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="far fa-user-circle"></i></span>
                         </div>
+                        <input type="text" class="form-control" id="text_fname" placeholder="First Name" ng-model="fname" onfocus="showTxtRemaining('#text_fname', '#text_feedback-fname', 90);" onblur="hideMe('#text_feedback-fname');" required>
+                        <div class="text-remaining-indicator align-self-center" id="text_feedback-fname"></div>
+                    </div>
 
-                        <div class="input-group mb-3 position-relative">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="far fa-user-circle"></i></span>
-                            </div>
-                            <input type="text" class="form-control" placeholder="Last Name" onfocus="showTxtRemaining('#text_lname', '#text_feedback-lname', 90);" onblur="hideMe('#text_feedback-lname');" ng-model="lname" required>
-                            <div class="text-remaining-indicator align-self-center" id="text_feedback-lname"></div>
+                    <div class="input-group mb-3 position-relative">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="far fa-user-circle"></i></span>
                         </div>
+                        <input type="text" class="form-control" id="text_mname" placeholder="Middle Name"  onfocus="showTxtRemaining('#text_mname', '#text_feedback-mname', 90);" onblur="hideMe('#text_feedback-mname');" ng-model="mname" required>
+                        <div class="text-remaining-indicator align-self-center" id="text_feedback-mname"></div>
+                    </div>
 
-                        <div class="forn-group">
-                            <input type="button" class="btn btn-outline-primary btn-block" value="Add Student" ng-disabled="myForm.$invalid" ng-click="addStudent()">
+                    <div class="input-group mb-3 position-relative">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="far fa-user-circle"></i></span>
                         </div>
-                    </form>
-                </div>
+                        <input type="text" class="form-control" placeholder="Last Name" onfocus="showTxtRemaining('#text_lname', '#text_feedback-lname', 90);" onblur="hideMe('#text_feedback-lname');" ng-model="lname" required>
+                        <div class="text-remaining-indicator align-self-center" id="text_feedback-lname"></div>
+                    </div>
+
+                    <div class="forn-group">
+                        <input type="button" class="btn btn-outline-primary btn-block" value="Add Student" ng-disabled="myForm.$invalid" ng-click="addStudent()">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <div id="wrapper">
-        <!-- Page content -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid p-0">
-                <div class="row no-gutters">
-                    <div class="col-md-12 pt-5" style="padding: 6rem; padding-bottom: 3rem;">
-                        <div class="row">
-                            <div class="col-md-9">
-                                <span class="h1">BSIT 3C-G1</span>
-                            </div>
+<!-- Page content -->
+<div id="page-content-wrapper">
+    <div class="container-fluid p-0 h-100">
+        <!-- <div class="row no-gutters"> -->
+            <div class="col-md-12 pt-7" style="padding: 6rem; padding-bottom: 3rem;">
+                <div class="row">
+                    <div class="col-md-9">
+                        <span class="h1">BSIT 3C-G1</span>
+                    </div>
 
-                            <div class="col-md-3 py-1">
-                                <button id="addStudent" class="btn btn-qznprimary float-right" data-toggle="modal" data-target="#newStudent-modal" ng-click="getData()">
-                                    <i class="far fa-plus-square"></i>
-                                    Add Student
-                                </button>
-                            </div>
+                    <div class="col-md-3 py-1">
+                        <button id="addStudent" class="btn btn-qznprimary float-right" data-toggle="modal" data-target="#newStudent-modal" ng-click="getData()">
+                            <i class="far fa-plus-square"></i>
+                            Add Student
+                        </button>
+                    </div>
 
-                            <nav class="col-md-12">
-                                <ol class="breadcrumb px-0">
-                                    <li class="breadcrumb-item">
-                                        <a href="#">Home</a>
-                                    </li>
-                                    <li class="breadcrumb-item active">
-                                        BSIT 3C-G1
-                                    </li>
-                                </ol>
-                            </nav>
-                        </div>
+                    <nav class="col-md-12">
+                        <ol class="breadcrumb px-0">
+                            <li class="breadcrumb-item">
+                                <a href="#">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                BSIT 3C-G1
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
 
-                        <div class="row">
-                            <div class="col-md-3 px-1">
-                                <div ng-repeat="x in students" class="card student-cards">
-                                    <div class="card-body">
-                                        <div class="student-img-container">
-                                            <img src="images/marianne.jpg" alt="Marianne De Asis">
-                                        </div>
-                                        <div class="student-info">
-                                            <h4 class="mb-0">{{x.fname + x.mname + x.lname}}</h4>
-                                            <p class="text-secondary mb-1">{{x.student_id}}</p>
-                                            <div class="student-status student-{{x.status}}">{{x.status}}</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card-footer bg-white p-3 border-top-0">
-                                        <a ng-href="#!/viewstudent"><button type="button" class="btn btn-qznprimary btn-block">MORE INFO</button></a>
-                                    </div>
+                <div class="row">
+                    <div class="col-md-3 px-1">
+                        <div ng-repeat="x in students" class="card student-cards">
+                            <div class="card-body">
+                                <div class="student-img-container">
+                                    <img src="images/marianne.jpg" alt="Marianne De Asis">
+                                </div>
+                                <div class="student-info">
+                                    <h4 class="mb-0">{{x.fname + x.mname + x.lname}}</h4>
+                                    <p class="text-secondary mb-1">{{x.student_id}}</p>
+                                    <div class="student-status student-{{x.status}}">{{x.status}}</div>
                                 </div>
                             </div>
+
+                            <div class="card-footer bg-white p-3 border-top-0">
+                                <a ng-href="#!/viewstudent"><button type="button" class="btn btn-qznprimary btn-block">MORE INFO</button></a>
+                            </div>
                         </div>
-
-                        <!-- Pagination -->
-                        <nav>
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled">
-                                    <span class="page-link">Previous</span>
-                                </li>
-                                <li class="page-item active">
-                                    <span class="page-link">1</span>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
-
                     </div>
                 </div>
+
+                <!-- Pagination -->
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <span class="page-link">Previous</span>
+                        </li>
+                        <li class="page-item active">
+                            <span class="page-link">1</span>
+                        </li>
+                        <li class="page-item">
+                            <a href="#" class="page-link">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a href="#" class="page-link">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a href="#" class="page-link">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+
             </div>
-        </div>
+        <!-- </div> -->
     </div>
-</body>
+</div>
