@@ -47,7 +47,7 @@ theApp.config(['$routeProvider', function($routeProvider) {
 			templateUrl: 'howm.html',
             controller: 'viewQuizzesCtrlr'
 		})
-        .when('/signup', {
+        .when('/signup/:mnemonic', {
 					resolve:{
 							 "check": function($location,$localStorage){
 									 if ($localStorage.loggedIn){
@@ -202,7 +202,33 @@ theApp.config(['$routeProvider', function($routeProvider) {
 					 },
             templateUrl:'guess_word.html',
             controller: 'guessCtrlr'
-        }).when('/logout', {
+		})
+		
+		.when('/empCheck', {
+			resolve:{
+					 "check": function($location,$localStorage){
+							 if ($localStorage.loggedIn){
+									 $location.path("/myquizzen");
+							 }
+					  }
+			 },
+			templateUrl: 'employee-check.html',
+			controller: 'empIDChecker'
+		})
+
+		.when('/adminRequest', {
+			resolve:{
+				"check": function($location,$localStorage){
+						if ($localStorage.loggedIn){
+								$location.path("/myquizzen");
+						}
+				 }
+			},
+			templateUrl: 'employee-request.html',
+			controller: 'empRequest'
+		})
+		
+		.when('/logout', {
 						resolve:{
 								 "check": function($location,$localStorage){
 										 if (!$localStorage.loggedIn){
@@ -247,15 +273,20 @@ theApp.config(['$routeProvider', function($routeProvider) {
 		};
 	}]);
 
-theApp.controller('registerCtrlr', function($scope,$http,$location){
+theApp.controller('registerCtrlr', function($scope,$http,$location, $routeParams){
+	$scope.info = $routeParams.mnemonic.split('*');
+	$scope.fname = $scope.info[0];
+	$scope.lname = $scope.info[1];
+	$scope.empID = $scope.info[2];
+	alert($scope.empID);
 	$scope.signUp = function(){
-		sendData = JSON.stringify({"fname" : $scope.firstname , "mname" : $scope.middlename , "lname" : $scope.lastname  , "password" : $scope.password1 ,  "username" : $scope.username ,  "confirm_pw" : $scope.password2, "mirror_id" : 1111112321 });
+		sendData = JSON.stringify({"mirror_id" : $scope.empID, "password" : $scope.password1 ,  "username" : $scope.username ,  "confirm_pw" : $scope.password2});
 
 		link = "/restAPI/api/Hosts/register_hosts.php";
 
 		$http.post(link,sendData).then(function(response){
 			if(response.data.success){
-				alert("yes!");
+				alert(response.data.success);
 				$location.path('/login');
 			}else{
 				$scope.error = response.data;
@@ -847,7 +878,7 @@ theApp.controller('multipleCtrlr', function($scope,$http,sessionService,$routePa
 
 theApp.controller('addCtrlr', function($scope,$http,sessionService,$routeParams){
 	$scope.addQuestion = function(){
-		alert($routeParams.part_id);
+	alert($routeParams.part_id);
    	sendData = JSON.stringify({"quiz_id" : $routeParams.quiz_id ,"part_id" : $routeParams.part_id , "question" : $scope.question , "correct" : $scope.answer });
 	link = "/restAPI/api/Quizzes/true_or_false.php";
     	$http.post(link,sendData).then(function(response){
@@ -951,5 +982,55 @@ theApp.controller('CSVSTUDENTS', function($scope,$http){
 			console.log('asdasd');
 		});
 
+	}
+});
+
+theApp.controller('empIDChecker' , function($scope, $http, $location){
+	$scope.checkID = function(){
+		sendData = JSON.stringify({"empID": $scope.empID});
+		link = "/restAPI/api/Homestead/empIDChecker.php";
+		$http.post(link, sendData).then(function(response){
+			if(!response.data.error){
+				if(response.data.empData[0].status == "true"){
+					alert("This employee id is already used!!");
+				}else{
+					$scope.fname = response.data.empData[0].fname;
+					$scope.lname = response.data.empData[0].lname;
+					$scope.empID = response.data.empData[0].id;
+					alert($scope.empID);
+					console.log(response.data);
+					$location.path('/signup/'+o$scope.fname+'*'+$scope.lname+'*'+$scope.empID);
+				}
+			}else{
+				console.log(response.data.error);
+			}
+		}).catch(function(response){
+			console.log(response);
+		});
+	};
+});
+
+theApp.controller('empRequest', function($scope, $http){
+	$scope.openRequest = function(){
+		if($scope.message == ""){
+			$scope.message = null;
+		}
+
+		if($scope.mname == ""){
+			$scope.mname = null;
+		}
+		sendData = JSON.stringify({"empID" : $scope.empID, "fname" : $scope.fname, "mname" : $scope.mname, "lname" : $scope.lname, "message" : $scope.message});
+		link = "/restAPI/api/homestead/request-homestead.php";
+		$http.post(link, sendData).then(function(response){
+			if(response.data.success){
+				alert("request created");
+			}else if (response.data.message){
+				alert("this is already in our database");
+			}else{
+				alert("tangina mo ka");
+			}
+		}).catch(function(response){
+			console.log(response);
+		});
 	}
 });
