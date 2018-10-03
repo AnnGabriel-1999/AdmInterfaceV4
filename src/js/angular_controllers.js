@@ -1012,13 +1012,18 @@ theApp.controller('empIDChecker' , function($scope, $http, $location){
 
 theApp.controller('empRequest', function($scope, $http){
 	$scope.openRequest = function(){
-		if($scope.message == ""){
+		
+		if($scope.message == undefined){
 			$scope.message = null;
 		}
 
-		if($scope.mname == ""){
+		if($scope.mname == undefined){
 			$scope.mname = null;
 		}
+
+		alert($scope.message);
+		alert($scope.mname);
+
 		sendData = JSON.stringify({"empID" : $scope.empID, "fname" : $scope.fname, "mname" : $scope.mname, "lname" : $scope.lname, "message" : $scope.message});
 		link = "/restAPI/api/homestead/request-homestead.php";
 		$http.post(link, sendData).then(function(response){
