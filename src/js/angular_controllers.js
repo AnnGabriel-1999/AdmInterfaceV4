@@ -999,7 +999,7 @@ theApp.controller('empIDChecker' , function($scope, $http, $location){
 					$scope.empID = response.data.empData[0].id;
 					alert($scope.empID);
 					console.log(response.data);
-					$location.path('/signup/'+o$scope.fname+'*'+$scope.lname+'*'+$scope.empID);
+					$location.path('/signup/'+$scope.fname+'*'+$scope.lname+'*'+$scope.empID);
 				}
 			}else{
 				console.log(response.data.error);
