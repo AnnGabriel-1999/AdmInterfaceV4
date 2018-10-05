@@ -1,25 +1,27 @@
 <!-- Modal -->
 <!-- Import from CSV modal -->
-<div class="modal fade" id="importCSV-modal" tabindex="-1" role="dialog">
+<div class="modal fade" id="importCSV-modal" tabindex="-1" role="dialog" >
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header border-bottom-0">
                 <h4 class="modal-title text-qznprimary">Import from CSV</h4>
                 <button type="button" class="close" data-dismiss="modal">
-                    <span>&times;</span>
+                    <span ng-click="clearResponse()">&times;</span>
                 </button>
             </div>
             <div class="modal-body text-center">
-                <p><a href="#">Download our CSV template</a></p>
+                <b style="color: red;">{{csverror.error}}</b>
+                <b style="color: green;">{{csvsuccess.success}}</b>
+                <p><a href="../src/assets/csvformats/QuizzenMultipleChoiceFormat.csv" download>Download our CSV Template</a></p>
                 <p>or</p>
                 <p class="m-0">                    
-                    <input type="file" id="file" class="hiddenFile">
-                    <label for="file" class="btn btn-primary">Choose a file</label>
-                </p>                
+                    <input type="file" id="file" class="hiddenFile" file-input="files">
+                    <label for="file" class="btn btn-primary" ng-click="clearResponse()">Choose a file</label>
+                </p>                 
             </div>
             <div class="modal-footer border-top-0">
                 <p class="text-secondary m-0 px-3">Cancel</p>
-                <button type="button" class="btn btn-primary">Upload</button>
+                <button type="button" class="btn btn-primary" ng-click="uploadCSV()">Upload</button>
             </div>
         </div>
     </div>

@@ -95,7 +95,6 @@
     </div>
 
     <!-- MODAL TRUE OR FALSE -->
-    <!-- NOT USED? -->
     <div class="modal fade" id="multipleChoicemodal_2" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -121,7 +120,7 @@
                 <div class="modal-footer border-top-0">
                     <p class="text-right">
                         <a href="#" class="card-link text-qzndanger" data-dismiss="modal">Cancel</a>
-                        <a ng-click="updateQuestion(QuestionID, QuizID, PartID, question, answer)" class="card-link text-qznprimary">Save</a>
+                        <a ng-click="updateTrueorFalse(QuestionID, QuizID, PartID, question, answer)" class="card-link text-qznprimary">Save</a>
                     </p>
                 </div>
             </div>
@@ -129,8 +128,7 @@
     </div>
 
     <!-- MODAL FOR GUESS WORD -->
-    <!-- NOT USED? -->
-    <div class="modal fade" id="multipleChoicemodal_2" tabindex="-1" role="dialog">
+    <div class="modal fade" id="multipleChoicemodal_4" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header border-bottom-0">
@@ -155,7 +153,7 @@
                 <div class="modal-footer border-top-0">
                     <p class="text-right">
                         <a href="#" class="card-link text-qzndanger" data-dismiss="modal">Cancel</a>
-                        <a ng-click="updateQuestion(QuestionID, QuizID, PartID, question, answer)" class="card-link text-qznprimary">Save</a>
+                        <a ng-click="updateGuessWord(QuestionID, QuizID, PartID, question, answer)" class="card-link text-qznprimary">Save</a>
                     </p>
                 </div>
             </div>
@@ -163,7 +161,6 @@
     </div>
 
     <!--UPDATE FOR MULTIPLE CHOICE-->
-    <!-- NOT USED? -->
     <div class="modal fade" id="multipleChoicemodal_1" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -218,13 +215,13 @@
                         <span class="h1">Segments</span>
                     </div>
 
-                    <div class="col-md-3 py-1">
-                        <a id="addStudent" class="btn btn-qznprimary text-white float-right" data-toggle="modal"
-                            data-target="#newPart-modal" role="button">
-                            <i class="far fa-plus-square"></i>
-                            New Part
-                        </a>
-                    </div>
+                        <div class="col-md-3 py-1">
+                            <a id="addStudent" class="btn btn-qznprimary text-white float-right" data-toggle="modal" data-target="#newPart-modal" role="button">
+                                <i class="far fa-plus-square"></i>
+                                New Part
+                            </a>
+                            <p><button ng-click='printAnwerKey()'>Print Answer Key</button></p>
+                        </div>
 
                     <nav class="col-md-12">
                         <ol class="breadcrumb px-0">
@@ -233,10 +230,14 @@
                             </li>
                             <li class="breadcrumb-item active">
                                 {{quizTitle}}
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
+
+                                </li>
+                            </ol>
+                        </nav>
+                         <nav class="col-md-12">
+                            {{description}}
+                        </nav>
+                    </div>
 
                 <ul class="nav nav-tabs" id="myTab">
                     <li class="nav-item">

@@ -47,7 +47,7 @@ theApp.config(['$routeProvider', function($routeProvider) {
 			templateUrl: 'howm.html',
             controller: 'viewQuizzesCtrlr'
 		})
-        .when('/signup', {
+        .when('/signup/:mnemonic', {
 					resolve:{
 							 "check": function($location,$localStorage){
 									 if ($localStorage.loggedIn){
@@ -186,6 +186,12 @@ theApp.config(['$routeProvider', function($routeProvider) {
                 controller: 'updateStudentCtrlr'
         })
 
+        .when('/uploadCS', {
+
+                templateUrl:'uploadCsvStudents.html',
+                controller: 'CSVSTUDENTS'
+        })
+
         .when('/checker/4/:quiz_id/:part_id', {
 					resolve:{
 							 "check": function($location,$localStorage){
@@ -196,7 +202,33 @@ theApp.config(['$routeProvider', function($routeProvider) {
 					 },
             templateUrl:'guess_word.html',
             controller: 'guessCtrlr'
-        }).when('/logout', {
+		})
+		
+		.when('/empCheck', {
+			resolve:{
+					 "check": function($location,$localStorage){
+							 if ($localStorage.loggedIn){
+									 $location.path("/myquizzen");
+							 }
+					  }
+			 },
+			templateUrl: 'employee-check.html',
+			controller: 'empIDChecker'
+		})
+
+		.when('/adminRequest', {
+			resolve:{
+				"check": function($location,$localStorage){
+						if ($localStorage.loggedIn){
+								$location.path("/myquizzen");
+						}
+				 }
+			},
+			templateUrl: 'employee-request.html',
+			controller: 'empRequest'
+		})
+		
+		.when('/logout', {
 						resolve:{
 								 "check": function($location,$localStorage){
 										 if (!$localStorage.loggedIn){
@@ -241,15 +273,20 @@ theApp.config(['$routeProvider', function($routeProvider) {
 		};
 	}]);
 
-theApp.controller('registerCtrlr', function($scope,$http,$location){
+theApp.controller('registerCtrlr', function($scope,$http,$location, $routeParams){
+	$scope.info = $routeParams.mnemonic.split('*');
+	$scope.fname = $scope.info[0];
+	$scope.lname = $scope.info[1];
+	$scope.empID = $scope.info[2];
+	alert($scope.empID);
 	$scope.signUp = function(){
-		sendData = JSON.stringify({"fname" : $scope.firstname , "mname" : $scope.middlename , "lname" : $scope.lastname  , "password" : $scope.password1 ,  "username" : $scope.username ,  "confirm_pw" : $scope.password2, "mirror_id" : 1111112321 });
+		sendData = JSON.stringify({"mirror_id" : $scope.empID, "password" : $scope.password1 ,  "username" : $scope.username ,  "confirm_pw" : $scope.password2});
 
 		link = "/restAPI/api/Hosts/register_hosts.php";
 
 		$http.post(link,sendData).then(function(response){
 			if(response.data.success){
-				alert("yes!");
+				alert(response.data.success);
 				$location.path('/login');
 			}else{
 				$scope.error = response.data;
@@ -409,6 +446,7 @@ theApp.controller('listSecCtrlr', function($scope, $http, $route, $location){
         link = '/restAPI/api/Sections/addSection.php';
         $http.post(link,sendData).then(function(response){
             alert('Section inserted.');
+            $('#sectionModalAdd').modal('show').modal('hide');
             $route.reload();
 	     }).catch(function(response){
             console.log(response);
@@ -433,14 +471,11 @@ theApp.controller('listSecCtrlr', function($scope, $http, $route, $location){
     }
 
     $scope.updateSection = function(courseID, sectionName, section_id) {
-        alert(courseID);
-        alert(sectionName);
-        alert($scope.section_id);
-        alert(localStorage.getItem('user_id'));
         sendData = JSON.stringify({"course_id": courseID, "admin_id": localStorage.getItem('user_id'), "section_id": $scope.section_id, "section": sectionName});
         link = '/restAPI/api/Sections/updateSection.php';
         $http.post(link,sendData).then(function(response){
             alert('Section updated.');
+            $('#sectionModalEdit').modal('show').modal('hide');
             $route.reload();
 	   }).catch(function(response){
             console.log(response);
@@ -457,7 +492,7 @@ theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 	$http.get(getLink).then(function(response){
 
 		if(response.data.message){
-			alert("WALA PANG STUD DITO PRE");
+			$scope.noStudents = response.data;
 		}else{
 			console.log(response.data);
 			$scope.students = response.data.data;
@@ -499,16 +534,16 @@ theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 });
 
 
-theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams,$location){
+theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$location){
 
+   $scope.quizTitle = 'MyQuizzenNo.0';
    getLink = "/restAPI/api/quizzes/read_quiz.php?admin_id="+ localStorage.getItem('user_id');
    $http.get(getLink).then(function(response){
        if(response.data.message){
 		   $scope.error = response.data.message;
-		   console.log($scope.error);
        }else{
 		$scope.quizInfo = response.data;
-
+		$scope.quizTitle = 'MyQuizzenNo.'+(response.data.length+1);
        }
    });
 
@@ -523,14 +558,12 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams,$loc
    }
 
    $scope.updateQuiz = function(quizID, quizTitle, quizDesc){
-       alert(quizID);
-        alert(quizTitle);
-        alert(quizDesc);
 		sendData = JSON.stringify({"quizID" : quizID , "quizTitle" : quizTitle , "description" : quizDesc });
 	 	link = '/restAPI/api/Quizzes/update_quiz.php';
 		$http.post(link,sendData).then(function(response){
 		 if(response.data.success){
-			 alert("GUMANA KA NAMAN NAK NG TOKWA!");
+			 alert("Quiz Updated Sucessfully!");
+             $('#editQuiz-modal').modal('show').modal('hide');
 			 $location.path('/home');
 		 }else{
 			 $scope.error = response.data;
@@ -561,14 +594,20 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams,$loc
 				$('#newQuiz-modal').modal('show').modal('hide');
 			}else{
 				$scope.error1 = response.data.message;
-				console.log($scope.error1);
+				console.log(response.data);
 			}
 		}).catch(function(response){
 			console.log(response);
 		});
 
 	};
-
+     $scope.user = {
+		quizDesc: {
+				required: true,
+				minlength: 10,
+				maxlength: 250
+		}
+	}
 });
 
 theApp.controller('partsCtrlr', function($scope,$http,$route, $routeParams){
@@ -581,6 +620,7 @@ theApp.controller('partsCtrlr', function($scope,$http,$route, $routeParams){
 		}else{
 			console.log(response.data);
 			$scope.quizTitle= response.data[0].QuizTitle;
+            $scope.description= response.data[0].Description;
 			$scope.parts = response.data;
 		}
 		$scope.set_color = function(TypeID) {
@@ -639,32 +679,35 @@ $scope.transferMultipleData = function(QuestionID,QuizID, PartID, Question, Answ
 				console.log(response);
 		});
 }
-$scope.updateQuestion = function(QuestionID, QuizID, PartID, question, answer) {
-        alert(QuizID);
-        alert(QuestionID);
-		alert(question);
-		alert(answer);
+$scope.updateTrueorFalse = function(QuestionID, QuizID, PartID, question, answer) {
 		sendData = JSON.stringify({"quizID": QuizID, "partID": PartID, "question_id": QuestionID, "new_question": question, "correct": answer});
 		link = '/restAPI/api/Quizzes/updatequestion.php';
 		$http.post(link,sendData).then(function(response){
 				alert('Question Updated Successfully.');
+                $('#multipleChoicemodal_2').modal('show').modal('hide');
+				$route.reload();
+ }).catch(function(response){
+				console.log(response);
+ });
+}
+
+$scope.updateGuessWord = function(QuestionID, QuizID, PartID, question, answer) {
+		sendData = JSON.stringify({"quizID": QuizID, "partID": PartID, "question_id": QuestionID, "new_question": question, "correct": answer});
+		link = '/restAPI/api/Quizzes/updatequestion.php';
+		$http.post(link,sendData).then(function(response){
+				alert('Question Updated Successfully.');
+                $('#multipleChoicemodal_4').modal('show').modal('hide');
 				$route.reload();
  }).catch(function(response){
 				console.log(response);
  });
 }
 $scope.updateMultiple = function(QuestionID, question, answer,a,b,c,d) {
-        alert(QuestionID);
-		alert(question);
-		alert(answer);
-    alert(a);
-		alert(b);
-    alert(c);
-		alert(d);
 		sendData = JSON.stringify({"question_id": QuestionID,"question": question, "correct": answer, "a":a,"b":b,"c":c,"d":d});
 		link = '/restAPI/api/Quizzes/updateMultiple.php';
 		$http.post(link,sendData).then(function(response){
 				alert('Question Updated Successfully.');
+            $('#multipleChoicemodal_1').modal('show').modal('hide');	
 				$route.reload();
  }).catch(function(response){
 				console.log(response);
@@ -703,6 +746,10 @@ $scope.updateMultiple = function(QuestionID, question, answer,a,b,c,d) {
 			console.log(response);
 		});
 	   };
+
+	$scope.printAnwerKey = function(){
+		window.open('../../../restAPI/api/Hosts/printPDF.php?id='+$routeParams.quiz_id);
+	}
 });
 
 theApp.controller('createQuizCtrlr', function($scope,$http,$location){
@@ -799,11 +846,39 @@ theApp.controller('multipleCtrlr', function($scope,$http,sessionService,$routePa
 	});
 
    };
+
+	$scope.uploadCSV = function(){
+		var fd = new FormData();
+		fd.append('multiple',$scope.files[0]);
+		fd.append('quiz_id',$routeParams.quiz_id);
+		fd.append('part_id',$routeParams.part_id);
+
+		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
+			transfromRequest:angular.identity,
+			headers:{'Content-Type':undefined}
+		}).then(function(response){
+			if(response.data.error){
+				$scope.clearResponse();
+				$scope.csverror = response.data;
+			}else{
+				$scope.clearResponse();
+				$scope.csvsuccess = response.data;
+			}
+		}).catch(function(response){
+			console.log(response.data);
+		});
+	};
+
+	$scope.clearResponse = function(){
+   		$scope.csverror = null;
+   		$scope.csvsuccess = null;
+   }
+
 });
 
 theApp.controller('addCtrlr', function($scope,$http,sessionService,$routeParams){
 	$scope.addQuestion = function(){
-		alert($routeParams.part_id);
+	alert($routeParams.part_id);
    	sendData = JSON.stringify({"quiz_id" : $routeParams.quiz_id ,"part_id" : $routeParams.part_id , "question" : $scope.question , "correct" : $scope.answer });
 	link = "/restAPI/api/Quizzes/true_or_false.php";
     	$http.post(link,sendData).then(function(response){
@@ -818,6 +893,33 @@ theApp.controller('addCtrlr', function($scope,$http,sessionService,$routeParams)
 	});
 
    };
+
+   	$scope.uploadCSV = function(){
+		var fd = new FormData();
+		fd.append('TorF',$scope.files[0]);
+		fd.append('quiz_id',$routeParams.quiz_id);
+		fd.append('part_id',$routeParams.part_id);
+
+		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
+			transfromRequest:angular.identity,
+			headers:{'Content-Type':undefined}
+		}).then(function(response){
+			$scope.clearResponse();
+			if(response.data.error){	
+				$scope.csverror = response.data;
+			}else{
+				$scope.csvsuccess = response.data;
+			}
+		}).catch(function(response){
+			console.log(response.data);
+		});
+	};
+
+	$scope.clearResponse = function(){
+   		$scope.csverror = null;
+   		$scope.csvsuccess = null;
+   }
+
 });
 
 theApp.controller('guessCtrlr', function($scope,$http,sessionService,$routeParams){
@@ -829,11 +931,111 @@ theApp.controller('guessCtrlr', function($scope,$http,sessionService,$routeParam
 			alert("Question Successfully Added!");
 		}else{
 			$scope.error = response.data;
-            console.log(response.data);
+	        console.log(response.data);
 		}
 	}).catch(function(response){
 		console.log(response);
 	});
 
    };
+
+   $scope.uploadCSV = function(){
+   		var fd = new FormData();
+		fd.append('GTW',$scope.files[0]);
+		fd.append('quiz_id',$routeParams.quiz_id);
+		fd.append('part_id',$routeParams.part_id);
+
+		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
+			transfromRequest:angular.identity,
+			headers:{'Content-Type':undefined}
+		}).then(function(response){
+			$scope.clearResponse();
+			if(response.data.error){
+				$scope.csverror = response.data;
+			}else{
+				$scope.csvsuccess = response.data;
+			}
+		}).catch(function(response){
+			console.log(response.data);
+		});
+   };
+
+   $scope.clearResponse = function(){
+   		$scope.csverror = null;
+   		$scope.csvsuccess = null;
+   }
+
+});
+
+theApp.controller('CSVSTUDENTS', function($scope,$http){
+	$scope.uploadCS = function(){
+		var fd = new FormData();
+		fd.append('students',$scope.files[0]);
+
+		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
+			transfromRequest:angular.identity,
+			headers:{'Content-Type':undefined}
+		}).then(function(response){
+			console.log(response.data);
+		}).catch(function(response){
+			console.log(response.data);
+			console.log('asdasd');
+		});
+
+	}
+});
+
+theApp.controller('empIDChecker' , function($scope, $http, $location){
+	$scope.checkID = function(){
+		sendData = JSON.stringify({"empID": $scope.empID});
+		link = "/restAPI/api/Homestead/empIDChecker.php";
+		$http.post(link, sendData).then(function(response){
+			if(!response.data.error){
+				if(response.data.empData[0].status == "true"){
+					alert("This employee id is already used!!");
+				}else{
+					$scope.fname = response.data.empData[0].fname;
+					$scope.lname = response.data.empData[0].lname;
+					$scope.empID = response.data.empData[0].id;
+					alert($scope.empID);
+					console.log(response.data);
+					$location.path('/signup/'+$scope.fname+'*'+$scope.lname+'*'+$scope.empID);
+				}
+			}else{
+				console.log(response.data.error);
+			}
+		}).catch(function(response){
+			console.log(response);
+		});
+	};
+});
+
+theApp.controller('empRequest', function($scope, $http){
+	$scope.openRequest = function(){
+		
+		if($scope.message == undefined){
+			$scope.message = null;
+		}
+
+		if($scope.mname == undefined){
+			$scope.mname = null;
+		}
+
+		alert($scope.message);
+		alert($scope.mname);
+
+		sendData = JSON.stringify({"empID" : $scope.empID, "fname" : $scope.fname, "mname" : $scope.mname, "lname" : $scope.lname, "message" : $scope.message});
+		link = "/restAPI/api/homestead/request-homestead.php";
+		$http.post(link, sendData).then(function(response){
+			if(response.data.success){
+				alert("request created");
+			}else if (response.data.message){
+				alert("this is already in our database");
+			}else{
+				alert("tangina mo ka");
+			}
+		}).catch(function(response){
+			console.log(response);
+		});
+	}
 });
