@@ -119,7 +119,7 @@ theApp.config(['$routeProvider', function($routeProvider) {
         	controller: 'quizParts'
 		})
         
-        .when('/published/:quiz_id/Classic', {
+        .when('/published/:quiz_id/Segment', {
 			resolve:{
 					 "check": function($location,$localStorage){
 							 if (!$localStorage.loggedIn){
@@ -143,7 +143,7 @@ theApp.config(['$routeProvider', function($routeProvider) {
 				controller: 'readOnlyCtrlr'
 		})
     
-		.when('/viewparts/:quiz_id/Classic', {
+		.when('/viewparts/:quiz_id/Segment', {
 			resolve:{
 					 "check": function($location,$localStorage){
 							 if (!$localStorage.loggedIn){
