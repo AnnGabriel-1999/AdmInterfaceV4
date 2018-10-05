@@ -1,12 +1,3 @@
-<style>
-.ng-dirty.ng-invalid {
-     border-color: red !important;
-}
-span {
-     color: red;
-     font-size: 15px;
-}
-</style>
 <!-- New Quiz Modal -->
 <div class="modal fade" id="newQuiz-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
@@ -43,14 +34,22 @@ span {
                             <input type="text" class="form-control main-input d-inline-block w-50" id="addQ-main-input" onkeypress="addTag(event, this);">
                         </div>                        
                     </div>
-                    <div class="btn-group btn-group-toggle mx-auto my-2" data-toggle="buttons">
+                   
+                    <label class="btn btn-secondary opt-quizMode active">
+                    <input id="opt-freeflow" type="radio" name= "quizMode" autocomplete="off" ng-model="type" ng-value="'Freeflow'"> Freeflow
+                     </label>
+                     <label class="btn btn-secondary opt-quizMode">
+                     <input id="opt-segments" type="radio" name= "quizMode" autocomplete="off" ng-model="type" ng-value="'Classic'" selected> Segments
+                     </label>
+                    
+                   <!-- <div class="btn-group btn-group-toggle mx-auto my-2" data-toggle="buttons">
                         <label class="btn btn-secondary opt-quizMode active">
                             <input type="radio" name="quizMode" id="opt-freeflow" autocomplete="off" selected> Freeflow
                         </label>
                         <label class="btn btn-secondary opt-quizMode">
                             <input type="radio" name="quizMode" id="opt-segments" autocomplete="off"> Segments
-                        </label>
-                    </div>
+                    </label>
+                    </div>-->
                     <div class="form-group" id="freeflowOptions">
                         <select class="custom-select mb-3" ng-model="typeName" required>
                             <option disabled hidden value="">Question Types</option>
@@ -64,8 +63,8 @@ span {
                             <div class="text-remaining-indicator align-self-center" id="text_feedback-duration"></div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary btn-block" ng-disabled="form.$invalid" type="button" ng-click="addNewQuiz()">
+                     <div class="form-group">
+                        <button class="btn btn-primary btn-block" type="button" ng-click="addNewQuiz(MaxID)">
                             <i class="fas fa-plus"></i> Add New Quiz
                         </button>
                     </div>
@@ -117,23 +116,24 @@ span {
 </div>
 
 <!-- Page content -->
+
 <div id="page-content-wrapper">
-    <div class="container-fluid p-0 h-100">
+    <div  class="container-fluid p-0 h-100">
         <!-- <div class="row no-gutters"> -->
             <div class="col-md-12 pt-7 h-100" style="padding: 6rem; padding-bottom: 3rem;">
                 <div class="row" ng-show="!error">
                     <div class="col-md-9">
                         <span class="h1">My Quizzen</span>
                     </div>
-
+                    
                     <div class="col-md-3 py-1">
-                        <button id="addStudent" class="btn btn-qznprimary float-right" data-toggle="modal"
+                        <button ng-click="getQuizID(quizInfo[0].MaxID)" id="addStudent" class="btn btn-qznprimary float-right" data-toggle="modal"
                             data-target="#newQuiz-modal">
                             <i class="far fa-plus-square"></i>
                             Add Quiz
                         </button>
                     </div>
-
+               
                     <nav class="col-md-12">
                         <ol class="breadcrumb p-0">
                             <li class="breadcrumb-item">
@@ -220,8 +220,10 @@ span {
                                     <img ng-src="{{info.filepath}}" style="min-height: 9.75rem; max-height: 9.75rem; width: 14.625rem; background-size: cover;" alt="Marianne">
                                 </div>
                                 <div class="quizlist-info flex-grow-1 px-3">
-                                    <a ng-href="#!/viewparts/{{info.quizID}}"><h5>{{info.quizTitle}}</h5></a>
+                                    <a ng-href="#!/viewparts/{{info.quizID}}/{{info.part_type}}"><h5>{{info.quizTitle}}</h5></a>
                                     <p class="text-secondary">{{info.date_created}}</p>
+                                    <p class="text-secondary">{{info.part_type}}</p>
+                                    <a ng-href="#!/published/{{info.quizID}}/{{info.part_type}}"><h7>PUBLISHED</h7></a>
                                 </div>
                                 <div class="quizlist-options align-self-center">
                                     <ul class="nav nav-justified quiz-options">
@@ -274,20 +276,18 @@ span {
                 </nav>
                 
             </div>
-
+           </div> 
             <!-- Error Message -->
             <div class="row d-flex align-items-center h-100" ng-show="error">
                 <div class="col-12 text-center">
                     <img src="images/thinking.png" class="img-reponsive">
                     <h3>No quiz created.</h3>
                     <p>
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#newQuiz-modal">
+                        <button ng-click="getQuizID(quizInfo[0].MaxID)" class="btn btn-primary" data-toggle="modal" data-target="#newQuiz-modal">
                             <i class="far fa-plus-square"></i>
                             Create now
                         </button>
                     </p>
-                </div>
-            </div>  
-        </div>
+                </div> 
     </div> <!-- End container-fluid -->
 </div> <!-- End page-content-wrapper -->

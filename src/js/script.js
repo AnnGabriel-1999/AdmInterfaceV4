@@ -14,19 +14,24 @@ $(document).ready(function(){
     });
 
     // Quiz Mode option
-    $('.opt-quizMode:first-child').click(function(){
-        $('#opt-segments').removeAttr("selected");
-        $('#opt-freeflow').attr("selected", "selected");
+    $('#opt-freeflow').click(function(){
         $('#freeflowOptions').css("display", "block");
         console.log('Freeflow selected');
     });
 
-    $('.opt-quizMode:last-child').click(function(){
-        $('#opt-freeflow').removeAttr("selected");
-        $('#opt-segments').attr("selected", "selected");
+    $('#opt-segments').click(function(){
         $('#freeflowOptions').css("display", "none");
         console.log('Segments selected');
     });
+    /* $('#freeflow').click(function(){
+        $('#freeflowOptions').css("display", "block");
+        console.log('Freeflow selected');
+    });
+
+    $('#classic').click(function(){
+        $('#freeflowOptions').css("display", "none");
+        console.log('Segments selected');
+    });*/
 });
 
 // Text remaining counter
