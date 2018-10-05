@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" href="../src/css/main.css" type="text/css">
+        <link rel="stylesheet" href="../src/fontawesome/css/all.css">
+        <script src="../src/js/angular.min.js"></script>
+        <script type="text/javascript" src="../src/js/angular-route.min.js"></script>
+        <script src="../src/js/angular_controllers.js"></script>
+        <script type="text/javascript" src="../src/js/angular-my-services.js"></script>
+        <script type="text/javascript" src="../src/js/ngStorage.js"></script>
+
+        <title>Superadmin</title>
+    </head>
+    <body>
+
+        <div id="wrapper">
+            <div class="row no-gutters h-100 bg-white" style="overflow: hidden;">
+                <div class="col-md-4 border-right">                
+                </div>
+
+                <div class="col-md-14">
+                    <ul class="nav justify-content-between border-bottom" style="height: 4.5rem;">
+                        <li class="nav-item py-3 pl-3 w-50">                            
+                            <div class="position-relative">
+                                <div class="position-absolute text-secondary h-100 px-3 py-2">
+                                    <i class="fas fa-search"></i>                            
+                                </div>
+                                <input type="text" class="form-control pl-5 border-0" placeholder="Search...">
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="row no-gutters h-100">
+                        <div class="col-md-12 px-0">
+                            <div class="col-md-12 px-0">
+                             <div ng-repeat="part in parts">
+                                <a data-toggle="collapse" href="#ques_{{part.PartID}}_{{part.TypeID}}" target="_self" ng-click="view(part.PartID,part.TypeID)" style="text-decoration: none; font-weight: bold; letter-spacing: 0.1em;">
+                                    <div class="col-md-12 border-bottom text-center d-flex justify-content-between" style="height: 4.5rem; border-left: 6px solid #4c84ff;">
+                                        <p class="py-4 px-3 m-0">Part {{part.Position}} / {{part.PartTitle}}</p>
+                                        <i class="fas fa-angle-down align-self-center px-3"></i>
+                                    </div>
+                                </a>
+                                <div class="collapse col-md-12 px-0" id="ques_{{part.PartID}}_{{part.TypeID}}">
+                                    <div ng-repeat="question in questions" class="col-md-18 border-bottom d-flex justify-content-between align-items-center px-4" style="height: 4.5rem;">
+                                        <div>
+                                            <h5 class="mb-0">{{question.Question}}</h5>
+                                        </div>
+                                          <!--FOR CHOICES-->
+                                            <!--MULTIPLE CHOICE-->
+                                                            <div ng-show="validate_1">
+                                                                <h5>   A. {{question.a}} B. {{question.b}} </h5>
+                                                                
+                                                                    <h5>  C. {{question.c}} D. {{question.d}}</h5>
+                                                                  
+                                                            </div>
+
+                                                            <!--TRUE OR FALSE-->
+                                                            <div ng-show="validate_2">
+                                                                <h5>   A. True </h5>
+                                                                    <h5> B. False</h5>
+                                                            </div>
+                                                            <!--GUESS WORD-->
+                                                            <div ng-show="validate_4">
+                                                                <h5> S_MP__</h5>
+                                                            </div>
+                                            <!--END-->
+                                    </div>
+                                </div>
+                            </div>
+                                <!--<a data-toggle="collapse" href="#accepted" target="_self" style="text-decoration: none; font-weight: bold; letter-spacing: 0.1em;">
+                                    <div class="col-md-12 border-bottom text-center d-flex justify-content-between" style="height: 4.5rem; border-left: 6px solid #32b964; color: #32b964;">
+                                        <p class="py-4 px-3 m-0">ACCEPTED</p>
+                                        <i class="fas fa-angle-down align-self-center px-3"></i>
+                                    </div>
+                                </a>
+                                <div class="collapse col-md-12 px-0" id="accepted">
+                                    <div class="col-md-12 border-bottom" style="height: 4.5rem;"></div>
+                                    <div class="col-md-12 border-bottom" style="height: 4.5rem;"></div>
+                                    <div class="col-md-12 border-bottom" style="height: 4.5rem;"></div>
+                                    <div class="col-md-12 border-bottom" style="height: 4.5rem;"></div>
+                                </div>
+
+                                <a data-toggle="collapse" href="#declined" target="_self" style="text-decoration: none; font-weight: bold; letter-spacing: 0.1em;">
+                                    <div class="col-md-12 border-bottom text-center d-flex justify-content-between" style="height: 4.5rem; border-left: 6px solid #ea5a5a; color: #ea5a5a;">
+                                        <p class="py-4 px-3 m-0">DECLINED</p>
+                                        <i class="fas fa-angle-down align-self-center px-3"></i>
+                                    </div>
+                                </a>
+                                <div class="collapse col-md-12 px-0" id="declined">
+                                    <div class="col-md-12 border-bottom" style="height: 4.5rem;"></div>
+                                    <div class="col-md-12 border-bottom" style="height: 4.5rem;"></div>
+                                    <div class="col-md-12 border-bottom" style="height: 4.5rem;"></div>
+                                    <div class="col-md-12 border-bottom" style="height: 4.5rem;"></div>
+                                </div>
+                            </div>                                                    
+                        </div>
+                        <div class="col-md-12 h-100 px-0 h-100 border-left">
+                            <div class="col-md-12 border-bottom" style="height: 4.5rem;"></div>
+                        </div>-->
+                    </div>                    
+                </div>                
+            </div>
+        </div>
+
+    </body>
+
+    <script src="../src/js/jquery.min.js"></script>
+    <script src="../src/js/popper.min.js"></script>
+    <script src="../src/js/bootstrap.min.js"></script>
+    <script src="../src/js/script.js"></script>
+</html>

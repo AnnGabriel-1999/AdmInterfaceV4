@@ -1,12 +1,3 @@
-<style>
-.ng-dirty.ng-invalid {
-     border-color: red !important;
-}
-span {
-     color: red;
-     font-size: 15px;
-}
-</style>
 <!-- New Quiz Modal -->
 <div class="modal fade" id="newQuiz-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
@@ -48,14 +39,22 @@ span {
                                 onkeypress="addTag(event, this);">
                         </div>
                     </div>
-                    <div class="btn-group btn-group-toggle mx-auto my-2" data-toggle="buttons">
+                   
+                    <label class="btn btn-secondary opt-quizMode active">
+                    <input id="opt-freeflow" type="radio" name= "quizMode" autocomplete="off" ng-model="type" ng-value="'Freeflow'"> Freeflow
+                     </label>
+                     <label class="btn btn-secondary opt-quizMode">
+                     <input id="opt-segments" type="radio" name= "quizMode" autocomplete="off" ng-model="type" ng-value="'Segment'" selected> Segments
+                     </label>
+                    
+                   <!-- <div class="btn-group btn-group-toggle mx-auto my-2" data-toggle="buttons">
                         <label class="btn btn-secondary opt-quizMode active">
                             <input type="radio" name="quizMode" id="opt-freeflow" autocomplete="off" selected> Freeflow
                         </label>
                         <label class="btn btn-secondary opt-quizMode">
                             <input type="radio" name="quizMode" id="opt-segments" autocomplete="off"> Segments
-                        </label>
-                    </div>
+                    </label>
+                    </div>-->
                     <div class="form-group" id="freeflowOptions">
                         <select class="custom-select mb-3" ng-model="typeName" required>
                             <option disabled hidden value="">Question Types</option>
@@ -71,8 +70,8 @@ span {
                             <div class="text-remaining-indicator align-self-center" id="text_feedback-duration"></div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary btn-block" ng-disabled="form.$invalid" type="button" ng-click="addNewQuiz()">
+                     <div class="form-group">
+                        <button class="btn btn-primary btn-block" type="button" ng-click="addNewQuiz(MaxID)">
                             <i class="fas fa-plus"></i> Add New Quiz
                         </button>
                     </div>
@@ -174,21 +173,23 @@ span {
 
 
 <!-- Page content -->
-<div id="page-content-wrapper">
-    <div class="container-fluid p-0 h-100">
-        <!-- <div class="row no-gutters"> -->
-        <div class="col-md-12 pt-7 h-100" style="padding: 6rem; padding-bottom: 3rem;">
-            <div class="row" ng-show="!error">
-                <div class="col-md-9">
-                    <span class="h1">My Quizzen</span>
-                </div>
 
-                <div class="col-md-3 py-1">
-                    <button id="addStudent" class="btn btn-qznprimary float-right" data-toggle="modal" data-target="#newQuiz-modal">
-                        <i class="far fa-plus-square"></i>
-                        Add Quiz
-                    </button>
-                </div>
+<div id="page-content-wrapper">
+    <div  class="container-fluid p-0 h-100">
+        <!-- <div class="row no-gutters"> -->
+            <div class="col-md-12 pt-7 h-100" style="padding: 6rem; padding-bottom: 3rem;">
+                <div class="row" ng-show="!error">
+                    <div class="col-md-9">
+                        <span class="h1">My Quizzen</span>
+                    </div>
+                    
+                    <div class="col-md-3 py-1">
+                        <button ng-click="getQuizID(quizInfo[0].MaxID)" id="addStudent" class="btn btn-qznprimary float-right" data-toggle="modal"
+                            data-target="#newQuiz-modal">
+                            <i class="far fa-plus-square"></i>
+                            Add Quiz
+                        </button>
+                    </div>
 
                 <nav class="col-md-12">
                     <ol class="breadcrumb p-0">
@@ -252,11 +253,12 @@ span {
                                             alt="Marianne">
                                     </div>
                                     <div class="quizlist-info flex-grow-1 px-3">
-                                        <div style="background-color: rgb(233, 210, 253); width: auto; display: inline-block; padding: 2px 10px; border-radius: 50px; color: rgba(104, 29, 168, 0.72);">Segments</div>
-                                        <a ng-href="#!/viewparts/{{info.quizID}}">
+                                        <div style="background-color: rgb(233, 210, 253); width: auto; display: inline-block; padding: 2px 10px; border-radius: 50px; color: rgba(104, 29, 168, 0.72);">{{info.part_type}}</div>
+                                        <a ng-href="#!/viewparts/{{info.quizID}}/{{info.part_type}}">
                                             <h5>{{info.quizTitle}}</h5>
                                         </a>
                                         <p class="text-secondary">{{info.date_created}}</p>
+                                          <a ng-href="#!/published/{{info.quizID}}/{{info.part_type}}"><h7>PUBLISHED</h7></a>
                                     </div>
                                     <div class="quizlist-options align-self-center">
                                         <ul class="nav nav-justified quiz-options">
@@ -310,74 +312,6 @@ span {
                         </nav>
                     </div>
 
-                    <div class="tab-pane fade" id="favorites">
-                        <div class="col-md-12 my-2 px-0 quizlist-item-container" ng-repeat="info in quizInfo | filter: searchTxt">
-                            <div class="card d-flex">
-                                <div class="card-body d-flex justify-content-between">
-                                    <div class="quizlist-img">
-                                        <img ng-src="{{info.filepath}}" style="min-height: 9.75rem; max-height: 9.75rem; width: 14.625rem; background-size: cover;"
-                                            alt="Marianne">
-                                    </div>
-                                    <div class="quizlist-info flex-grow-1 px-3">
-                                        <a ng-href="#!/viewparts/{{info.quizID}}">
-                                            <h5>{{info.quizTitle}}</h5>
-                                        </a>
-                                        <p class="text-secondary">{{info.date_created}}</p>
-                                    </div>
-                                    <div class="quizlist-options align-self-center">
-                                        <ul class="nav nav-justified quiz-options">
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link text-secondary">
-                                                    <i class="far fa-play-circle fa-lg"></i>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a ng-click="getQuizData(info.quizID)" data-toggle="modal" data-target="#editQuiz-modal"
-                                                    class="nav-link text-secondary">
-                                                    <i class="far fa-edit fa-lg"></i>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link text-secondary" data-toggle="modal" data-target="#deleteFaveQuiz-modal">
-                                                    <i class="far fa-trash-alt fa-lg"></i>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link text-secondary">
-                                                    <i class="far fa-heart fa-lg"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- </div> End row -->
-
-                        <!-- Pagination -->
-                        <nav>
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled">
-                                    <span class="page-link">Previous</span>
-                                </li>
-                                <li class="page-item active">
-                                    <span class="page-link">1</span>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-
             <div class="row" ng-show="!error">
                 <!-- <div class="col-md-3 mb-4 px-1" ng-repeat="info in quizInfo | filter: searchTxt">
                         <div class="card">
@@ -417,23 +351,20 @@ span {
                             </div>
 
                         </div> -->
+                    </div>
             </div>
-
-        </div>
-
-        <!-- Error Message -->
-        <div class="row d-flex align-items-center h-100" ng-show="error">
-            <div class="col-12 text-center">
-                <img src="images/thinking.png" class="img-reponsive">
-                <h3>No quiz created.</h3>
-                <p>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#newQuiz-modal">
-                        <i class="far fa-plus-square"></i>
-                        Create now
-                    </button>
-                </p>
-            </div>
-        </div>
-    </div>
-</div> <!-- End container-fluid -->
+           </div> 
+            <!-- Error Message -->
+            <div class="row d-flex align-items-center h-100" ng-show="error">
+                <div class="col-12 text-center">
+                    <img src="images/thinking.png" class="img-reponsive">
+                    <h3>No quiz created.</h3>
+                    <p>
+                        <button ng-click="getQuizID(quizInfo[0].MaxID)" class="btn btn-primary" data-toggle="modal" data-target="#newQuiz-modal">
+                            <i class="far fa-plus-square"></i>
+                            Create now
+                        </button>
+                    </p>
+                </div> 
+    </div> <!-- End container-fluid -->
 </div> <!-- End page-content-wrapper -->
