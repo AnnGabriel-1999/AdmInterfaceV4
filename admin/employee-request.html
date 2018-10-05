@@ -82,24 +82,37 @@
 
             <div class="container-fluid h-100 bg-white">
                 <div class="row d-flex align-items-center h-100">
-                    <div class="col-md-3 mx-auto">
+                    <div class="col-md-4 mx-auto">
                         <div class="card p-4">
                             <div class="card-body text-center">
-                                <h4 class="">Enter your Employee ID</h4>
+
+                                <!-- Alert -->
+                                <div class="alert alert-danger alert-dismissible fade show">
+                                    Error here
+                                    <button type="button" class="close">
+                                        <span>&times;</span>
+                                    </button>
+                                </div>
+
+                                <h4>Enter your Employee ID</h4>
                                 <div class="form-group m-1">
-                                    <input type="text" class="form-control" placeholder="Employee ID">
+                                    <input type="text" class="form-control" placeholder="Employee ID" ng-model="empID">
                                 </div>
                                 <div class="form-group m-1">
-                                    <input type="text" class="form-control" placeholder="First Name">
+                                    <input type="text" class="form-control" placeholder="First Name" ng-model="fname">
                                 </div>
                                 <div class="form-group m-1">
-                                    <input type="text" class="form-control" placeholder="Middle Name">
+                                    <input type="text" class="form-control" placeholder="Middle Name" ng-model="mname">
                                 </div>
                                 <div class="form-group m-1">
-                                    <input type="text" class="form-control" placeholder="Last Name">
+                                    <input type="text" class="form-control" placeholder="Last Name" ng-model="lname">
+                                </div>
+                                <div class="form-group position-relative">
+                                    <textarea class="form-control" id="text_desc" placeholder="Message" rows="3" onfocus="showTxtRemaining('#text_desc', '#text_feedback-desc', 250);" onblur="hideMe('#text_feedback-desc');" ng-model="message"></textarea>
+                                    <div class="text-remaining-indicator align-self-center" id="text_feedback-desc"></div>
                                 </div>
                                 <div class="form-group m-0">
-                                    <button class="btn btn-qznprimary btn-block my-2" type="button">Request</button>
+                                    <button class="btn btn-qznprimary btn-block my-2" type="button" ng-click="openRequest()">Request</button>
                                 </div>
                             </div>
                         </div>

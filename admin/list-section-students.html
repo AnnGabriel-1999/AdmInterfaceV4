@@ -1,128 +1,164 @@
-<body ng-app="theApp" ng-controller="listSecCtrlr">
-    <!--    MODAL    -->
-    <!-- New Student Modal -->
-    <div class="modal fade" id="newStudent-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header border-bottom-0">
-                    <h4 id="modalTitle" class="modal-title text-qznprimary">New Section</h4>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
 
-                <div class="modal-body">
-                    <form name="myForm">
-                        <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
-                            {{error.error}}
-                            <button type="button" class="close" data-dismiss="alert" ng-click="error = null">
-                                <span>&times;</span>
-                            </button>
-                        </div>
+<!--    MODAL    -->
+<!-- New Student Modal -->
+<div class="modal fade" id="newStudent-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h4 id="modalTitle" class="modal-title text-qznprimary">New Section</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
 
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="far fa-id-badge"></i></span>
-                            </div>
-                            <input type="number" class="form-control" placeholder="Student ID" ng-model="studid" required>
-                        </div>
+            <div class="modal-body">
+                <form name="myForm">
+                    <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                        {{error.error}}
+                        <button type="button" class="close" data-dismiss="alert" ng-click="error = null">
+                            <span>&times;</span>
+                        </button>
+                    </div>
 
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-sitemap"></i></span>
-                            </div>
-                            <select class="custom-select" ng-options="c.course_id as c.course for c in replyCourses" ng-model="courseId" required>
-                                    <option disabled hidden value="">Course</option>
-                            </select>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="far fa-id-badge"></i></span>
                         </div>
+                        <input type="number" class="form-control" placeholder="Student ID" ng-model="studid" required>
+                    </div>
 
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-sitemap"></i></span>
-                            </div>
-                            <select active class="custom-select" ng-change="soHot()" ng-options="s.section_id as s.section for s in replySections
-                            | filter:{course_id:courseId}" ng-model="sectionId" ng-disabled="!courseId" required>
-                                <option disabled hidden value="">Section</option>
-                            </select>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-sitemap"></i></span>
                         </div>
+                        <select class="custom-select" ng-options="c.course_id as c.course for c in replyCourses" ng-model="courseId" required>
+                                <option disabled hidden value="">Course</option>
+                        </select>
+                    </div>
 
-                        <div class="input-group mb-3 position-relative">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="far fa-user-circle"></i></span>
-                            </div>
-                            <input type="text" class="form-control" id="text_fname" placeholder="First Name" ng-model="fname" onfocus="showTxtRemaining('#text_fname', '#text_feedback-fname', 90);" onblur="hideMe('#text_feedback-fname');" required>
-                            <div class="text-remaining-indicator align-self-center" id="text_feedback-fname"></div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-sitemap"></i></span>
                         </div>
+                        <select active class="custom-select" ng-change="soHot()" ng-options="s.section_id as s.section for s in replySections
+                        | filter:{course_id:courseId}" ng-model="sectionId" ng-disabled="!courseId" required>
+                            <option disabled hidden value="">Section</option>
+                        </select>
+                    </div>
 
-                        <div class="input-group mb-3 position-relative">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="far fa-user-circle"></i></span>
-                            </div>
-                            <input type="text" class="form-control" id="text_mname" placeholder="Middle Name"  onfocus="showTxtRemaining('#text_mname', '#text_feedback-mname', 90);" onblur="hideMe('#text_feedback-mname');" ng-model="mname" required>
-                            <div class="text-remaining-indicator align-self-center" id="text_feedback-mname"></div>
+                    <div class="input-group mb-3 position-relative">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="far fa-user-circle"></i></span>
                         </div>
+                        <input type="text" class="form-control" id="text_fname" placeholder="First Name" ng-model="fname" onfocus="showTxtRemaining('#text_fname', '#text_feedback-fname', 90);" onblur="hideMe('#text_feedback-fname');" required>
+                        <div class="text-remaining-indicator align-self-center" id="text_feedback-fname"></div>
+                    </div>
 
-                        <div class="input-group mb-3 position-relative">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="far fa-user-circle"></i></span>
-                            </div>
-                            <input type="text" class="form-control" placeholder="Last Name" onfocus="showTxtRemaining('#text_lname', '#text_feedback-lname', 90);" onblur="hideMe('#text_feedback-lname');" ng-model="lname" required>
-                            <div class="text-remaining-indicator align-self-center" id="text_feedback-lname"></div>
+                    <div class="input-group mb-3 position-relative">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="far fa-user-circle"></i></span>
                         </div>
+                        <input type="text" class="form-control" id="text_mname" placeholder="Middle Name"  onfocus="showTxtRemaining('#text_mname', '#text_feedback-mname', 90);" onblur="hideMe('#text_feedback-mname');" ng-model="mname" required>
+                        <div class="text-remaining-indicator align-self-center" id="text_feedback-mname"></div>
+                    </div>
 
-                        <div class="forn-group">
-                            <input type="button" class="btn btn-outline-primary btn-block" value="Add Student" ng-disabled="myForm.$invalid" ng-click="addStudent()">
+                    <div class="input-group mb-3 position-relative">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="far fa-user-circle"></i></span>
                         </div>
-                    </form>
-                </div>
+                        <input type="text" class="form-control" placeholder="Last Name" onfocus="showTxtRemaining('#text_lname', '#text_feedback-lname', 90);" onblur="hideMe('#text_feedback-lname');" ng-model="lname" required>
+                        <div class="text-remaining-indicator align-self-center" id="text_feedback-lname"></div>
+                    </div>
+
+                    <div class="forn-group">
+                        <input type="button" class="btn btn-outline-primary btn-block" value="Add Student" ng-disabled="myForm.$invalid" ng-click="addStudent()">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <div id="wrapper">
-        <!-- Page content -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid p-0">
-                <div class="row no-gutters">
-                    <div class="col-md-12 pt-5" style="padding: 6rem; padding-bottom: 3rem;">
-                        <div class="row">
-                            <div class="col-md-9">
-                                <span class="h1">BSIT 3C-G1</span>
-                            </div>
+<!-- Import from CSV modal -->
+<div class="modal fade" id="importCSV-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h4 class="modal-title text-qznprimary">Import from CSV</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <p><a href="#">Download our CSV template</a></p>
+                <p>or</p>
+                <p class="m-0">                    
+                    <input type="file" id="file" class="hiddenFile">
+                    <label for="file" class="btn btn-primary">Choose a file</label>
+                </p>                
+            </div>
+            <div class="modal-footer border-top-0">
+                <p class="text-secondary m-0 px-3">Cancel</p>
+                <button type="button" class="btn btn-primary">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-                            <div class="col-md-3 py-1">
-                                <button id="addStudent" class="btn btn-qznprimary float-right" data-toggle="modal" data-target="#newStudent-modal" ng-click="getData()">
-                                    <i class="far fa-plus-square"></i>
-                                    Add Student
-                                </button>
-                            </div>
+<!-- Page content -->
+<div id="page-content-wrapper">
+    <div class="container-fluid p-0 h-100">
+        <!-- <div class="row no-gutters"> -->
+            <div class="col-md-12 pt-7" style="padding: 6rem; padding-bottom: 3rem;">
+                <div class="row">
+                    <div class="col-md-9">
+                        <span class="h1">BSIT 3C-G1</span>
+                    </div>
 
-                            <nav class="col-md-12">
-                                <ol class="breadcrumb px-0">
-                                    <li class="breadcrumb-item">
-                                        <a href="#">Home</a>
-                                    </li>
-                                    <li class="breadcrumb-item active">
-                                        BSIT 3C-G1
-                                    </li>
-                                </ol>
-                            </nav>
-                        </div>
+                    <div class="col-md-3 py-1">
+                        <a data-toggle="modal" data-target="#importCSV-modal"><span class="text-primary">Import from CSV</span></a>
+                        <button id="addStudent" class="btn btn-qznprimary float-right" data-toggle="modal" data-target="#newStudent-modal" ng-click="getData()">
+                            <i class="far fa-plus-square"></i>
+                            Add Student
+                        </button>
+                    </div>
 
-                        <div class="row">
+                    <nav class="col-md-12">
+                        <ol class="breadcrumb px-0">
+                            <li class="breadcrumb-item">
+                                <a href="#">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                BSIT 3C-G1
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <div class="row">
+                    <ul class="nav nav-tabs col-md-12">
+                        <li class="nav-item">
+                            <a href="#student-list" target="_self" data-toggle="tab" class="nav-link active">Student List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#quiz-taken" target="_self" data-toggle="tab" class="nav-link">Quiz taken</a>
+                        </li>
+                    </ul>
+
+                    <div class="col-md-12 tab-content">
+                        <div class="tab-pane active" id="student-list">
                             <div class="col-md-3 px-1">
-                                <div ng-repeat="x in students" class="card student-cards">
+                                <div class="card student-cards">
                                     <div class="card-body">
                                         <div class="student-img-container">
                                             <img src="images/marianne.jpg" alt="Marianne De Asis">
                                         </div>
                                         <div class="student-info">
-                                            <h4 class="mb-0">{{x.fname + x.mname + x.lname}}</h4>
-                                            <p class="text-secondary mb-1">{{x.student_id}}</p>
-                                            <div class="student-status student-{{x.status}}">{{x.status}}</div>
+                                            <h4 class="mb-0">Marianne De Asis</h4>
+                                            <p class="text-secondary mb-1">2015696969</p>
+                                            <div class="student-status student-ACTIVE">ACTIVE</div>
                                         </div>
                                     </div>
-
                                     <div class="card-footer bg-white p-3 border-top-0">
                                         <a ng-href="#!/viewstudent"><button type="button" class="btn btn-qznprimary btn-block">MORE INFO</button></a>
                                     </div>
@@ -130,30 +166,50 @@
                             </div>
                         </div>
 
-                        <!-- Pagination -->
-                        <nav>
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled">
-                                    <span class="page-link">Previous</span>
-                                </li>
-                                <li class="page-item active">
-                                    <span class="page-link">1</span>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
-
-                    </div>
+                        <div class="tab-pane fade" id="quiz-taken">
+                            <div class="col-md-12">
+                                <div class="card card-body d-flex flex-row justify-content-between mt-2">
+                                    <div style="flex-grow:1; flex-basis:0;">Bootstrap 4</div>
+                                    <div style="flex-grow:1; flex-basis:0;">September 29 2018, 11:11 PM</div>
+                                    <div style="flex-grow:1; flex-basis:0;">69 Players</div>
+                                </div>
+                                <div class="card card-body d-flex flex-row justify-content-between mt-2">
+                                    <div style="flex-grow:1; flex-basis:0;">AngularJS 1</div>
+                                    <div style="flex-grow:1; flex-basis:0;">February 31 2017, 12:03 AM</div>
+                                    <div style="flex-grow:1; flex-basis:0;">32 Players</div>
+                                </div>
+                                <div class="card card-body d-flex flex-row justify-content-between mt-2">
+                                    <div style="flex-grow:1; flex-basis:0;">JQuery</div>
+                                    <div style="flex-grow:1; flex-basis:0;">June 19 2018, 10:39 AM</div>
+                                    <div style="flex-grow:1; flex-basis:0;">26 Players</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
                 </div>
+
+                <!-- Pagination -->
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <span class="page-link">Previous</span>
+                        </li>
+                        <li class="page-item active">
+                            <span class="page-link">1</span>
+                        </li>
+                        <li class="page-item">
+                            <a href="#" class="page-link">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a href="#" class="page-link">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a href="#" class="page-link">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+
             </div>
-        </div>
+        <!-- </div> -->
     </div>
-</body>
+</div>

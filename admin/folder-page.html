@@ -1,0 +1,212 @@
+<!-- Modal -->
+<!-- New Quiz Modal -->
+<div class="modal fade" id="newQuiz-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h5 id="modalTitle" class="modal-title text-qznprimary">New Quiz</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="myForm">
+                    <div class="alert alert-danger alert-dismissible fade show" ng-show="error1">
+                        {{error1}}
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="form-group position-relative">
+                        <input type="text" class="form-control" id="text_title" placeholder="Quiz title" ng-model="quizTitle" onfocus="showTxtRemaining('#text_title', '#text_feedback-title', 90);" onblur="hideMe('#text_feedback-title');" required>
+                        <div class="text-remaining-indicator align-self-center" id="text_feedback-title"></div>
+                    </div>
+                    <div class="form-group position-relative">
+                        <textarea class="form-control" id="text_desc" placeholder="Quiz Description" rows="3" ng-model="quizDesc" onfocus="showTxtRemaining('#text_desc', '#text_feedback-desc', 250);" onblur="hideMe('#text_feedback-desc');" required></textarea>
+                        <div class="text-remaining-indicator align-self-center" id="text_feedback-desc"></div>
+                    </div>
+                    <div class="custom-file mb-3">
+                        <input type="file" accept="image/*" class="custom-file-input" file-input="files">
+                        <label class="custom-file-label">Choose image</label>
+                    </div>
+                    <div class="form-group">
+                        <div class="tags-input" data-name="tags-input">
+                            <input type="hidden" name="tags-input" id="addQ-hidden-input">
+                            <input type="text" class="form-control main-input d-inline-block w-50" id="addQ-main-input" onkeypress="addTag(event, this);">
+                        </div>                        
+                    </div>
+                    <div class="btn-group btn-group-toggle mx-auto my-2" data-toggle="buttons">
+                        <label class="btn btn-secondary opt-quizMode active">
+                            <input type="radio" name="quizMode" id="opt-freeflow" autocomplete="off" selected> Freeflow
+                        </label>
+                        <label class="btn btn-secondary opt-quizMode">
+                            <input type="radio" name="quizMode" id="opt-segments" autocomplete="off"> Segments
+                        </label>
+                    </div>
+                    <div class="form-group" id="freeflowOptions">
+                        <select class="custom-select mb-3" ng-model="typeName" required>
+                            <option disabled hidden value="">Question Types</option>
+                            <option>Multiple Choice</option>
+                            <option>True or False</option>
+                            <option>Guess the Word</option>
+                            <option>Arrange the Sequence</option>
+                        </select>
+                        <div class="form-group position-relative">
+                            <input type="text" class="form-control" id="text_duration" placeholder="Duration in seconds" ng-model="duration" onfocus="showTxtRemaining('#text_duration', '#text_feedback-duration', 10);" onblur="hideMe('#text_feedback-duration');" required>
+                            <div class="text-remaining-indicator align-self-center" id="text_feedback-duration"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" type="button" ng-click="addNewQuiz()">
+                            <i class="fas fa-plus"></i> Add New Quiz
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Quiz Modal -->
+<div class="modal fade" id="editQuiz-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h4 id="modalTitle" class="modal-title text-qznprimary">Edit Quiz</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="myForm">
+                    <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                        All fields are required
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Quiz title" ng-model="quizTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" maxlength="250" placeholder="Quiz Description" rows="3" ng-model="quizDesc"
+                            required></textarea>
+                    </div>
+                    <div class="custom-file mb-3">
+                        <input type="file" accept="image/*" class="custom-file-input">
+                        <label class="custom-file-label">Choose image</label>
+                    </div>
+                    <div class="fomr-group">
+                        <button class="btn btn-primary btn-block" type="button" ng-disabled="myForm.$invalid"
+                            ng-click="updateQuiz(quizID, quizTitle, quizDesc)">
+                            <i class="fas fa-edit" ng-click="save()"></i> Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Page content -->
+<div id="page-content-wrapper">
+    <div class="container-fluid p-0 h-100">
+        <!-- <div class="row no-gutters"> -->
+            <div class="col-md-12 pt-7 h-100" style="padding: 6rem; padding-bottom: 3rem;">
+                <div class="row" ng-show="!error">
+                    <div class="col-md-9">
+                        <span class="h1">Folder Name</span>
+                    </div>
+
+                    <div class="col-md-3 py-1">
+                        <button id="addStudent" class="btn btn-qznprimary float-right" data-toggle="modal"
+                            data-target="#newQuiz-modal">
+                            <i class="far fa-plus-square"></i>
+                            Add Quiz
+                        </button>
+                    </div>
+
+                    <nav class="col-md-12">
+                        <ol class="breadcrumb p-0">
+                            <li class="breadcrumb-item">
+                                <a href="#">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                Folder Name
+                            </li>
+                        </ol>
+                    </nav>
+
+                    <!-- Experimental Nav -->
+                    <!-- <nav class="nav nav-tabs">
+                        <a href="#" class="nav-link active">Quizzes</a>
+                        <a href="#" class="nav-link">Favorites</a>
+                    </nav> -->
+                </div>
+
+                    
+                <div class="col-md-12 my-2 px-0 quizlist-item-container" ng-repeat="info in quizInfo | filter: searchTxt">
+                    <div class="card d-flex">
+                        <div class="card-body d-flex justify-content-between">
+                            <div class="quizlist-img">
+                                <img ng-src="{{info.filepath}}" style="min-height: 9.75rem; max-height: 9.75rem; width: 14.625rem; background-size: cover;" alt="Marianne">
+                            </div>
+                            <div class="quizlist-info flex-grow-1 px-3">
+                                <a ng-href="#!/viewparts/{{info.quizID}}"><h5>{{info.quizTitle}}</h5></a>
+                                <p class="text-secondary">{{info.date_created}}</p>
+                            </div>
+                            <div class="quizlist-options align-self-center">
+                                <ul class="nav nav-justified quiz-options">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link text-secondary">
+                                            <i class="far fa-play-circle fa-lg"></i>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a ng-click="getQuizData(info.quizID)" data-toggle="modal" data-target="#editQuiz-modal" class="nav-link text-secondary">
+                                            <i class="far fa-edit fa-lg"></i>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link text-secondary">
+                                            <i class="far fa-trash-alt fa-lg"></i>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link text-secondary">
+                                            <i class="far fa-heart fa-lg"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- </div> End row -->
+
+                <!-- Pagination -->
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <span class="page-link">Previous</span>
+                        </li>
+                        <li class="page-item active">
+                            <span class="page-link">1</span>
+                        </li>
+                        <li class="page-item">
+                            <a href="#" class="page-link">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a href="#" class="page-link">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a href="#" class="page-link">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+                
+            </div>
+ 
+        </div>
+    </div> <!-- End container-fluid -->
+</div> <!-- End page-content-wrapper -->
