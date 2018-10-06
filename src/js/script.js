@@ -100,3 +100,17 @@ function addTag(event, el){
         hiddenInput.value = tagsList.join(',');
     }
 }
+
+
+
+
+
+
+// 
+// Student
+// 
+
+$(document).ready(function() {
+    $('#sort-arrange').sortable();
+    $('#sort-arrange').disableSelection();
+});

@@ -39,15 +39,17 @@
                                 onkeypress="addTag(event, this);">
                         </div>
                     </div>
-                   
+
                     <label class="btn btn-secondary opt-quizMode active">
-                    <input id="opt-freeflow" type="radio" name= "quizMode" autocomplete="off" ng-model="type" ng-value="'Freeflow'"> Freeflow
-                     </label>
-                     <label class="btn btn-secondary opt-quizMode">
-                     <input id="opt-segments" type="radio" name= "quizMode" autocomplete="off" ng-model="type" ng-value="'Segment'" selected> Segments
-                     </label>
-                    
-                   <!-- <div class="btn-group btn-group-toggle mx-auto my-2" data-toggle="buttons">
+                        <input id="opt-freeflow" type="radio" name="quizMode" autocomplete="off" ng-model="type"
+                            ng-value="'Freeflow'"> Freeflow
+                    </label>
+                    <label class="btn btn-secondary opt-quizMode">
+                        <input id="opt-segments" type="radio" name="quizMode" autocomplete="off" ng-model="type"
+                            ng-value="'Segment'" selected> Segments
+                    </label>
+
+                    <!-- <div class="btn-group btn-group-toggle mx-auto my-2" data-toggle="buttons">
                         <label class="btn btn-secondary opt-quizMode active">
                             <input type="radio" name="quizMode" id="opt-freeflow" autocomplete="off" selected> Freeflow
                         </label>
@@ -70,7 +72,7 @@
                             <div class="text-remaining-indicator align-self-center" id="text_feedback-duration"></div>
                         </div>
                     </div>
-                     <div class="form-group">
+                    <div class="form-group">
                         <button class="btn btn-primary btn-block" type="button" ng-click="addNewQuiz(MaxID)">
                             <i class="fas fa-plus"></i> Add New Quiz
                         </button>
@@ -173,23 +175,22 @@
 
 
 <!-- Page content -->
-
 <div id="page-content-wrapper">
-    <div  class="container-fluid p-0 h-100">
+    <div class="container-fluid p-0 h-100">
         <!-- <div class="row no-gutters"> -->
-            <div class="col-md-12 pt-7 h-100" style="padding: 6rem; padding-bottom: 3rem;">
-                <div class="row" ng-show="!error">
-                    <div class="col-md-9">
-                        <span class="h1">My Quizzen</span>
-                    </div>
-                    
-                    <div class="col-md-3 py-1">
-                        <button ng-click="getQuizID(quizInfo[0].MaxID)" id="addStudent" class="btn btn-qznprimary float-right" data-toggle="modal"
-                            data-target="#newQuiz-modal">
-                            <i class="far fa-plus-square"></i>
-                            Add Quiz
-                        </button>
-                    </div>
+        <div class="col-md-12 pt-7 h-100" style="padding: 6rem; padding-bottom: 3rem;">
+            <div class="row" ng-show="!error">
+                <div class="col-md-9">
+                    <span class="h1">My Quizzen</span>
+                </div>
+
+                <div class="col-md-3 py-1">
+                    <button ng-click="getQuizID(quizInfo[0].MaxID)" id="addStudent" class="btn btn-qznprimary float-right"
+                        data-toggle="modal" data-target="#newQuiz-modal">
+                        <i class="far fa-plus-square"></i>
+                        Add Quiz
+                    </button>
+                </div>
 
                 <nav class="col-md-12">
                     <ol class="breadcrumb p-0">
@@ -257,8 +258,13 @@
                                         <a ng-href="#!/viewparts/{{info.quizID}}/{{info.part_type}}">
                                             <h5>{{info.quizTitle}}</h5>
                                         </a>
-                                        <p class="text-secondary">{{info.date_created}}</p>
-                                          <a ng-href="#!/published/{{info.quizID}}/{{info.part_type}}"><h7>PUBLISHED</h7></a>
+                                        <p class="text-secondary m-0">{{info.date_created}}</p>
+                                        <p class="m-0">TAGS</p>
+                                        <div style="background-color: rgb(233, 210, 253); width: auto; display: inline-block; padding: 2px 10px; border-radius: 50px; color: rgba(104, 29, 168, 0.72);">mess
+                                            ui</div>
+                                        <a ng-href="#!/published/{{info.quizID}}/{{info.part_type}}">
+                                            <p>PUBLISHED</p>
+                                        </a>
                                     </div>
                                     <div class="quizlist-options align-self-center">
                                         <ul class="nav nav-justified quiz-options">
@@ -312,8 +318,8 @@
                         </nav>
                     </div>
 
-            <div class="row" ng-show="!error">
-                <!-- <div class="col-md-3 mb-4 px-1" ng-repeat="info in quizInfo | filter: searchTxt">
+                    <div class="row" ng-show="!error">
+                        <!-- <div class="col-md-3 mb-4 px-1" ng-repeat="info in quizInfo | filter: searchTxt">
                         <div class="card">
                             <a ng-href="#!/viewparts/{{info.quizID}}"><img class="card-img-top" height="152" ng-src="{{info.filepath}}" alt="Card image cap"></a>
                             <div class="card-body">
@@ -352,19 +358,20 @@
 
                         </div> -->
                     </div>
+                </div>
             </div>
-           </div> 
             <!-- Error Message -->
             <div class="row d-flex align-items-center h-100" ng-show="error">
                 <div class="col-12 text-center">
                     <img src="images/thinking.png" class="img-reponsive">
                     <h3>No quiz created.</h3>
                     <p>
-                        <button ng-click="getQuizID(quizInfo[0].MaxID)" class="btn btn-primary" data-toggle="modal" data-target="#newQuiz-modal">
+                        <button ng-click="getQuizID(quizInfo[0].MaxID)" class="btn btn-primary" data-toggle="modal"
+                            data-target="#newQuiz-modal">
                             <i class="far fa-plus-square"></i>
                             Create now
                         </button>
                     </p>
-                </div> 
-    </div> <!-- End container-fluid -->
-</div> <!-- End page-content-wrapper -->
+                </div>
+            </div> <!-- End container-fluid -->
+        </div> <!-- End page-content-wrapper -->
