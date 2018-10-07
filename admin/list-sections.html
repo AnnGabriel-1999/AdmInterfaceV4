@@ -147,8 +147,7 @@
                         <div class="table-responsive ml-3">
                             <table class="table" style="border-collapse: separate; border-spacing: 0 10px;">
                                 <tbody>
-                                    <tr ng-repeat="section in sections | filter: searchTxt" class="text-secondary p-4"
-                                        style="border: 1px solid black;">
+                                    <tr ng-repeat="section in sections.slice(((currentPage-1)*pageSize), ((currentPage)*pageSize)) | filter: searchTxt" class="text-secondary p-4" style="border: 1px solid black;">
                                         <td class="align-middle py-4" style="height: 140px;">
                                             <div style="height: 100%;">
                                                 <p class="h3 mb-0">{{section.prefix}} {{section.section}}</p>
@@ -197,8 +196,6 @@
                             </table>
                         </div>
                     </div>
-
-
                     <div class="tab-pane col-md-12 px-0" id="deactivated">
                         <div class="table-responsive ml-3">
                             <table class="table" style="border-collapse: separate; border-spacing: 0 10px;">
@@ -257,26 +254,7 @@
                 </div>
             </div>
 
-            <!-- Pagination -->
-            <nav>
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <span class="page-link">Previous</span>
-                    </li>
-                    <li class="page-item active">
-                        <span class="page-link">1</span>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">Next</a>
-                    </li>
-                </ul>
-            </nav>
+            <ul uib-pagination total-items="sections.length" ng-model="currentPage" items-per-page="pageSize" max-size="5" class="pagination-md" ng-show='sections.length > 0' boundary-links="true" force-ellipses="true"></ul>
 
         </div>
         <!-- </div> -->
