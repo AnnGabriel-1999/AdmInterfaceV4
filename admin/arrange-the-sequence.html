@@ -1,0 +1,100 @@
+<<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+</head>
+<body>
+    <!-- Modal -->
+    <!-- Import from CSV modal -->
+    <div class="modal fade" id="importCSV-modal" tabindex="-1" role="dialog" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h4 class="modal-title text-qznprimary">Import from CSV</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span ng-click="clearResponse()">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <b style="color: red;">{{csverror.error}}</b>
+                    <b style="color: green;">{{csvsuccess.success}}</b>
+                    <p><a href="../src/assets/csvformats/QuizzenMultipleChoiceFormat.csv" download>Download our CSV Template</a></p>
+                    <p>or</p>
+                    <p class="m-0">                    
+                        <input type="file" id="file" class="hiddenFile" file-input="files">
+                        <label for="file" class="btn btn-primary" ng-click="clearResponse()">Choose a file</label>
+                    </p>                 
+                </div>
+                <div class="modal-footer border-top-0">
+                    <p class="text-secondary m-0 px-3">Cancel</p>
+                    <button type="button" class="btn btn-primary" ng-click="uploadCSV()">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid p-0 h-100">                
+            <!-- <div class="row no-gutters"> -->
+                <div class="col-md-6 pt-7 mx-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="col-md-12 py-3 text-center">
+                                <p class="text-center mb-3 h5">Arrange The Sequence</p>
+                                <form name="myForm" ng-submit="insert()">
+                                    <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                                        {{error.message}}
+                                        <button type="button" class="close" data-dismiss="alert">
+                                            <span>&times;</span>
+                                        </button>                            
+                                    </div>
+    
+                                    <div class="form-group position-relative">
+                                        <textarea class="form-control" id="text_ques" placeholder="Question" rows="3" ng-model="question" onfocus="showTxtRemaining('#text_ques', '#text_feedback-ques', 250);" onblur="hideMe('#text_feedback-ques');" required></textarea>
+                                        <div class="text-remaining-indicator align-self-center" id="text_feedback-ques"></div>
+                                    </div>
+    
+                                    <div class="form-group position-relative">
+                                        <input only-letters-input type="text" id="text_answer" class="form-control" placeholder="Answer" ng-model="answer" onfocus="showTxtRemaining('#text_answer', '#text_feedback-answer', 60);" onblur="hideMe('#text_feedback-answer');" required>
+                                        <div class="text-remaining-indicator align-self-center" id="text_feedback-answer"></div>
+                                    </div>
+    
+                                    <!--CHOICESSSSS-->
+                                    <div class="form-group position-relative">
+                                        <input only-letters-input type="text" id="text_choice1" class="form-control" placeholder="A" ng-model="choice1" onfocus="showTxtRemaining('#text_choice1', '#text_feedback-choice1');" onblur="hideMe('#text_feedback-choice1');" required>
+                                        <div class="text-remaining-indicator align-self-center" id="text_feedback-choice1"></div>
+                                    </div>
+                                    
+                                    <div class="form-group position-relative">
+                                        <input only-letters-input type="text" id="text_choice2" class="form-control" placeholder="B" ng-model="choice2" onfocus="showTxtRemaining('#text_choice2', '#text_feedback-choice2', 60);" onblur="hideMe('#text_feedback-choice2');" required>
+                                        <div class="text-remaining-indicator align-self-center" id="text_feedback-choice2"></div>
+                                    </div>
+                                    
+                                    <div class="form-group position-relative">
+                                        <input only-letters-input type="text" id="text_choice3" class="form-control" placeholder="C" ng-model="choice3" onfocus="showTxtRemaining('#text_choice3', '#text_feedback-choice3', 60);" onblur="hideMe('#text_feedback-choice3');" required>
+                                        <div class="text-remaining-indicator align-self-center" id="text_feedback-choice3"></div>
+                                    </div>
+                                    
+                                    <div class="form-group position-relative">
+                                        <input only-letters-input type="text" id="text_choice4" class="form-control" placeholder="D" ng-model="choice4" onfocus="showTxtRemaining('#text_choice4', '#text_feedback-choice4', 60);" onblur="hideMe('#text_feedback-chooice4');" required>
+                                        <div class="text-remaining-indicator align-self-center" id="text_feedback-choice4"></div>
+                                    </div>
+                                    <!--END OF CHOICESSSSS-->
+    
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-block" type="button" ng-disabled="myForm.$invalid" ng-click="arrangeQuestion()">
+                                            <i class="far fa-plus-square"></i> Add Question
+                                        </button>
+                                    </div> 
+                                    <a data-toggle="modal" data-target="#importCSV-modal"><p class="text-primary">Import from CSV</p></a>
+                                </form>
+                            </div>                                                           
+                        </div>                                    
+                    </div>
+                </div>
+            <!-- </div> -->
+        </div>                    
+    </div>
+</body>
+</html>

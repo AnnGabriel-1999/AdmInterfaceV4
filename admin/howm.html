@@ -213,7 +213,7 @@ span {
                         </div> -->
                     </div>
                     
-                    <div class="col-md-12 my-2 px-0 quizlist-item-container" ng-repeat="info in quizInfo | filter: searchTxt">
+                    <div class="col-md-12 my-2 px-0 quizlist-item-container" ng-repeat="info in quizInfo.slice(((currentPage-1)*pageSize), ((currentPage)*pageSize))| filter: searchTxt">
                         <div class="card d-flex">
                             <div class="card-body d-flex justify-content-between">
                                 <div class="quizlist-img">
@@ -253,27 +253,7 @@ span {
                 <!-- </div> End row -->
 
                 <!-- Pagination -->
-                <nav>
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <span class="page-link">Previous</span>
-                        </li>
-                        <li class="page-item active">
-                            <span class="page-link">1</span>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-                
-            </div>
+                <ul uib-pagination total-items="quizInfo.length" ng-model="currentPage" items-per-page="pageSize" max-size="5" class="pagination-md" ng-show='quizInfo.length > 0' boundary-links="true" force-ellipses="true"></ul>
 
             <!-- Error Message -->
             <div class="row d-flex align-items-center h-100" ng-show="error">

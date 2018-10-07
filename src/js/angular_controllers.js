@@ -1,4 +1,4 @@
-var theApp = angular.module('theApp',['ngRoute','theApp.controller','ngStorage']);
+var theApp = angular.module('theApp',['ngRoute','theApp.controller','ngStorage','ui.bootstrap']);
 
 theApp.directive('fileInput',function($parse){
 	return{
@@ -192,6 +192,18 @@ theApp.config(['$routeProvider', function($routeProvider) {
                 controller: 'CSVSTUDENTS'
         })
 
+		.when('/checker/3/:quiz_id/:part_id', {
+			resolve:{
+					 "check": function($location,$localStorage){
+							 if (!$localStorage.loggedIn){
+									 $location.path("/login");
+							 }
+					  }
+			 },
+			templateUrl:'arrange-the-sequence.html',
+			controller: 'arrangeCtrlr'
+		})
+
         .when('/checker/4/:quiz_id/:part_id', {
 					resolve:{
 							 "check": function($location,$localStorage){
@@ -359,8 +371,8 @@ theApp.controller('listCtrlr', function($scope,$http){
 });
 
 theApp.controller('listSecCtrlr', function($scope, $http, $route, $location){
-
-
+	$scope.currentPage = 1;
+	$scope.pageSize = 4;
 
 	getLink = '/restAPI/api/Hosts/list_courses.php';
     $scope.prefix = "SECTION";
@@ -505,6 +517,9 @@ theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 
 theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$location){
 
+	$scope.currentPage = 1;
+	$scope.pageSize = 4;
+
    $scope.quizTitle = 'MyQuizzenNo.0';
    getLink = "/restAPI/api/quizzes/read_quiz.php?admin_id="+ localStorage.getItem('user_id');
    $http.get(getLink).then(function(response){
@@ -580,6 +595,9 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
 });
 
 theApp.controller('partsCtrlr', function($scope,$http,$route, $routeParams){
+	$scope.currentPage = 1;
+	$scope.pageSize = 4;
+
 	$scope.quiz_id = $routeParams.quiz_id;
 	getLink = "/restAPI/api/quizzes/viewQuizPart.php?quiz_id="+ $routeParams.quiz_id;
 
@@ -601,14 +619,14 @@ theApp.controller('partsCtrlr', function($scope,$http,$route, $routeParams){
         return {
 					"background-color": "#E9D2FD", "width": "auto", "display": "inline-block", "padding": "2px 10px", "border-radius": "50px","color": "rgba(104,29,168,.72)"
 				};
-				else if(TypeID == 3)
-		        return {
-							"background-color": "#CBF0F8", "width": "auto", "display": "inline-block", "padding": "2px 10px", "border-radius": "50px","color": "rgba(0,123,131,.72)"
-						};
-						else
-				        return {
-									"background-color": "#FEEFC3","width": "auto", "display": "inline-block", "padding": "2px 10px", "border-radius": "50px","color": "rgba(227,116,0,.72)"
-								};
+	else if(TypeID == 3)
+		return {
+				"background-color": "#CBF0F8", "width": "auto", "display": "inline-block", "padding": "2px 10px", "border-radius": "50px","color": "rgba(0,123,131,.72)"
+			};
+	else
+		return {
+			"background-color": "#FEEFC3","width": "auto", "display": "inline-block", "padding": "2px 10px", "border-radius": "50px","color": "rgba(227,116,0,.72)"
+		};
 };
 $scope.checkQuestions = function(TotalQs) {
  if ( TotalQs == 0 ) { // your question said "more than one element"
@@ -644,10 +662,12 @@ $scope.transferMultipleData = function(QuestionID,QuizID, PartID, Question, Answ
 		getLink = "/restAPI/api/quizzes/view_questions.php?part_id="+ PartID;
 		$http.get(getLink).then(function (response) {
 				$scope.questions = response.data;
+				console.log('boom');
 		}).catch(function (response) {
 				console.log(response);
 		});
 }
+
 $scope.updateTrueorFalse = function(QuestionID, QuizID, PartID, question, answer) {
 		sendData = JSON.stringify({"quizID": QuizID, "partID": PartID, "question_id": QuestionID, "new_question": question, "correct": answer});
 		link = '/restAPI/api/Quizzes/updatequestion.php';
@@ -684,33 +704,25 @@ $scope.updateMultiple = function(QuestionID, question, answer,a,b,c,d) {
 }
 	});
 
-	$scope.view = function(PartID){
-		$scope.PartID = PartID;
-		getLink = "/restAPI/api/quizzes/view_questions.php?part_id="+ $scope.PartID;
+$scope.view = function(PartID , TypeID){
+	getLink = "/restAPI/api/quizzes/view_questions.php?part_id="+ PartID + "&type_id="+TypeID;
 
-		$http.get(getLink).then(function(response){
-			if(response.data.message){
-				$scope.error = response.data.message;
-			}else{
-				console.log(response.data);
-				$scope.questions = response.data;
-			}
-		});
-	};
+	$http.get(getLink).then(function(response){
+		if(response.data.message){
+			$scope.error = response.data.message;
+		}else{
+			console.log(response.data);
+			$scope.questions = response.data;
+		}
+	});
+};
 
 	$scope.addPart = function(){
 		alert("heelllo");
 		sendData = JSON.stringify({"type_name" : $scope.typeName, "quizID" : $routeParams.quiz_id, "part_title" : $scope.partTitle, "duration" : $scope.duration});
 		link = '/restAPI/api/Quizzes/addQuizPart.php';
 		$http.post(link,sendData).then(function(response){
-			if(response.data.success){
-				alert(response.data.success);
-				$('#newPart-modal').modal('show').modal('hide');
-				$route.reload();
-			}else if(response.data.error){
-				$scope.error = response.data.error;
-				alert($scope.error);
-			}
+			console.log(response.data);
 		}).catch(function(response){
 			console.log(response);
 		});
@@ -933,6 +945,21 @@ theApp.controller('guessCtrlr', function($scope,$http,sessionService,$routeParam
    		$scope.csverror = null;
    		$scope.csvsuccess = null;
    }
+
+});
+
+theApp.controller('arrangeCtrlr', function($scope,$http,sessionService,$routeParams){
+	$scope.arrangeQuestion = function(){
+   	sendData = JSON.stringify({"quiz_id" : $routeParams.quiz_id ,"part_id" : $routeParams.part_id , "question" : $scope.question , "correct" : $scope.answer, "a" : $scope.choice1, "b" : $scope.choice2, "c" : $scope.choice3, "d" : $scope.choice4 });
+	link = "/restAPI/api/Quizzes/arrange_the_sequence.php";
+	
+	$http.post(link,sendData).then(function(response){
+		console.log(response.data);
+	}).catch(function(response){
+		console.log(response);
+	});
+
+   };
 
 });
 
