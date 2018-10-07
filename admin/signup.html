@@ -6,7 +6,7 @@
                     <img src="images/game-controller (2).png">
                 </div>
 
-                <h1 class="text-primary mb-3 text-center">Sign Up</h1>
+                <h1 class="text-primary mb-3 text-center">Hello, {{fname}} {{lname}}!</h1>
                 <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
                     {{error.message}}
                     <button type="button" class="close" data-ng-click="reply = null">
@@ -14,27 +14,7 @@
                     </button>
                 </div>
 
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="far fa-user-circle"></i></span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="First Name" ng-model="firstname" required>
-                </div>
-
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="far fa-user-circle"></i></span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Middle Name" ng-model="middlename" required>
-                </div>
-
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="far fa-user-circle"></i></span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Last Name" ng-model="lastname" required>
-                </div>
-
+           
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="far fa-user"></i></span>
