@@ -1,4 +1,4 @@
-var theApp = angular.module('theApp',['ngRoute','theApp.controller','ngStorage']);
+var theApp = angular.module('theApp',['ngRoute','theApp.controller','ngStorage','ui.bootstrap']);
 
 theApp.directive('fileInput',function($parse){
 	return{
@@ -427,7 +427,8 @@ theApp.controller('listCtrlr', function($scope,$http){
 
 theApp.controller('listSecCtrlr', function($scope, $http, $route, $location){
 
-
+	$scope.currentPage = 1;
+	$scope.pageSize = 4;
 
 	getLink = '/restAPI/api/Hosts/list_courses.php';
     $scope.prefix = "SECTION";
@@ -522,7 +523,8 @@ theApp.controller('listSecCtrlr', function($scope, $http, $route, $location){
 
 theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 
-
+	$scope.currentPage = 1;
+	$scope.pageSize = 10;
 
 	getLink = "/restAPI/api/Hosts/Sections/list_section_students.php?section_id="+$routeParams.section_id;
 	$http.get(getLink).then(function(response){
@@ -570,6 +572,9 @@ theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 });
 
 theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$location){
+
+	$scope.currentPage = 1;
+	$scope.pageSize = 4;
 
    $scope.quizTitle = 'MyQuizzenNo.0';
    getLink = "/restAPI/api/quizzes/read_quiz.php?admin_id="+ localStorage.getItem('user_id');
