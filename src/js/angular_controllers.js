@@ -227,6 +227,13 @@ theApp.config(['$routeProvider', function($routeProvider) {
 			templateUrl: 'employee-request.html',
 			controller: 'empRequest'
 		})
+
+		.when('/viewByTag/:tag_name/:tag_id', {
+		
+			templateUrl: 'view-by-tag.html',
+			controller: 'viewTagCtrl'
+
+		})
 		
 		.when('/logout', {
 						resolve:{
@@ -547,6 +554,14 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
        }
    });
 
+   getLink = "/restAPI/api/quizzes/view-tags.php?admin_id="+localStorage.getItem('user_id');
+   $http.get(getLink).then(function(response){
+	if(response.data){
+		$scope.folders = response.data;
+	}
+});
+
+
    $scope.getQuizData = function (quizID) {
        $scope.quizID = quizID;
 		getLink = "/restAPI/api/Quizzes/readsingle_quiz.php?quizID="+ quizID;
@@ -574,7 +589,8 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
 
 	};
 
-   $scope.addNewQuiz = function (){
+   $scope.addNewQuiz = function (tryTags){
+	   console.log(tryTags);
 		var fd = new FormData();
 		if($scope.files){
 			fd.append('file',$scope.files[0]);
@@ -1032,10 +1048,23 @@ theApp.controller('empRequest', function($scope, $http){
 			}else if (response.data.message){
 				alert("this is already in our database");
 			}else{
-				alert("tangina mo ka");
+				alert("request error");
 			}
 		}).catch(function(response){
 			console.log(response);
 		});
 	}
+});
+
+theApp.controller('viewTagCtrl', function($scope, $http, $routeParams){
+	$scope.tagName = $routeParams.tag_name;
+
+	getLink = '/restAPI/api/quizzes/filter_quiz_by_tag.php?admin_id=' +localStorage.getItem("user_id") + '&tag_id=' + $routeParams.tag_id;
+	$http.get(getLink).then(function(response){
+		$scope.quizTagInfo = response.data.data;
+		console.log($scope.quizTagInfo);
+	}).catch(function(response){
+		console.log(response);
+	});
+
 });
