@@ -240,6 +240,18 @@ theApp.config(['$routeProvider', function($routeProvider) {
             controller: 'guessCtrlr'
 		})
 		
+		.when('/checker/3/:quiz_id/:part_id', {
+					resolve:{
+							 "check": function($location,$localStorage){
+									 if (!$localStorage.loggedIn){
+											 $location.path("/login");
+									 }
+							  }
+					 },
+            templateUrl:'arrange_the_sequence.html',
+            controller: 'arrangeCtrlr'
+		})
+
 		.when('/empCheck', {
 			resolve:{
 					 "check": function($location,$localStorage){
@@ -264,6 +276,11 @@ theApp.config(['$routeProvider', function($routeProvider) {
 			controller: 'empRequest'
 		})
 		
+		.when('/showWhere/:quiz_id', {
+			templateUrl: 'showUp.html',
+			controller: 'showUp'
+	 	})
+
 		.when('/logout', {
 						resolve:{
 								 "check": function($location,$localStorage){
@@ -644,6 +661,7 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
     $scope.getQuizID = function (MaxID){
         $scope.MaxID = MaxID;
    }
+
    $scope.addNewQuiz = function (MaxID){
        $scope.MaxID = MaxID;
 		var fd = new FormData();
@@ -690,6 +708,7 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
 		});
            }
 	   };
+
 });
 
 theApp.controller('partsCtrlr', function($scope,$http,$route, $routeParams){
@@ -1125,6 +1144,36 @@ theApp.controller('guessCtrlr', function($scope,$http,sessionService,$routeParam
 
 });
 
+theApp.controller('arrangeCtrlr', function($scope,$http,sessionService,$routeParams){
+	$scope.arrangeQuestion = function(){
+   	sendData = JSON.stringify({"quiz_id" : $routeParams.quiz_id ,"part_id" : $routeParams.part_id , "question" : $scope.question , "a" : $scope.choice1, "b" : $scope.choice2, "c" : $scope.choice3, "d" : $scope.choice4 });
+	link = "/restAPI/api/Quizzes/arrange_the_sequence.php";
+	
+	$http.post(link,sendData).then(function(response){
+		console.log(response.data);
+	}).catch(function(response){
+		console.log(response);
+	});
+
+   };
+
+   $scope.uploadCSV = function(){
+		var fd = new FormData();
+		fd.append('arrange',$scope.files[0]);
+		fd.append('quiz_id',$routeParams.quiz_id);
+		fd.append('part_id',$routeParams.part_id);
+
+		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
+			transfromRequest:angular.identity,
+			headers:{'Content-Type':undefined}
+		}).then(function(response){
+			console.log(response.data);
+		}).catch(function(response){
+			console.log(response.data);
+		});
+	};
+});
+
 
 theApp.controller('empIDChecker' , function($scope, $http, $location){
 	$scope.checkID = function(){
@@ -1179,4 +1228,23 @@ theApp.controller('empRequest', function($scope, $http){
 			console.log(response);
 		});
 	}
+});
+
+theApp.controller('showUp',function($scope,$http,$routeParams){
+	$http.get('/restAPI/api/Sections/readHandledSection.php?adminId='+localStorage.getItem("user_id")).then(function(response){
+		$scope.sectionsHandled = response.data;
+	}).catch(function(response){
+		console.log(response);
+	});
+
+	$scope.streamQuiz = function($section_id){
+		$postData = JSON.stringify({"quiz_id" : $routeParams.quiz_id , "admin_id" : localStorage.getItem('user_id' ) , "section_id" : $section_id });
+		$link = '/restAPI/api/Quizzes/up_quiz.php';
+		$http.post($link,$postData).then(function(response){
+			console.log(response.data);
+		}).catch(function(){
+
+		});
+	}
+
 });
