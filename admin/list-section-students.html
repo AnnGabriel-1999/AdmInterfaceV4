@@ -95,17 +95,57 @@
                     <span>&times;</span>
                 </button>
             </div>
+            
+            <div ng-show="errors" style="color: red; font-weight: bold">
+                ERROR: NOT ALL DATA ARE INSERTED
+                <div ng-show="duplicate.length > 0">
+                    Already Exists:
+                    <ul>
+                        <li ng-repeat=" x in duplicate">line {{x}}</li>
+                    </ul>
+                </div>
+
+                <div ng-show="nonConvert.length > 0">
+                    Wrong Section/Course:
+                    <ul>
+                        <li ng-repeat=" x in nonConvert">line {{x}}</li>
+                    </ul>
+                </div>
+
+                <div ng-show="wrongLen.length > 0">
+                    Wrong Length:
+                    <ul>
+                        <li ng-repeat=" x in wrongLen">line {{x}}</li>
+                    </ul>
+                </div>
+
+                <div ng-show="missingData.length > 0">
+                    Data Given Not complete:
+                    <ul>
+                        <li ng-repeat=" x in missingData">line {{x}}</li>
+                    </ul>
+                </div>
+
+                <div ng-show="enter.length > 0">
+                    Only data that is inserted:
+                    <ul>
+                        <li ng-repeat=" x in enter">line {{x}}</li>
+                    </ul>
+                </div>
+
+            </div>
+
             <div class="modal-body text-center">
-                <p><a href="#">Download our CSV template</a></p>
+                <p><a href="../src/assets/csvformats/QuizzenUploadStudent.csv" download>Download our CSV template</a></p>
                 <p>or</p>
                 <p class="m-0">
-                    <input type="file" id="file" class="hiddenFile">
+                    <input type="file" id="file" class="hiddenFile" file-input="files">
                     <label for="file" class="btn btn-primary">Choose a file</label>
                 </p>
             </div>
             <div class="modal-footer border-top-0">
                 <p class="text-secondary m-0 px-3">Cancel</p>
-                <button type="button" class="btn btn-primary">Upload</button>
+                <button type="button" class="btn btn-primary" ng-click="uploadCSV()">Upload</button>
             </div>
         </div>
     </div>

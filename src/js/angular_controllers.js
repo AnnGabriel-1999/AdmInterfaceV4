@@ -222,7 +222,7 @@ theApp.config(['$routeProvider', function($routeProvider) {
                 controller: 'updateStudentCtrlr'
         })
 
-        .when('/uploadCS', {
+        .when('/uploadCSV', {
 
                 templateUrl:'uploadCsvStudents.html',
                 controller: 'CSVSTUDENTS'
@@ -569,6 +569,33 @@ theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 		});
 	}
 
+	$scope.uploadCSV = function(){
+		var fd = new FormData();
+		fd.append('students',$scope.files[0]);
+
+		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
+			transfromRequest:angular.identity,
+			headers:{'Content-Type':undefined}
+		}).then(function(response){
+			if(response.data.success){
+
+			}else if(response.data.error){
+
+			}else{
+				$scope.errors = response.data;
+				$scope.duplicate = response.data.duplicate;
+				$scope.nonConvert = response.data.nonConvert;
+				$scope.wrongLen = response.data.wrongLen;
+				$scope.missingData = response.data.missingData;
+				$scope.enter = response.data.enter;
+				console.log(response.data);
+			}
+		}).catch(function(response){
+			console.log(response.data);
+		});
+
+	}
+
 });
 
 theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$location){
@@ -666,6 +693,10 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
 });
 
 theApp.controller('partsCtrlr', function($scope,$http,$route, $routeParams){
+
+	$scope.currentPage = 1;
+	$scope.pageSize = 4;
+
 	$scope.quiz_id = $routeParams.quiz_id;
 	getLink = "/restAPI/api/quizzes/viewQuizPart.php?quiz_id="+ $routeParams.quiz_id;
 
@@ -1094,23 +1125,6 @@ theApp.controller('guessCtrlr', function($scope,$http,sessionService,$routeParam
 
 });
 
-theApp.controller('CSVSTUDENTS', function($scope,$http){
-	$scope.uploadCS = function(){
-		var fd = new FormData();
-		fd.append('students',$scope.files[0]);
-
-		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
-			transfromRequest:angular.identity,
-			headers:{'Content-Type':undefined}
-		}).then(function(response){
-			console.log(response.data);
-		}).catch(function(response){
-			console.log(response.data);
-			console.log('asdasd');
-		});
-
-	}
-});
 
 theApp.controller('empIDChecker' , function($scope, $http, $location){
 	$scope.checkID = function(){
