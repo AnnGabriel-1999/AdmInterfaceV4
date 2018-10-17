@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../src/css/main.css" type="text/css">
+    <link rel="stylesheet" href="../src/fontawesome/css/all.css">
+   
+
+    <title>Superadmin</title>
+</head>
+
+<body ng-app="homestead">
+    <!-- Navigation -->
+    <!-- Incomplete -->
+    <nav class="col-md-12 navbar navbar-expand-lg navbar-light bg-white d-flex justify-content-end position-fixed shadow-sm main-nav">
+        <a ng-href="#!/myquizzen">
+            <div class="hs-quizzen-logo"></div>
+        </a>
+
+        <div class="ml-4 mr-auto">
+            <div class="position-relative">
+                <div class="position-absolute text-secondary h-100 px-3 py-2">
+                    <i class="fas fa-search"></i>
+                </div>
+                <input type="text" class="form-control pl-5 border-0" placeholder="Type in to Search..." ng-model="searchTxt">
+            </div>
+        </div>
+
+        <div class="border-left position-relative text-center float-left dropdown" style="width: 65px; height: 65px; cursor: pointer;">
+            <div class="dropdown-toggle h-100 w-100" data-toggle="dropdown">
+                <i class="far fa-bell fa-lg" style="line-height: 65px; color: #676868;"></i>
+            </div>
+
+            <div class="dropdown-menu dropdown-menu-right px-4 py-3" style="width: 16rem;">
+                <div class="col-md-12 text-center">
+                    <img src="images/check.png">
+                    <h4>All caught up!</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="media border-left float-left dropdown" style="height: 65px;">
+            <img class="align-self-center ml-3 mr-2 rounded-circle dropdown-toggle" data-toggle="dropdown" src="../admin/images/chris.jpg"
+                width="40" height="40" />
+
+            <div class="align-self-center media-body dropdown-toggle" data-toggle="dropdown">
+                <h6 class="m-0" id="nav-loggedUser">
+                    October 13
+                    <i class="fas fa-angle-down"></i>
+                </h6>
+            </div>
+
+            <div class="dropdown-menu">
+                <a ng-href="#!/logout" class="dropdown-item text-qzndanger">
+                    <i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div id="hs-sidebar-wrapper" class="border-right">
+        <ul class="hs-sidebar-nav">
+            <li>
+                <a href="#" class="hs-side-selected"><i class="far fa-envelope fa-lg"></i></a>
+            </li>
+            <li>
+                <a href="#"><i class="far fa-user-circle fa-lg"></i></a>
+            </li>
+            <li>
+                <a href="#"><i class="fas fa-chalkboard-teacher"></i></a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="wrapper" class="h-100">
+        <div class="hs-mainContainer" ng-view>
+        </div>
+    </div>
+</body>
+<script src="../src/js/angular.min.js"></script>
+<script type="text/javascript" src="../src/js/angular-route.min.js"></script>
+<script src="../src/js/angular_homestead.js"></script>
+<!-- <script type="text/javascript" src="../src/js/angular-my-services.js"></script> -->
+<script type="text/javascript" src="../src/js/ngStorage.js"></script>
+<script src="../src/js/jquery.min.js"></script>
+<script src="../src/js/popper.min.js"></script>
+<script src="../src/js/bootstrap.min.js"></script>
+<script src="../src/js/script.js"></script>
+<script src="../src/js/checklist-model.js"></script>
+</html>

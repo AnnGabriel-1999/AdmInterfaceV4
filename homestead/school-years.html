@@ -1,0 +1,135 @@
+<!-- New SY Modal -->
+<div class="modal fade" id="newSY-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h4 class="modal-title text-qznprimary">New semester</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+    
+                <div class="modal-body">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> SY </span>
+                        </div>
+                        <input type="text" class="form-control" ng-model="start" ng-keyup="addEnd()">
+                        <div class="input-group-append input-group-prepend">
+                            <span class="input-group-text"> - </span>
+                        </div>
+                        <input type="text" class="form-control" ng-model="end" disabled>
+                    </div>
+                </div>
+    
+                <div class="modal-footer">
+                    <p class="text-right">
+                        <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                        <a class="btn btn-qznprimary" ng-click="addSY()">Add School Year</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit SY modal -->
+    <div class="modal fade" id="editSY-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h4 class="modal-title text-qznprimary">Update semester</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+    
+                <div class="modal-body">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> SY </span>
+                        </div>
+                        <input type="text" class="form-control">
+                        <div class="input-group-append input-group-prepend">
+                            <span class="input-group-text"> - </span>
+                        </div>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+    
+                <div class="modal-footer">
+                    <p class="text-right">
+                        <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                        <a href="#" class="btn btn-qznprimary">Save changes</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Activate confirmation modal -->
+    <div class="modal fade" id="activate-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" style="height: 155px;">
+                <div class="modal-header border-bottom-0">
+                    <h4 class="modal-title text-qznprimary">Activate Semester?</h4>
+                    <button class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+    
+                <div class="modal-body">
+                    <p>Make the {{semester}} of {{schoolyear}} the current semester?</p>
+                </div>
+    
+                <div class="modal-footer border-top-0">
+                    <p class="text-right">
+                        <a class="card-link" data-dismiss="modal">Cancel</a>
+                        <a ng-click="activateSY(schoolyear_id)" class="card-link text-qznprimary">Confirm</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="hs-header">
+        <div class="header-title">
+            <div class="hs-header-title__container mb-0">
+                <h1>School Years</h1>
+                <button class="btn btn-qznprimary" data-toggle="modal" data-target="#newSY-modal">
+                    <i class="far fa-plus-square"></i>
+                    Add School Year
+                </button>
+            </div>
+            <div class="hs-header-tab__container">
+                <p><span class="font-weight-bold">Active:</span> {{sy[0].semester}} {{sy[0].schoolyear}}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="hs-list__content-wrap">
+    
+        <div class="col-md-12 px-0 table-responsive text-nowrap mx-auto">
+            <table class="table table-hover table-fixed">
+                <thead>
+                    <tr>
+                        <th>School Year</th>
+                        <th>Semester</th>
+                        <th>Active Sections</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="syn in sys">
+                        <td>{{syn.schoolyear}}</td>
+                        <td>{{syn.semester}}</td>
+                        <td>{{syn.total}} section(s)</td>
+                        <td>
+                            <a href="#" target="_self" class="btn btn-qznsuccess" data-toggle="modal" ng-click="passSYData(syn.schoolyear, syn.semester, syn.schoolyear_id)" data-target="#activate-modal">Activate</a>
+                            <a href="#" target="_self" class="btn btn-qznwarning" data-toggle="modal" data-target="#editSY-modal">Edit</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    
+    </div>

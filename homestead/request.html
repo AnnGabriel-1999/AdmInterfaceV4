@@ -1,0 +1,223 @@
+<!-- New Employee Modal -->
+<div class="modal fade" id="newEmployee-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h4 class="modal-title text-qznprimary">New Employee</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+    
+                <div class="modal-body">
+                    <form name="myForm">
+                        <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                            {{error.error}}
+                            <button type="button" class="close" data-dismiss="alert" ng-click="error = null">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+    
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Employee ID">
+                        </div>
+    
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="First Name">
+                        </div>
+    
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Middle Name">
+                        </div>
+    
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Last Name">
+                        </div>
+                    </form>
+                </div>
+    
+                <div class="modal-footer">
+                    <p class="text-right">
+                        <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                        <a href="#" class="btn btn-primary">Add Employee</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Employee Modal -->
+    <div class="modal fade" id="editEmployee-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h4 class="modal-title text-qznprimary">Edit Employee</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+    
+                <div class="modal-body">
+                    <form name="myForm">
+                        <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                            {{error.error}}
+                            <button type="button" class="close" data-dismiss="alert" ng-click="error = null">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+    
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Employee ID">
+                        </div>
+    
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="First Name">
+                        </div>
+    
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Middle Name">
+                        </div>
+    
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Last Name">
+                        </div>
+                    </form>
+                </div>
+    
+                <div class="modal-footer">
+                    <p class="text-right">
+                        <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                        <a href="#" class="btn btn-primary">Save</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Message Request Modal -->
+    <div class="modal fade" id="requestMessage-modal" tabindex="-1" role="dialog" ng-controller="requestCtrl">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h4 class="modal-title text-qznprimary">Message</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+    
+                <div class="modal-body">
+                    <p> {{putangina}} </p>
+                </div>
+    
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- <div class="hs-mainContainer"> -->
+    <div class="hs-header">
+        <div class="header-title">
+            <div class="hs-header-title__container">
+                <h1>Admin Requests ({{length}})</h1>
+            </div>
+        </div>
+        <div class="hs-header-tab__container">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a href="#request-tab" class="nav-link active" target="_self" data-toggle="tab" ng-click="getListRequest('')">Request</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#accepted-tab" class="nav-link" target="_self" data-toggle="tab" ng-click="getListRequest('granted')">Accepted</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#denied-tab" class="nav-link" target="_self" data-toggle="tab" ng-click="getListRequest('denied')">Denied</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="hs-list__content-wrap tab-content">
+    
+        <!-- Request -->
+        <div class="tab-pane active" id="request-tab">
+            <div class="col-md-12 px-0 table-responsive text-nowrap mx-auto">
+                <table class="table table-hover table-fixed">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Admin Name </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="request in requests">
+                            <td>{{request.employee_id}}</td>
+                            <td>{{request.fname}} {{request.mname}} {{request.lname}}</td>
+                            <td>
+                                <a href="#" class="btn btn-primary" data-toggle="modal" ng-click="showMessage(request.message)"
+                                    data-target="#requestMessage-modal">View Message
+                                </a>
+                                <a href="#" class="btn btn-success" ng-click="processRequest(request.request_id, 'GRANT')">Accept</a>
+                                <a href="#" class="btn btn-danger" ng-click="processRequest(request.request_id, 'DENY')">Decline</a>
+                            </td>
+                        </tr>
+    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <!-- Accepted -->
+        <div class="tab-pane" id="accepted-tab" ng-click="getListRequest(granted)">
+            <div class="col-md-12 px-0 table-responsive text-nowrap mx-auto">
+                <table class="table table-hover table-fixed">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Admin Name </th>
+                            <th>Status</th>
+                            <th>Date Accepted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="request in requests">
+                            <td>{{request.employee_id}}</td>
+                            <td>{{request.fname}} {{request.mname}} {{request.lname}}</td>
+                            <td>ACTIVE</td>
+                            <td>{{request.date_processed}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <!-- Denied -->
+        <div class="tab-pane" id="denied-tab" ng-click="getListRequest(denied)">
+            <div class="col-md-12 px-0 table-responsive text-nowrap mx-auto">
+                <table class="table table-hover table-fixed">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Admin Name </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="request in requests">
+                            <td>{{request.employee_id}}</td>
+                            <td>{{request.fname}} {{request.mname}} {{request.lname}}</td>
+                            <td>
+                                <a href="#denied-tab" class="btn btn-success" ng-click="processRequest(request.request_id, 'GRANT')">Accept</a>
+                                <a href="#" class="btn btn-danger" ng-click="processRequest(request.request_id, 'DENY')">Decline</a>
+                            </td>
+                        </tr>
+    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+    </div>
+    <!-- </div> -->

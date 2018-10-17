@@ -1,0 +1,67 @@
+<!-- New Employee Modal -->
+<div class="modal fade" id="employeeInfo-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h4 class="modal-title text-qznprimary">Admin Information</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="text-center mb-3">
+                    <i class="far fa-user-circle fa-5x"></i>
+                </div>
+
+                <p><span class="font-weight-bold">Employee ID:</span> 10132018</p>
+                <p><span class="font-weight-bold">Name:</span> Capstone Checking</p>
+                <p><span class="font-weight-bold">Courses Handled:</span> BSIT, ACT</p>
+                <p><span class="font-weight-bold">Sections Handled:</span> BSIT 4C-G1, ACT 2S-G2</p>
+            </div>
+
+            <div class="modal-footer">
+                <p class="text-right">
+                    <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="hs-header">
+    <div class="header-title">
+        <div class="hs-header-title__container">
+            <h1>Registered Admins</h1>
+        </div>
+    </div>
+</div>
+
+<div class="hs-list__content-wrap">
+
+    <div class="col-md-12 px-0 table-responsive text-nowrap mx-auto">
+        <table class="table table-hover table-fixed">
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Admin Name </th>
+                    <th>Courses Handled</th>
+                    <th>Sections Handled</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="admin in admins">
+                    <td>{{admin.employee_id}}</td>
+                    <td>{{admin.fname}} {{admin.mname}} {{admin.lname}}</td>
+                    <th>2</th>
+                    <th>{{admin.secs}}</th>
+                    <td>
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#employeeInfo-modal">Full details</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

@@ -68,7 +68,7 @@ theApp.config(['$routeProvider', function($routeProvider) {
 							  }
 					 },
         	templateUrl:'new-quizzen.html',
-        	controller: 'createQuizCtrlr'
+        	controller: 'viewQuizzesCtrlr'
         })
 
         .when('/editquiz/:quiz_id', {
@@ -118,8 +118,32 @@ theApp.config(['$routeProvider', function($routeProvider) {
         	templateUrl:'add-part.html',
         	controller: 'quizParts'
 		})
-
-		.when('/viewparts/:quiz_id', {
+        
+        .when('/published/:quiz_id/Segment', {
+			resolve:{
+					 "check": function($location,$localStorage){
+							 if (!$localStorage.loggedIn){
+									 $location.path("/login");
+							 }
+						}
+			 },
+				templateUrl:'published-segments2.html',
+				controller: 'readOnlyCtrlr'
+		})
+    
+        .when('/published/:quiz_id/Freeflow', {
+			resolve:{
+					 "check": function($location,$localStorage){
+							 if (!$localStorage.loggedIn){
+									 $location.path("/login");
+							 }
+						}
+			 },
+				templateUrl:'published-freeflow.html',
+				controller: 'readOnlyCtrlr'
+		})
+    
+		.when('/viewparts/:quiz_id/Segment', {
 			resolve:{
 					 "check": function($location,$localStorage){
 							 if (!$localStorage.loggedIn){
@@ -128,6 +152,18 @@ theApp.config(['$routeProvider', function($routeProvider) {
 						}
 			 },
 				templateUrl:'view-parts.html',
+				controller: 'partsCtrlr'
+		})
+        
+        .when('/viewparts/:quiz_id/Freeflow', {
+			resolve:{
+					 "check": function($location,$localStorage){
+							 if (!$localStorage.loggedIn){
+									 $location.path("/login");
+							 }
+						}
+			 },
+				templateUrl:'view-freeflow.html',
 				controller: 'partsCtrlr'
 		})
 
@@ -540,7 +576,6 @@ theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 
 });
 
-
 theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$location){
 
    $scope.quizTitle = 'MyQuizzenNo.0';
@@ -558,6 +593,7 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
    $http.get(getLink).then(function(response){
 	if(response.data){
 		$scope.folders = response.data;
+		console.log($scope.folders);
 	}
 });
 
@@ -589,14 +625,23 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
 
 	};
 
-   $scope.addNewQuiz = function (tryTags){
-	   console.log(tryTags);
+     
+    $scope.getQuizID = function (MaxID){
+        $scope.MaxID = MaxID;
+   }
+
+   $scope.addNewQuiz = function (MaxID){
+
+	   $scope.MaxID = MaxID;
+	   $scope.tags = angular.element('#addQ-hidden-input').val();
 		var fd = new FormData();
 		if($scope.files){
 			fd.append('file',$scope.files[0]);
 		}
 		fd.append('quizTitle',$scope.quizTitle);
 		fd.append('description',$scope.quizDesc);
+		fd.append('part_type',$scope.type);
+		fd.append('tags',$scope.tags);
 		fd.append('admin_id',localStorage.getItem("user_id"));
 		link = '/restAPI/api/Quizzes/add_quiz.php';
 		$http.post(link,fd,{
@@ -615,15 +660,24 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
 		}).catch(function(response){
 			console.log(response);
 		});
-
-	};
-     $scope.user = {
-		quizDesc: {
-				required: true,
-				minlength: 10,
-				maxlength: 250
-		}
-	}
+       if ($scope.type == 'Freeflow'){
+       alert("freefloooooow");
+		sendData = JSON.stringify({"type_name" : $scope.typeName, "quizID" : parseInt($scope.MaxID) + 1 , "duration" : $scope.duration});
+		link = '/restAPI/api/Quizzes/setType.php';
+		$http.post(link,sendData).then(function(response){
+			if(response.data.success){
+				alert(response.data.success);
+				$('#newPart-modal').modal('show').modal('hide');
+				    $route.reload();
+			}else if(response.data.error){
+				$scope.error = response.data.error;
+				alert($scope.error);
+			}
+		}).catch(function(response){
+			console.log(response);
+		});
+           }
+	   };
 });
 
 theApp.controller('partsCtrlr', function($scope,$http,$route, $routeParams){
@@ -746,7 +800,6 @@ $scope.updateMultiple = function(QuestionID, question, answer,a,b,c,d) {
 	};
 
 	$scope.addPart = function(){
-		alert("heelllo");
 		sendData = JSON.stringify({"type_name" : $scope.typeName, "quizID" : $routeParams.quiz_id, "part_title" : $scope.partTitle, "duration" : $scope.duration});
 		link = '/restAPI/api/Quizzes/addQuizPart.php';
 		$http.post(link,sendData).then(function(response){
@@ -767,15 +820,87 @@ $scope.updateMultiple = function(QuestionID, question, answer,a,b,c,d) {
 		window.open('../../../restAPI/api/Hosts/printPDF.php?id='+$routeParams.quiz_id);
 	}
 });
+//readOnly
+theApp.controller('readOnlyCtrlr', function($scope,$http,$route, $routeParams){
+	$scope.quiz_id = $routeParams.quiz_id;
+	getLink = "/restAPI/api/quizzes/viewQuizPart.php?quiz_id="+ $routeParams.quiz_id;
 
+	$http.get(getLink).then(function(response){
+		if(response.data.message){
+			$scope.error = response.data.message;
+		}else{
+			console.log(response.data);
+			$scope.quizTitle= response.data[0].QuizTitle;
+            $scope.description= response.data[0].Description;
+            $scope.PartID= response.data.PartID;
+			$scope.parts = response.data;
+        }
+	$scope.view = function(PartID,TypeID){
+        $scope.TypeID = TypeID;
+        //alert($scope.TypeID);
+		$scope.PartID = PartID;
+
+        if ($scope.TypeID == 1){
+        $scope.validate_1 = true;
+        $scope.validate_2 = false;
+        $scope.validate_3 = false;
+        $scope.validate_4 = false;
+        }
+        else if ($scope.TypeID == 2){
+        $scope.validate_1 = false;
+        $scope.validate_2 = true;
+        $scope.validate_3 = false;
+        $scope.validate_4 = false;
+        }
+        else if ($scope.TypeID == 4){
+        $scope.validate_1 = false;
+        $scope.validate_2 = false;
+        $scope.validate_3 = false;
+        $scope.validate_4 = true;
+        }
+        else{
+        $scope.validate_1 = false;
+        $scope.validate_2 = false;
+        $scope.validate_3 = true;
+        $scope.validate_4 = false;
+        }
+		getLink = "/restAPI/api/quizzes/view_questions.php?part_id="+ $scope.PartID;
+          console.log($scope.PartID);
+        
+		$http.get(getLink).then(function(response){
+			if(response.data.message){
+				$scope.error = response.data.message;
+			}else{
+				console.log(response.data);
+				$scope.questions = response.data;
+			}
+		});
+        };
+  });
+});
 theApp.controller('createQuizCtrlr', function($scope,$http,$location){
-	$scope.addNewQuiz = function (){
+    $scope.quizTitle = 'MyQuizzenNo.0';
+	getLink = "/restAPI/api/quizzes/read_quiz.php?admin_id="+ localStorage.getItem('user_id');
+   $http.get(getLink).then(function(response){
+       if(response.data.message){
+		   $scope.error = response.data.message;
+       }else{
+		$scope.quizInfo = response.data;
+		$scope.quizTitle = 'MyQuizzenNo.'+(response.data.length+1);
+       }
+   });
+    $scope.getQuizID = function (MaxID){
+        $scope.MaxID = MaxID;
+   }
+   $scope.addNewQuiz = function (MaxID){
+       $scope.MaxID = MaxID;
 		var fd = new FormData();
 		if($scope.files){
 			fd.append('file',$scope.files[0]);
 		}
 		fd.append('quizTitle',$scope.quizTitle);
 		fd.append('description',$scope.quizDesc);
+        fd.append('part_type',$scope.type);
 		fd.append('admin_id',localStorage.getItem("user_id"));
 		link = '/restAPI/api/Quizzes/add_quiz.php';
 		$http.post(link,fd,{
@@ -786,32 +911,32 @@ theApp.controller('createQuizCtrlr', function($scope,$http,$location){
 		}).then(function(response){
 			if(response.data.success){
 				$location.path('/home');
+				$('#newQuiz-modal').modal('show').modal('hide');
 			}else{
-				$scope.error = response.data;
+				$scope.error1 = response.data.message;
 				console.log(response.data);
 			}
 		}).catch(function(response){
 			console.log(response);
 		});
-
-	};
-});
-
-theApp.controller('quizParts', function($scope, $http, $routeParams, $location){
-
-	$scope.addPart = function(){
-		sendData = JSON.stringify({"type_name" : $scope.typeName, "quizID" : $routeParams.quiz_id, "part_title" : $scope.partTitle, "duration" : $scope.duration});
-		link = '/restAPI/api/Quizzes/addQuizPart.php';
+       if ($scope.type == 'Freeflow')
+           {
+       alert("freefloooooow");
+		sendData = JSON.stringify({"type_name" : $scope.typeName, "quizID" : parseInt($scope.MaxID) + 1 , "duration" : $scope.duration});
+		link = '/restAPI/api/Quizzes/setType.php';
 		$http.post(link,sendData).then(function(response){
-			if(response.data){
-				alert("NICE ONE");
-				$location.path('/home');
-			}else{
-				$scope.error = response.data;
+			if(response.data.success){
+				alert(response.data.success);
+				$('#newPart-modal').modal('show').modal('hide');
+				    $route.reload();
+			}else if(response.data.error){
+				$scope.error = response.data.error;
+				alert($scope.error);
 			}
 		}).catch(function(response){
 			console.log(response);
 		});
+           }
 	   };
 });
 
@@ -1004,7 +1129,7 @@ theApp.controller('CSVSTUDENTS', function($scope,$http){
 theApp.controller('empIDChecker' , function($scope, $http, $location){
 	$scope.checkID = function(){
 		sendData = JSON.stringify({"empID": $scope.empID});
-		link = "/restAPI/api/Homestead/empIDChecker.php";
+		link = "/restAPI/api/Homestead/Admins/empIDChecker.php";
 		$http.post(link, sendData).then(function(response){
 			if(!response.data.error){
 				if(response.data.empData[0].status == "true"){
@@ -1041,7 +1166,7 @@ theApp.controller('empRequest', function($scope, $http){
 		alert($scope.mname);
 
 		sendData = JSON.stringify({"empID" : $scope.empID, "fname" : $scope.fname, "mname" : $scope.mname, "lname" : $scope.lname, "message" : $scope.message});
-		link = "/restAPI/api/homestead/request-homestead.php";
+		link = "/restAPI/api/homestead/Admins/request-homestead.php";
 		$http.post(link, sendData).then(function(response){
 			if(response.data.success){
 				alert("request created");

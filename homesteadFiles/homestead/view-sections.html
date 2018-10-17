@@ -1,0 +1,120 @@
+<div class="modal fade" id="assignProf-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h4 class="modal-title text-qznprimary">Assign</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form name="myForm">
+                    <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                        {{error.error}}
+                        <button type="button" class="close" data-dismiss="alert" ng-click="error = null">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search a professor..." ng-model="searchProf">
+                    </div>
+
+                    <div id="prof-chk__container">
+                        <div class="custom-control custom-checkbox" ng-repeat="prof in profs | filter: searchProf" ng-show="profs">
+                            <!-- Yung id ng prof palagay sa id attribute saka sa for ng label -->
+                                    <input type="checkbox" class="custom-control-input" id="{{prof.admin_id}}" checklist-change="imChanged(adminIDS[$index])" checklist-model="selected.key" checklist-value="adminIDS[$index]">
+                                    <label for="{{prof.admin_id}}" class="custom-control-label">{{prof.name}}</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <p class="text-right">
+                    <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                    <a class="btn btn-primary" ng-click="assignProf()">Assign</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="hs-header">
+    <div class="hs-header-title__container">
+        <!-- Section name here -->
+        <h1>{{course}}</h1>
+        
+
+        <select class="custom-select" style="width: auto;" ng-model="filter" ng-change="filterSectionView(filter)">
+            <option value="">Sort by year level</option>
+            <option value="1">First Year</option>
+            <option value="2">Second Year</option>
+            <option value="3">Third Year</option>
+            <option value="4">Fourth Year</option>
+        </select>
+    </div>
+</div>
+
+<div class="hs-list__content-wrap">
+
+    <!-- Start ng ng-repeat ng courses. pakilagay yung ng-repeat sa div na walang class -->
+    <div ng-repeat="section in Sections" ng-show="Sections">
+        <div class="hs-item__container">
+            <div class="hs-item-card__content-wrap card">
+
+                <!-- Quiz Information -->
+                <div class="hs-info__container">
+                    <div class="mainFake-specific-course">
+                        <div class="hs-course-title__container">
+                            <h5 class="hs-course-title">
+                                <p class="h5">{{prefix}} {{section.section}}</p>
+                            </h5>
+                            <p class="text-secondary m-0" style="text-overflow: ellipsis;">{{section.total}} student(s)</p>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Navigation -->
+                    <div class="footerFake-specific-course">
+                        <div>
+                            <button class="btn btn-qznprimary btn-sm" data-toggle="modal" data-target="#assignProf-modal" ng-click="getVacant(section.section_id)">
+                                <i class="far fa-plus-square"></i> Assign
+                            </button>
+                            <button class="btn btn-qznsuccess btn-sm">
+                                <a href="#!/viewAssigned/{{section.section_id}}"><i class="far fa-eye"></i> View Assigned</a>
+                            </button>
+                            <button class="btn btn-qznsuccess btn-sm" data-toggle="modal" data-target="#updateCourse-modal">
+                                <i class="far fa-user"></i> View students
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="msg">
+        <div class="hs-item__container">
+            <div class="hs-item-card__content-wrap card">
+
+                <!-- Quiz Information -->
+                <div class="hs-info__container">
+                    <div class="mainFake-specific-course">
+                        <div class="hs-course-title__container">
+                            <h5 class="hs-course-title">
+                                <p class="h5">{{msg}}</p>
+                            </h5>
+                            <p class="text-secondary m-0" style="text-overflow: ellipsis;"></p>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
