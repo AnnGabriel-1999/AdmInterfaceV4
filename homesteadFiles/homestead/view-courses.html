@@ -1,0 +1,139 @@
+
+
+    <!-- New Course Modal -->
+    <div class="modal fade" id="newCourse-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h4 class="modal-title text-qznprimary">New Course</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form name="myForm">
+                        <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                            {{error.error}}
+                            <button type="button" class="close" data-dismiss="alert" ng-click="error = null">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Course Name" ng-model="courseName">
+                        </div>
+
+                        <hr>
+
+                        <div class="text-center">
+                            <p>or</p>
+                            <p>Import from CSV</p>
+                            <p><input type="file" id="file" class="hiddenFile">
+                                <label for="file" class="btn btn-primary">Choose a file</label></p>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <p class="text-right">
+                        <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                        <a class="btn btn-primary" ng-click="addCourse()">Add</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Course Modal -->
+    <div class="modal fade" id="updateCourse-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h4 class="modal-title text-qznprimary">Update Course</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form name="myForm">
+                        <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                            {{error.error}}
+                            <button type="button" class="close" data-dismiss="alert" ng-click="error = null">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="upCName" placeholder="Course Name">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <p class="text-right">
+                        <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                        <a class="btn btn-primary" ng-click="updateCourse(courseID)">Save changes</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <!-- Incomplete -->
+  
+    <!-- Sidebar -->
+ 
+
+            <div class="hs-header">
+                <div class="hs-header-title__container">
+                    <h1>Course List</h1>
+                    <button class="btn btn-qznprimary" id="addCourse" data-toggle="modal" data-target="#newCourse-modal">
+                        <i class="far fa-plus-square"></i>
+                        Add New Course
+                    </button>
+                </div>
+            </div>
+
+            <div class="hs-list__content-wrap">
+
+                <!-- Start ng ng-repeat ng courses. pakilagay yung ng-repeat sa div na walang class -->
+                <div ng-repeat="course in courses">
+                    <div class="hs-item__container">
+                        <div class="hs-item-card__content-wrap card">
+
+                            <!-- Course Information -->
+                            <div class="hs-info__container">
+                                <div class="mainFake-course">
+                                    <div class="hs-course-title__container">
+                                        <h5 class="hs-course-title">
+                                            <p class="h5">{{course.course}}</p>
+                                        </h5>
+                                        <!-- <p class="text-secondary m-0" style="text-overflow: ellipsis;">College of Information and Communications Technology</p> -->
+                                        <p class="text-secondary m-0" style="text-overflow: ellipsis;">Total no. of Sections: {{course.sections}}</p>
+                                    </div>
+                                </div>
+
+                                <!-- Course Navigation -->
+                                <div class="footerFake-course">
+                                    <div>
+                                        <a href="#!/viewSections/{{course.course_id}}/{{course.course_prefix}}">
+                                            <button class="btn btn-qznsuccess btn-sm">
+                                                 <i class="far fa-eye"></i> View Sections
+                                            </button>
+                                        </a>
+                                        <button class="btn btn-qznwarning btn-sm" ng-click="getCourseName(course.course_id)" data-toggle="modal" data-target="#updateCourse-modal">
+                                            <i class="far fa-edit"></i> Edit
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+                
+        

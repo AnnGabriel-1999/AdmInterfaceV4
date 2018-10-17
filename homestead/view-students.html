@@ -1,0 +1,150 @@
+<!-- New student modal -->
+<div class="modal fade" id="newStudent-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h4 class="modal-title text-qznprimary">New Student</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form name="myForm">
+                    <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                        {{error.error}}
+                        <button type="button" class="close" data-dismiss="alert" ng-click="error = null">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="studID" placeholder="Student ID">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="fname" placeholder="First Name">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="mname" placeholder="Middle Name">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="lname" placeholder="Last Name">
+                    </div>
+                    <hr>
+
+                    <div class="text-center">
+                        <p>or</p>
+                        <p>Import from CSV</p>
+                        <p><input type="file" id="file" class="hiddenFile">
+                            <label for="file" class="btn btn-primary">Choose a file</label></p>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <p class="text-right">
+                    <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                    <a class="btn btn-primary" ng-click="addStudent()">Add Student</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update student modal -->
+<div class="modal fade" id="updateStudent-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h4 class="modal-title text-qznprimary">Update Student</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form name="myForm">
+                    <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
+                        {{error.error}}
+                        <button type="button" class="close" data-dismiss="alert" ng-click="error = null">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="studID" placeholder="Student ID">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="fname" placeholder="First Name">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="mname" placeholder="Middle Name">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="lname" placeholder="Last Name">
+                    </div>
+
+                    <select class="custom-select" ng-model="courseID" ng-options="c.course_id as c.course for c in courses" ng-change="refreshSec(courseID)">
+                         <option disabled hidden value="">Courses Available</option>
+                    </select>
+
+                    <select class="custom-select" ng-model="sectionID" ng-options="s.section_id as s.section for s in Sections">
+                        <option disabled hidden value="">Sections Available</option>
+                    </select>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <p class="text-right">
+                    <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                    <a class="btn btn-primary" ng-click="updateStudent()">Save Changes</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="hs-header">
+    <div class="header-title">
+        <div class="hs-header-title__container">
+            <h1>{{pref}} {{sec}}'s Students</h1>
+            <button class="btn btn-qznprimary" id="addCourse" data-toggle="modal" data-target="#newStudent-modal">
+                <i class="far fa-plus-square"></i>
+                Add New Student
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="hs-list__content-wrap">
+
+    <div class="col-md-12 px-0 table-responsive text-nowrap mx-auto">
+        <table class="table table-hover table-fixed">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="stud in studs">
+                    <td>{{stud.student_id}}</td>
+                    <td>{{stud.fname}} {{stud.mname}} {{stud.lname}}</td>
+                    <td>{{stud.status}}</td>
+                    <td>
+                        <a href="#" target="_self" class="btn btn-qznwarning" ng-click="getStudentData(stud.student_id)" data-toggle="modal" data-target="#updateStudent-modal">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

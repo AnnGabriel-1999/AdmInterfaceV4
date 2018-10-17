@@ -1,46 +1,5 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link rel="stylesheet" href="../src/css/main.css" type="text/css">
-    <link rel="stylesheet" href="../src/fontawesome/css/all.css">
-    <script src="../src/js/angular.min.js"></script>
-    <script type="text/javascript" src="../src/js/angular-route.min.js"></script>
-    <script src="../src/js/angular_controllers.js"></script>
-    <script type="text/javascript" src="../src/js/angular-my-services.js"></script>
-    <script type="text/javascript" src="../src/js/ngStorage.js"></script>
-
-    <title>Superadmin</title>
-</head>
-
-<body>
-    <!-- Message Request Modal -->
-    <div class="modal fade" id="requestMessage-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header border-bottom-0">
-                    <h4 class="modal-title text-qznprimary">Message</h4>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <p>Hey Hey Hey Hey</p>
-                </div>
-
-                <div class="modal-footer">
-                    <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- New Employee Modal -->
-    <div class="modal fade" id="newEmployee-modal" tabindex="-1" role="dialog">
+<!-- New Employee Modal -->
+<div class="modal fade" id="newEmployee-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header border-bottom-0">
@@ -49,7 +8,7 @@
                         <span>&times;</span>
                     </button>
                 </div>
-
+    
                 <div class="modal-body">
                     <form name="myForm">
                         <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
@@ -58,25 +17,25 @@
                                 <span>&times;</span>
                             </button>
                         </div>
-
+    
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Employee ID">
                         </div>
-
+    
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="First Name">
                         </div>
-
+    
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Middle Name">
                         </div>
-
+    
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Last Name">
                         </div>
                     </form>
                 </div>
-
+    
                 <div class="modal-footer">
                     <p class="text-right">
                         <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>
@@ -86,7 +45,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Edit Employee Modal -->
     <div class="modal fade" id="editEmployee-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog">
@@ -97,7 +56,7 @@
                         <span>&times;</span>
                     </button>
                 </div>
-
+    
                 <div class="modal-body">
                     <form name="myForm">
                         <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
@@ -106,25 +65,25 @@
                                 <span>&times;</span>
                             </button>
                         </div>
-
+    
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Employee ID">
                         </div>
-
+    
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="First Name">
                         </div>
-
+    
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Middle Name">
                         </div>
-
+    
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Last Name">
                         </div>
                     </form>
                 </div>
-
+    
                 <div class="modal-footer">
                     <p class="text-right">
                         <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>
@@ -134,158 +93,131 @@
             </div>
         </div>
     </div>
-
-    <div id="wrapper" class="h-100">
-        <div class="row no-gutters">
-            <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-white border-bottom w-100">
-                <a class="navbar-brand" href="#">
-                    <div class="position-relative sidebar-logo-container">
-                        <img src="../admin/images/game-controller.png" />
-                    </div>
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#hidden-menu"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Logout</a>
-                        </li>
-                    </ul>
+    
+    <!-- Message Request Modal -->
+    <div class="modal fade" id="requestMessage-modal" tabindex="-1" role="dialog" ng-controller="requestCtrl">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h4 class="modal-title text-qznprimary">Message</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
                 </div>
-            </nav>
-
-            <div class="col-md-12" style="margin-top: 60px;">
-                <ul class="nav nav-tabs my-3">
-                    <li class="nav-item ml-7">
-                        <a href="#request" data-toggle="tab" class="nav-link active">Request <span class="badge badge-primary">6</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#employee-list" data-toggle="tab" class="nav-link">Employee List</a>
-                    </li>
-                </ul>
-
-                <div class="tab-content">
-                    <div class="tab-pane active" id="request">
-                        <div class="col-md-11 table-responsive text-nowrap mx-auto">
-                            <table class="table table-hover table-fixed">
-                                <thead>
-                                    <tr>
-                                        <th>Employee ID</th>
-                                        <th>First Name</th>
-                                        <th>Middle Name</th>
-                                        <th>Last Name</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>2015696969</td>
-                                        <td>How</td>
-                                        <td>Meow</td>
-                                        <td>Aw</td>
-                                        <td>
-                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#requestMessage-modal">View
-                                                Message</a>
-                                            <a href="#" class="btn btn-success">Accept</a>
-                                            <a href="#" class="btn btn-danger">Decline</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2015696969</td>
-                                        <td>How</td>
-                                        <td>Meow</td>
-                                        <td>Aw</td>
-                                        <td>
-                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#requestMessage-modal">View
-                                                Message</a>
-                                            <a href="#" class="btn btn-success">Accept</a>
-                                            <a href="#" class="btn btn-danger">Decline</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2015696969</td>
-                                        <td>How</td>
-                                        <td>Meow</td>
-                                        <td>Aw</td>
-                                        <td>
-                                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#requestMessage-modal">View
-                                                Message</a>
-                                            <a href="#" class="btn btn-success">Accept</a>
-                                            <a href="#" class="btn btn-danger">Decline</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="employee-list">
-                        <div class="col-md-12 px-7">
-                            <p class="my-3 text-right">
-                                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#newEmployee-modal">Add
-                                    Employee</a>
-                            </p>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-11 table-responsive text-nowrap mx-auto">
-                                <table class="table table-hover table-fixed">
-                                    <thead>
-                                        <tr>
-                                            <th>Employee ID</th>
-                                            <th>First Name</th>
-                                            <th>Middle Name</th>
-                                            <th>Last Name</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>2015696969</td>
-                                            <td>How</td>
-                                            <td>Meow</td>
-                                            <td>Aw</td>
-                                            <td>
-                                                <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#editEmployee-modal">Edit</a>
-                                                <a href="#" class="btn btn-danger">Deactivate?</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2015696969</td>
-                                            <td>How</td>
-                                            <td>Meow</td>
-                                            <td>Aw</td>
-                                            <td>
-                                                <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#editEmployee-modal">Edit</a>
-                                                <a href="#" class="btn btn-danger">Deactivate?</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2015696969</td>
-                                            <td>How</td>
-                                            <td>Meow</td>
-                                            <td>Aw</td>
-                                            <td>
-                                                <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#editEmployee-modal">Edit</a>
-                                                <a href="#" class="btn btn-danger">Deactivate?</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+    
+                <div class="modal-body">
+                    <p> {{putangina}} </p>
+                </div>
+    
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a>
                 </div>
             </div>
         </div>
     </div>
-
-</body>
-
-<script src="../src/js/jquery.min.js"></script>
-<script src="../src/js/popper.min.js"></script>
-<script src="../src/js/bootstrap.min.js"></script>
-<script src="../src/js/script.js"></script>
-
-</html>
+    
+    <!-- <div class="hs-mainContainer"> -->
+    <div class="hs-header">
+        <div class="header-title">
+            <div class="hs-header-title__container">
+                <h1>Admin Requests ({{length}})</h1>
+            </div>
+        </div>
+        <div class="hs-header-tab__container">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a href="#request-tab" class="nav-link active" target="_self" data-toggle="tab" ng-click="getListRequest('')">Request</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#accepted-tab" class="nav-link" target="_self" data-toggle="tab" ng-click="getListRequest('granted')">Accepted</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#denied-tab" class="nav-link" target="_self" data-toggle="tab" ng-click="getListRequest('denied')">Denied</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="hs-list__content-wrap tab-content">
+    
+        <!-- Request -->
+        <div class="tab-pane active" id="request-tab">
+            <div class="col-md-12 px-0 table-responsive text-nowrap mx-auto">
+                <table class="table table-hover table-fixed">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Admin Name </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="request in requests">
+                            <td>{{request.employee_id}}</td>
+                            <td>{{request.fname}} {{request.mname}} {{request.lname}}</td>
+                            <td>
+                                <a href="#" class="btn btn-primary" data-toggle="modal" ng-click="showMessage(request.message)"
+                                    data-target="#requestMessage-modal">View Message
+                                </a>
+                                <a href="#" class="btn btn-success" ng-click="processRequest(request.request_id, 'GRANT')">Accept</a>
+                                <a href="#" class="btn btn-danger" ng-click="processRequest(request.request_id, 'DENY')">Decline</a>
+                            </td>
+                        </tr>
+    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <!-- Accepted -->
+        <div class="tab-pane" id="accepted-tab" ng-click="getListRequest(granted)">
+            <div class="col-md-12 px-0 table-responsive text-nowrap mx-auto">
+                <table class="table table-hover table-fixed">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Admin Name </th>
+                            <th>Status</th>
+                            <th>Date Accepted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="request in requests">
+                            <td>{{request.employee_id}}</td>
+                            <td>{{request.fname}} {{request.mname}} {{request.lname}}</td>
+                            <td>ACTIVE</td>
+                            <td>{{request.date_processed}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <!-- Denied -->
+        <div class="tab-pane" id="denied-tab" ng-click="getListRequest(denied)">
+            <div class="col-md-12 px-0 table-responsive text-nowrap mx-auto">
+                <table class="table table-hover table-fixed">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Admin Name </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="request in requests">
+                            <td>{{request.employee_id}}</td>
+                            <td>{{request.fname}} {{request.mname}} {{request.lname}}</td>
+                            <td>
+                                <a href="#denied-tab" class="btn btn-success" ng-click="processRequest(request.request_id, 'GRANT')">Accept</a>
+                                <a href="#" class="btn btn-danger" ng-click="processRequest(request.request_id, 'DENY')">Decline</a>
+                            </td>
+                        </tr>
+    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+    </div>
+    <!-- </div> -->

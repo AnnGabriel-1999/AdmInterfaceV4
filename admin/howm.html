@@ -123,6 +123,27 @@
     </div>
 </div>
 
+<!-- Share Quiz Modal -->
+<div class="modal fade" id="shareQuiz-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <h4 id="modalTitle" class="modal-title text-qznprimary">Share Mo Lang?!?</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <div ng-repeat="fname in fullname">
+            <p>{{fname.fullname}}/{{fname.id}}</p>
+            <div ng-repeat="part in parts"></div>
+            <button ng-click="shareQuiz(quizTitle,quizDesc,part_type,fname.id,filepath,PartTitle,Duration,TypeID,QuizID,MaxID,totalParts)" class="btn btn-qznprimary">Share
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Delete Quiz Modal -->
 <div class="modal fade" id="deleteQuiz-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
@@ -219,31 +240,10 @@
                 <div class="tab-content col-md-12">
                     <div class="tab-pane active" id="quiz-list">
                         <div class="d-flex justify-content-between w-100 px-0">
-                            <div class="card" style="width: calc(20% - 20px);">
-                                <a href="#">
-                                    <div class="card-body text-secondary"><i class="fas fa-folder"></i> ALLEN</div>
-                                </a>
-                            </div>
-                            <div class="card" style="width: calc(20% - 20px);">
-                                <a href="#">
-                                    <div class="card-body text-secondary"><i class="fas fa-folder"></i> MARIANNE</div>
-                                </a>
-                            </div>
-                            <div class="card" style="width: calc(20% - 20px);">
-                                <a href="#">
-                                    <div class="card-body text-secondary"><i class="fas fa-folder"></i> CHRIS</div>
-                                </a>
-                            </div>
-                            <div class="card" style="width: calc(20% - 20px);">
-                                <a href="#">
-                                    <div class="card-body text-secondary"><i class="fas fa-folder"></i> ROSE ANN</div>
-                                </a>
-                            </div>
-                            <div class="card" style="width: calc(20% - 20px);">
-                                <a href="#">
-                                    <div class="card-body text-secondary"><i class="fas fa-folder"></i> DENISE</div>
-                                </a>
-                            </div>
+                                <div class="card" style="width: calc(20% - 20px);" ng-repeat="folder in folders | filter: searchTxt">
+                                        <a href="#!/viewByTag/{{folder.tag_name}}/{{folder.tag_id}}"><div class="card-body text-secondary"><i class="fas fa-folder"></i>{{folder.tag_name}}</div></a>
+                                    </div>
+                            
                         </div>
 
                         <div class="col-md-12 my-2 px-0 quizlist-item-container" ng-repeat="info in quizInfo.slice(((currentPage-1)*pageSize), ((currentPage)*pageSize)) | filter: searchTxt">
@@ -264,6 +264,10 @@
                                             ui</div>
                                         <a ng-href="#!/published/{{info.quizID}}/{{info.part_type}}">
                                             <p>PUBLISHED</p>
+                                        </a>
+                                        <a ng-init="adminList()" ng-click="getQuizData(info.quizID,quizInfo[0].MaxID)" data-toggle="modal" data-target="#shareQuiz-modal"
+                                            class="nav-link text-secondary">
+                                            <h5>Share</h5>
                                         </a>
                                     </div>
                                     <div class="quizlist-options align-self-center">

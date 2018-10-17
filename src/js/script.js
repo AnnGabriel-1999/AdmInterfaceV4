@@ -32,6 +32,19 @@ $(document).ready(function(){
         $('#freeflowOptions').css("display", "none");
         console.log('Segments selected');
     });*/
+
+
+
+
+
+
+    // Assigned Prof
+    // $("#prof-chk__container input[type=checkbox]").each(function () {
+    //     alert('Hey');
+    // });
+
+
+
 });
 
 // Text remaining counter
@@ -100,6 +113,7 @@ function addTag(event, el){
         hiddenInput.value = tagsList.join(',');
     }
 }
+
 
 
 

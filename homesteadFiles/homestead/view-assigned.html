@@ -1,0 +1,68 @@
+
+    <!-- Unassign modal -->
+    <div class="modal fade" id="unassignProf-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" style="height: auto; max-height: 200px;">
+                <div class="modal-header border-bottom-0">
+                    <h4 class="modal-title text-qznprimary">Unassign Professor</h4>
+                    <button class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Di na sya maaasign dito (paenglish nalang hahaha di ko din alam ilalagay)</p>
+                </div>
+
+                <div class="modal-footer border-top-0">
+                    <p class="text-right">
+                        <a class="card-link" data-dismiss="modal">Cancel</a>
+                        <a href="#" class="card-link text-qzndanger">Delete</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+            <div class="hs-header">
+                <div class="hs-header-title__container">
+                    <!-- Section name here -->
+                    <h1>BSIT 4C-G1 Assigned Professors</h1>
+                </div>
+            </div>
+
+            <div class="hs-list__content-wrap">
+
+                <!-- Start ng ng-repeat ng courses. pakilagay yung ng-repeat sa div na walang class -->
+                <div ng-repeat="prof in profs">
+                    <div class="hs-item__container">
+                        <div class="hs-item-card__content-wrap card">
+
+                            <!-- Quiz Information -->
+                            <div class="hs-info__container">
+                                <div class="mainFake-assigned-prof">
+                                    <div class="hs-course-title__container">
+                                        <h5 class="hs-course-title">
+                                            <p class="h5">{{prof.name}}</p>
+                                        </h5>
+                                    </div>
+                                </div>
+
+                                <!-- Quiz Navigation -->
+                                <div class="footerFake-assigned-prof">
+                                    <div>
+                                        <button class="btn btn-qzndanger btn-sm" data-toggle="modal" data-target="#unassignProf-modal">
+                                            <i class="far fa-minus-square"></i> Unassign
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+              
+            </div>
+    
+

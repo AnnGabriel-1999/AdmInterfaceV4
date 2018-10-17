@@ -7319,7 +7319,7 @@ h1, h2, h3, h4, h5, h6,
     font-weight: bold;
     opacity: 1; }
 
-.hs-mainContainer {
+.hs-mainContainer, .hs-lrs-mainContainer {
   min-width: calc(100% - 65px);
   max-width: calc(100% - 65px);
   height: 100vh;
@@ -7329,6 +7329,18 @@ h1, h2, h3, h4, h5, h6,
   display: flex;
   flex-direction: column;
   align-items: center; }
+
+.hs-lrs-mainContainer {
+  min-width: 100%;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  justify-content: center; }
+
+.hs-lrs__container {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column; }
 
 .hs-quizzen-logo {
   width: 32px;
@@ -7379,6 +7391,9 @@ h1, h2, h3, h4, h5, h6,
     flex-direction: row;
     align-items: center;
     margin: 1rem 0; }
+  .hs-header .hs-header-tab__container {
+    display: flex;
+    flex-direction: column; }
 
 .hs-list__content-wrap {
   width: 100%;
@@ -7445,3 +7460,16 @@ h1, h2, h3, h4, h5, h6,
       max-height: 45px; }
     .hs-item-card__content-wrap .hs-info__container .footerFake-assigned-prof {
       flex: 2 1 100px; }
+
+.ss-mainContainer, .ss-lr-mainContainer {
+  min-width: 100%;
+  max-width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0; }
+
+.ss-lr-mainContainer {
+  align-items: center;
+  justify-content: center; }

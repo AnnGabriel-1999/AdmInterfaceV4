@@ -8,31 +8,31 @@
         <link rel="stylesheet" href="../src/fontawesome/css/all.css">
         <script src="../src/js/angular.min.js"></script>
         <script type="text/javascript" src="../src/js/angular-route.min.js"></script>
-        <script src="../src/js/angular_homestead.js"></script>
-        <!-- <script type="text/javascript" src="../src/js/angular-my-services.js"></script> -->
+        <script src="../src/js/angular_controllers.js"></script>
+        <script type="text/javascript" src="../src/js/angular-my-services.js"></script>
         <script type="text/javascript" src="../src/js/ngStorage.js"></script>
 
         <title>Superadmin</title>
     </head>
-    <body ng-app="homestead">
+    <body>
+
         <div id="wrapper">
             <div class="row no-gutters d-flex justify-content-center h-100">
                 <div class="col-md-3 align-self-center text-center">
                     <img src="../admin/images/game-controller (2).png" alt="quizzen-temp-logo">
                     <h5>Quizzen</h5>
                     <div class="form-group mt-3 mb-2">
-                        <input type="text" class="form-control" ng-model="username" placeholder="Superadmin" style="height: calc(2.25rem + 10px);">
+                        <input type="text" class="form-control" placeholder="Superadmin" style="height: calc(2.25rem + 10px);">
                     </div>
                     <div class="form-group mb-2">
-                        <input type="password" class="form-control" ng-model="password" placeholder="Password" style="height: calc(2.25rem + 10px);">
+                        <input type="password" class="form-control" placeholder="Password" style="height: calc(2.25rem + 10px);">
                     </div>
                     <div class="form-group mb-1">
-                        <button class="btn btn-qznprimary btn-block" ng-click="logIn()" style="height: calc(2.25rem + 10px);">Sign In</button>
+                        <button class="btn btn-qznprimary btn-block" style="height: calc(2.25rem + 10px);">Sign Up</button>
                     </div>
-                    <a href="#"><p>Forgot your password?</p></a>
                     <div class="d-flex justify-content-between">
-                        <a href="signup.html" class="text-secondary"><p class="m-0 py-2">Don't have an account?</p></a>
-                        <button class="btn btn-outline-qznprimary">Sign Up</button>
+                        <a href="login.html" class="text-secondary"><p class="m-0 py-2">Already have an account?</p></a>
+                        <button class="btn btn-outline-qznprimary">Sign In</button>
                     </div>
                 </div>
             </div>
