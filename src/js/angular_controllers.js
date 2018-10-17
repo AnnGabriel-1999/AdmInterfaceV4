@@ -1,4 +1,4 @@
-var theApp = angular.module('theApp',['ngRoute','theApp.controller','ngStorage']);
+var theApp = angular.module('theApp',['ngRoute','theApp.controller','ngStorage','ui.bootstrap']);
 
 theApp.directive('fileInput',function($parse){
 	return{
@@ -222,12 +222,6 @@ theApp.config(['$routeProvider', function($routeProvider) {
                 controller: 'updateStudentCtrlr'
         })
 
-        .when('/uploadCS', {
-
-                templateUrl:'uploadCsvStudents.html',
-                controller: 'CSVSTUDENTS'
-        })
-
         .when('/checker/4/:quiz_id/:part_id', {
 					resolve:{
 							 "check": function($location,$localStorage){
@@ -240,6 +234,18 @@ theApp.config(['$routeProvider', function($routeProvider) {
             controller: 'guessCtrlr'
 		})
 		
+		.when('/checker/3/:quiz_id/:part_id', {
+					resolve:{
+							 "check": function($location,$localStorage){
+									 if (!$localStorage.loggedIn){
+											 $location.path("/login");
+									 }
+							  }
+					 },
+            templateUrl:'arrange_the_sequence.html',
+            controller: 'arrangeCtrlr'
+		})
+
 		.when('/empCheck', {
 			resolve:{
 					 "check": function($location,$localStorage){
@@ -271,6 +277,11 @@ theApp.config(['$routeProvider', function($routeProvider) {
 
 		})
 		
+		.when('/showWhere/:quiz_id', {
+			templateUrl: 'showUp.html',
+			controller: 'showUp'
+	 	})
+
 		.when('/logout', {
 						resolve:{
 								 "check": function($location,$localStorage){
@@ -434,7 +445,8 @@ theApp.controller('listCtrlr', function($scope,$http){
 
 theApp.controller('listSecCtrlr', function($scope, $http, $route, $location){
 
-
+	$scope.currentPage = 1;
+	$scope.pageSize = 4;
 
 	getLink = '/restAPI/api/Hosts/list_courses.php';
     $scope.prefix = "SECTION";
@@ -529,7 +541,10 @@ theApp.controller('listSecCtrlr', function($scope, $http, $route, $location){
 
 theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 
+	$scope.duplicateStudents = [];
 
+	$scope.currentPage = 1;
+	$scope.pageSize = 10;
 
 	getLink = "/restAPI/api/Hosts/Sections/list_section_students.php?section_id="+$routeParams.section_id;
 	$http.get(getLink).then(function(response){
@@ -574,9 +589,41 @@ theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 		});
 	}
 
+	$scope.uploadCSV = function(){
+		var fd = new FormData();
+		fd.append('students',$scope.files[0]);
+
+		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
+			transfromRequest:angular.identity,
+			headers:{'Content-Type':undefined}
+		}).then(function(response){
+			if(response.data.success){
+
+			}else if(response.data.error){
+
+			}else{
+				$scope.errors = response.data;
+				$scope.duplicate = response.data.duplicate;
+				$scope.nonConvert = response.data.nonConvert;
+				$scope.wrongLen = response.data.wrongLen;
+				$scope.missingData = response.data.missingData;
+				$scope.enter = response.data.enter;
+				console.log(response.data);
+				$scope.duplicateStudents = response.data;
+
+			}
+		}).catch(function(response){
+			console.log(response.data);
+		});
+
+	}
+
 });
 
 theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$location){
+
+	$scope.currentPage = 1;
+	$scope.pageSize = 4;
 
    $scope.quizTitle = 'MyQuizzenNo.0';
    getLink = "/restAPI/api/quizzes/read_quiz.php?admin_id="+ localStorage.getItem('user_id');
@@ -678,9 +725,14 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
 		});
            }
 	   };
+
 });
 
 theApp.controller('partsCtrlr', function($scope,$http,$route, $routeParams){
+
+	$scope.currentPage = 1;
+	$scope.pageSize = 4;
+
 	$scope.quiz_id = $routeParams.quiz_id;
 	getLink = "/restAPI/api/quizzes/viewQuizPart.php?quiz_id="+ $routeParams.quiz_id;
 
@@ -1108,10 +1160,24 @@ theApp.controller('guessCtrlr', function($scope,$http,sessionService,$routeParam
 
 });
 
-theApp.controller('CSVSTUDENTS', function($scope,$http){
-	$scope.uploadCS = function(){
+theApp.controller('arrangeCtrlr', function($scope,$http,sessionService,$routeParams){
+	$scope.arrangeQuestion = function(){
+   	sendData = JSON.stringify({"quiz_id" : $routeParams.quiz_id ,"part_id" : $routeParams.part_id , "question" : $scope.question , "a" : $scope.choice1, "b" : $scope.choice2, "c" : $scope.choice3, "d" : $scope.choice4 });
+	link = "/restAPI/api/Quizzes/arrange_the_sequence.php";
+	
+	$http.post(link,sendData).then(function(response){
+		console.log(response.data);
+	}).catch(function(response){
+		console.log(response);
+	});
+
+   };
+
+   $scope.uploadCSV = function(){
 		var fd = new FormData();
-		fd.append('students',$scope.files[0]);
+		fd.append('arrange',$scope.files[0]);
+		fd.append('quiz_id',$routeParams.quiz_id);
+		fd.append('part_id',$routeParams.part_id);
 
 		$http.post('/restAPI/api/Quizzes/csv_multiple_choice.php',fd,{
 			transfromRequest:angular.identity,
@@ -1120,11 +1186,10 @@ theApp.controller('CSVSTUDENTS', function($scope,$http){
 			console.log(response.data);
 		}).catch(function(response){
 			console.log(response.data);
-			console.log('asdasd');
 		});
-
-	}
+	};
 });
+
 
 theApp.controller('empIDChecker' , function($scope, $http, $location){
 	$scope.checkID = function(){
@@ -1181,6 +1246,13 @@ theApp.controller('empRequest', function($scope, $http){
 	}
 });
 
+
+theApp.controller('showUp',function($scope,$http,$routeParams){
+	$http.get('/restAPI/api/Sections/readHandledSection.php?adminId='+localStorage.getItem("user_id")).then(function(response){
+		$scope.sectionsHandled = response.data;
+	});
+}
+
 theApp.controller('viewTagCtrl', function($scope, $http, $routeParams){
 	$scope.tagName = $routeParams.tag_name;
 
@@ -1191,5 +1263,16 @@ theApp.controller('viewTagCtrl', function($scope, $http, $routeParams){
 	}).catch(function(response){
 		console.log(response);
 	});
+
+
+	$scope.streamQuiz = function($section_id){
+		$postData = JSON.stringify({"quiz_id" : $routeParams.quiz_id , "admin_id" : localStorage.getItem('user_id' ) , "section_id" : $section_id });
+		$link = '/restAPI/api/Quizzes/up_quiz.php';
+		$http.post($link,$postData).then(function(response){
+			console.log(response.data);
+		}).catch(function(){
+
+		});
+	}
 
 });

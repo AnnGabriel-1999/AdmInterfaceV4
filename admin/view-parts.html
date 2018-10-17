@@ -258,7 +258,7 @@
                         <div class="tab-pane active" id="parts" role="tabpanel">
                             <div class="col-md-12">
                                 <div class="accordion" id="parts-accordion">
-                                    <div ng-repeat="part in parts | filter: searchTxt" class="card mt-2 part-card">
+                                    <div ng-repeat="part in parts.slice(((currentPage-1)*pageSize), ((currentPage)*pageSize)) | filter: searchTxt" class="card mt-2 part-card">
                                         <div class="card-body py-3 px-0">
                                             <div class="row px-3" style="height: 119px;">
                                                 <div class="col-md-6 pl-4">
@@ -343,6 +343,24 @@
                                                                     </ul>
                                                                 </div>
 
+                                                                <!--ARRANGE THE SEQUENCE-->
+                                                                <div class="collapse border-top mt-4" id="show_{{part.QuizID}}_{{part.PartID}}_3">
+                                                                    <ul class="list-group list-group-flush">
+                                                                        <li class="list-group-item"><i class="fas fa-heart"
+                                                                                style="color: #ea5a5a;"></i>
+                                                                            {{question.a}} </li>
+                                                                        <li class="list-group-item"><i class="fas fa-square"
+                                                                                style="color: #0181c4;"></i>
+                                                                            {{question.b}} </li>
+                                                                        <li class="list-group-item"><i class="fas fa-circle"
+                                                                                style="color: #32b9c4;"></i>
+                                                                            {{question.c}} </li>
+                                                                        <li class="list-group-item"><i class="fas fa-star"
+                                                                                style="color: #ffd011;"></i>
+                                                                            {{question.d}} </li>
+                                                                    </ul>
+                                                                </div>
+
                                                                 <!--TRUE OR FALSE-->
                                                                 <div class="collapse border-top mt-4" id="show_{{part.QuizID}}_{{part.PartID}}_2">
                                                                     <ul class="list-group list-group-flush">
@@ -409,25 +427,7 @@
                 </div>
 
                 <!-- Pagination -->
-                <nav class="mt-3">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <span class="page-link">Previous</span>
-                        </li>
-                        <li class="page-item active">
-                            <span class="page-link">1</span>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">3</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+                <ul uib-pagination total-items="parts.length" ng-model="currentPage" items-per-page="pageSize" max-size="5" class="pagination-md justify-content-center" ng-show='parts.length > 0' boundary-links="true" force-ellipses="true"></ul>
 
             </div>
             <!-- </div> -->
