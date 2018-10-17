@@ -624,13 +624,15 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
 
 	$scope.currentPage = 1;
 	$scope.pageSize = 4;
-
+	
    $scope.quizTitle = 'MyQuizzenNo.0';
    getLink = "/restAPI/api/quizzes/read_quiz.php?admin_id="+ localStorage.getItem('user_id');
    $http.get(getLink).then(function(response){
        if(response.data.message){
 		   $scope.error = response.data.message;
+		   console.log(response.data);
        }else{
+       	console.log(response.data);
 		$scope.quizInfo = response.data;
 		$scope.quizTitle = 'MyQuizzenNo.'+(response.data.length+1);
        }
@@ -725,7 +727,6 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
 		});
            }
 	   };
-
 });
 
 theApp.controller('partsCtrlr', function($scope,$http,$route, $routeParams){
@@ -1246,14 +1247,7 @@ theApp.controller('empRequest', function($scope, $http){
 	}
 });
 
-
-theApp.controller('showUp',function($scope,$http,$routeParams){
-	$http.get('/restAPI/api/Sections/readHandledSection.php?adminId='+localStorage.getItem("user_id")).then(function(response){
-		$scope.sectionsHandled = response.data;
-	});
-}
-
-theApp.controller('viewTagCtrl', function($scope, $http, $routeParams){
+	theApp.controller('viewTagCtrl', function($scope, $http, $routeParams){
 	$scope.tagName = $routeParams.tag_name;
 
 	getLink = '/restAPI/api/quizzes/filter_quiz_by_tag.php?admin_id=' +localStorage.getItem("user_id") + '&tag_id=' + $routeParams.tag_id;
@@ -1263,7 +1257,6 @@ theApp.controller('viewTagCtrl', function($scope, $http, $routeParams){
 	}).catch(function(response){
 		console.log(response);
 	});
-
 
 	$scope.streamQuiz = function($section_id){
 		$postData = JSON.stringify({"quiz_id" : $routeParams.quiz_id , "admin_id" : localStorage.getItem('user_id' ) , "section_id" : $section_id });
@@ -1275,4 +1268,12 @@ theApp.controller('viewTagCtrl', function($scope, $http, $routeParams){
 		});
 	}
 
+});
+
+theApp.controller('showUp',function($scope,$http,$routeParams){
+	$http.get('/restAPI/api/Sections/readHandledSection.php?adminId='+localStorage.getItem("user_id")).then(function(){
+		$scope.sectionsHandled = response.data;
+	}).catch(function(response){
+		console.log(response);
+	});
 });
