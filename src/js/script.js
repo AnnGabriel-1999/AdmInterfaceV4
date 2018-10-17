@@ -14,12 +14,12 @@ $(document).ready(function(){
     });
 
     // Quiz Mode option
-    $('#opt-freeflow').click(function(){
+    $('body').on('click', '#opt-freeflow', function(){
         $('#freeflowOptions').css("display", "block");
         console.log('Freeflow selected');
     });
 
-    $('#opt-segments').click(function(){
+    $('body').on('click', '#opt-segments', function(){
         $('#freeflowOptions').css("display", "none");
         console.log('Segments selected');
     });
@@ -32,6 +32,14 @@ $(document).ready(function(){
         $('#freeflowOptions').css("display", "none");
         console.log('Segments selected');
     });*/
+
+    // 
+    // Student
+    // 
+
+    // Arrange the Sequence
+    $('#sort-arrange').sortable();
+    $('#sort-arrange').disableSelection();
 });
 
 // Text remaining counter
@@ -101,16 +109,3 @@ function addTag(event, el){
     }
 }
 
-
-
-
-
-
-// 
-// Student
-// 
-
-$(document).ready(function() {
-    $('#sort-arrange').sortable();
-    $('#sort-arrange').disableSelection();
-});
