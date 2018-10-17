@@ -222,12 +222,6 @@ theApp.config(['$routeProvider', function($routeProvider) {
                 controller: 'updateStudentCtrlr'
         })
 
-        .when('/uploadCSV', {
-
-                templateUrl:'uploadCsvStudents.html',
-                controller: 'CSVSTUDENTS'
-        })
-
         .when('/checker/4/:quiz_id/:part_id', {
 					resolve:{
 							 "check": function($location,$localStorage){
@@ -540,6 +534,8 @@ theApp.controller('listSecCtrlr', function($scope, $http, $route, $location){
 
 theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 
+	$scope.duplicateStudents = [];
+
 	$scope.currentPage = 1;
 	$scope.pageSize = 10;
 
@@ -606,6 +602,8 @@ theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 				$scope.missingData = response.data.missingData;
 				$scope.enter = response.data.enter;
 				console.log(response.data);
+				$scope.duplicateStudents = response.data;
+
 			}
 		}).catch(function(response){
 			console.log(response.data);
