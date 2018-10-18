@@ -120,7 +120,8 @@
 
                     <!--ADD QUESTION IN FREEFLOW-->
                         <div class="col-md-3 py-1">
-                            <a href="#!/checker/{{parts[0].TypeID}}/{{parts[0].QuizID}}/{{parts[0].PartID}}" class="btn btn-qznprimary text-white float-right" role="button">
+                            {{freeFlow}}
+                            <a href="#!checker/{{freeFlow.type_id}}/{{freeFlow.quiz_id}}/{{freeFlow.part_id}}" class="btn btn-qznprimary text-white float-right" role="button">
                                 <i class="far fa-plus-square"></i>
                                 Add Question
                             </a>

@@ -41,11 +41,11 @@ New Quiz Modal -->
                     </div>
 
                     <label class="btn btn-secondary opt-quizMode active">
-                        <input id="opt-freeflow" type="radio" name="quizMode" autocomplete="off" ng-model="type"
+                        <input id="opt-freeflow" type="radio" name="quizMode" autocomplete="off" ng-model="typeNewQuiz"
                             ng-value="'Freeflow'"> Freeflow
                     </label>
                     <label class="btn btn-secondary opt-quizMode">
-                        <input id="opt-segments" type="radio" name="quizMode" autocomplete="off" ng-model="type"
+                        <input id="opt-segments" type="radio" name="quizMode" autocomplete="off" ng-model="typeNewQuiz"
                             ng-value="'Segment'" selected> Segments
                     </label>
 
@@ -341,7 +341,7 @@ New Quiz Modal -->
             <img src="images/thinking.png" class="img-reponsive">
             <h3>No quiz created.</h3>
             <p>
-                <button ng-click="getQuizID(quizInfo[0].MaxID)" class="btn btn-primary" data-toggle="modal" data-target="#newQuiz-modal">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#newQuiz-modal">
                     <i class="far fa-plus-square"></i>
                     Create now
                 </button>
