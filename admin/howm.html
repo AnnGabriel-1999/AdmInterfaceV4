@@ -134,11 +134,9 @@ New Quiz Modal -->
                 </button>
             </div>
             <div class="modal-body">
-                <div ng-repeat="fname in fullname">
-                    <p>{{fname.fullname}}/{{fname.id}}</p>
-                    <div ng-repeat="part in parts"></div>
-                    <button ng-click="shareQuiz(quizTitle,quizDesc,part_type,fname.id,filepath,PartTitle,Duration,TypeID,QuizID,MaxID,totalParts)"
-                        class="btn btn-qznprimary">Share
+            <div ng-repeat="fname in fullname">
+            <p>{{fname.username}}/{{fname.id}}</p>
+            <button ng-click="shareQuiz(quiz_id,fname.id,max_id,totality)" class="btn btn-qznprimary">Share
                     </button>
                 </div>
             </div>
@@ -255,9 +253,9 @@ New Quiz Modal -->
                                     <a class="quiz-info__action-publish" ng-href="#!/published/{{info.quizID}}/{{info.part_type}}">
                                         <i class="fas fa-cloud fa-lg"></i>
                                     </a>
-                                    <a ng-init="adminList()" ng-click="getQuizData(info.quizID,quizInfo[0].MaxID)"
-                                            data-toggle="modal" data-target="#shareQuiz-modal" class="nav-link text-secondary">
-                                            <h5>Share</h5>
+                                     <a ng-init="adminList()" ng-click="getQuizData(info.quizID,info.PartID)" data-toggle="modal" data-target="#shareQuiz-modal"
+                                        class="nav-link text-secondary">
+                                        <h5>Share</h5>
                                     </a>
                                 </div>
                                 <div class="quiz-created__container">

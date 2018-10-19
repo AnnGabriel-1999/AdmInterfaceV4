@@ -642,7 +642,7 @@ theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 
 });
 
-theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$location){
+theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$location,$route){
 
 	$scope.currentPage = 1;
 	$scope.pageSize = 4;
@@ -670,14 +670,47 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
 
 
    $scope.getQuizData = function (quizID) {
-       $scope.quizID = quizID;
-		getLink = "/restAPI/api/Quizzes/readsingle_quiz.php?quizID="+ quizID;
-		$http.get(getLink).then(function(response){
-			console.log(response.data);
-			$scope.quizTitle = response.data.quiz_title;
-			$scope.quizDesc = response.data.description;
-		});
-   }
+		$scope.quizID = quizID;
+getLink = "/restAPI/api/Quizzes/readsingle_quiz.php?quizID="+ quizID;
+$http.get(getLink).then(function(response){
+	console.log(response.data);
+	$scope.quizTitle = response.data.quiz_title;
+	$scope.quizDesc = response.data.description;
+	$scope.quiz_id = response.data.quiz_id;
+	$scope.max_id = response.data.MaxID;
+	$scope.totality = response.data.partsTotal;
+	console.log("totalpartsto");
+	console.log($scope.totality);
+});
+}
+
+//INSERT LAHAT NUNG NA GET NA DATA TO ANOTHER ADMIN
+$scope.shareQuiz = function(quiz_id,id,max_id,totality) {
+$scope.quizID = quiz_id;
+$scope.admin_id = id;
+$scope.max = max_id
+$scope.totalParts = totality;
+alert($scope.admin_id);
+alert(  $scope.max);
+alert(  $scope.totalParts);
+
+getLink = "/restAPI/api/Quizzes/shareQuizzz.php?quizID="+ $scope.quizID + "&admID=" + $scope.admin_id  + "&MaxID=" + $scope.max + "&totalParts=" + $scope.totalParts;
+alert("Quiz Shared");
+$http.get(getLink).then(function(response){
+console.log(response.data);
+$('#newQuiz-modal').modal('show').modal('hide');
+$route.reload();
+});
+};
+
+$scope.adminList = function () {
+getLink = "/restAPI/api/Quizzes/shareQuiz.php"
+$http.get(getLink).then(function(response){
+ console.log(response.data);
+ $scope.fullname = response.data;
+});
+}
+
 
    $scope.updateQuiz = function(quizID, quizTitle, quizDesc){
 		sendData = JSON.stringify({"quizID" : quizID , "quizTitle" : quizTitle , "description" : quizDesc });
