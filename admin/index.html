@@ -13,7 +13,7 @@
         <div id="wrapper">
             <!-- SIDEBAR AND NAV BAR -->
             <!-- Sidebar -->
-            <div id="sidebar-wrapper" class="position-fixed border-right">
+            <div id="sidebar-wrapper" class="position-fixed border-right" ng-if="$root.fucker">
                 <ul class="sidebar-nav">
                     <li>
                         <a ng-href="#!/myquizzen" class="side-selected"><i class="fas fa-book fa-lg"></i></a>
@@ -31,7 +31,7 @@
             </div>
 
             <!-- Navbar -->
-            <nav class="col-md-12 navbar navbar-expand-lg navbar-light bg-white d-flex justify-content-end position-fixed shadow-sm main-nav">
+            <nav class="col-md-12 navbar navbar-expand-lg navbar-light bg-white d-flex justify-content-end position-fixed shadow-sm main-nav" ng-if="$root.fucker">
                 <a ng-href="#!/myquizzen">
                     <div class="position-relative sidebar-logo-container">
                         <img src="images/game-controller.png" />

@@ -1,4 +1,17 @@
-var theApp = angular.module('theApp',['ngRoute','theApp.controller','ngStorage','ui.bootstrap']);
+var theApp = angular.module('theApp',['ngRoute','ngStorage','ui.bootstrap']);
+
+theApp.factory('myService', function($rootScope) {
+        return {
+            checkMeBaby: function() {
+                $rootScope.fucker = localStorage.getItem('user_id');
+            }
+        };
+});
+
+theApp.run(function($rootScope){
+	$rootScope.fucker = null;
+	$rootScope.fucker = localStorage.getItem('user_id');
+});
 
 theApp.directive('fileInput',function($parse){
 	return{
@@ -13,7 +26,6 @@ theApp.directive('fileInput',function($parse){
 		}
 	}
 });
-
 
 theApp.config(['$routeProvider', function($routeProvider) {
 
@@ -316,14 +328,14 @@ theApp.config(['$routeProvider', function($routeProvider) {
 			})
 	}]);
 
-	theApp.controller('logoutCtrlr',function($location,$window,$localStorage){
+	theApp.controller('logoutCtrlr',function($location,$window,$localStorage,myService){
 	     window.localStorage.removeItem('user_id');
 	       $localStorage.loggedIn = false;
+	       myService.checkMeBaby();
 	    $location.path("/login");
 	});
 
-	angular.module('theApp.controller',[])
-	.controller('logInCtrlr', ['$scope','$http','$location', '$localStorage',function($scope,$http,$location,$localStorage,$rootScope){
+	theApp.controller('logInCtrlr', ['$scope','$http','$location', '$localStorage', '$rootScope','myService' , function($scope,$http,$location,$localStorage,$rootScope,myService){
 		$scope.logIn = function(){
 			$localStorage.loggedIn = false;
 
@@ -334,7 +346,7 @@ theApp.config(['$routeProvider', function($routeProvider) {
 				if(response.data.success){
 					$localStorage.loggedIn = true;
 					localStorage.setItem('user_id',response.data.session);
-					console.log(localStorage.getItem("user_id"));
+					myService.checkMeBaby();
  					$location.path("/myquizzen");
 		}else{
 			$scope.error = response.data;
