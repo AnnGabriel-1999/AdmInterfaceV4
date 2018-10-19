@@ -1,0 +1,87 @@
+<!-- Page content -->
+<div id="page-content-wrapper">
+    <div class="container-fluid p-0 h-100">
+        <!-- <div class="row no-gutters"> -->
+        <div class="col-md-12 pt-7" style="padding: 6rem; padding-bottom: 3rem;">
+            <div class="row">
+                <div class="col-md-9">
+                    <span class="h1">Handled Student(s)</span>
+                </div>
+                <nav class="col-md-12">
+                    <ol class="breadcrumb px-0">
+                        <li class="breadcrumb-item">
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            BSIT 3C-G1
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="row" ng-show="handledStudents.length > 0">
+                <ul class="nav nav-tabs col-md-12 mb-2">
+                    <li class="nav-item">
+                        <a href="#student-list" target="_self" data-toggle="tab" class="nav-link active">Student List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#quiz-taken" target="_self" data-toggle="tab" class="nav-link">Quiz taken</a>
+                    </li>
+                </ul>
+
+                <div class="col-md-12 tab-content px-0">
+                    <div class="tab-pane active" id="student-list">
+                        <div class="row">
+                            <div class="col-md-3 px-1">
+                                <div class="card student-cards" ng-repeat="x in handledStudents.slice(((currentPage-1)*pageSize), ((currentPage)*pageSize)) | filter: searchTxt">
+                                    <div class="card-body">
+                                        <div class="student-img-container">
+                                            <img src="images/marianne.jpg" alt="Marianne De Asis">
+                                        </div>
+                                        <div class="student-info">
+                                            <h4 class="mb-0">{{x.fname +' '+x.mname+' '+x.lname}}</h4>
+                                            <p class="text-secondary mb-1">{{x.student_id}}</p>
+                                            <div class="student-status student-ACTIVE">ACTIVE</div>
+                                            <div class="progress my-3 mx-2">
+                                                <div class="progress-bar" style="width: 67%;">67%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Pagination -->
+                        <ul uib-pagination total-items="handledStudents.length" ng-model="currentPage" items-per-page="pageSize"
+                            max-size="5" class="pagination-md justify-content-center" ng-show='handledStudents.length > 0'
+                            boundary-links="true" force-ellipses="true"></ul>
+                    </div>
+
+                    <div class="tab-pane fade" id="quiz-taken">
+                        <div class="col-md-12">
+                            <div class="card card-body d-flex flex-row justify-content-between mt-2">
+                                <div style="flex-grow:1; flex-basis:0;">Bootstrap 4</div>
+                                <div style="flex-grow:1; flex-basis:0;">September 29 2018, 11:11 PM</div>
+                                <div style="flex-grow:1; flex-basis:0;">69 Players</div>
+                            </div>
+                            <div class="card card-body d-flex flex-row justify-content-between mt-2">
+                                <div style="flex-grow:1; flex-basis:0;">AngularJS 1</div>
+                                <div style="flex-grow:1; flex-basis:0;">February 31 2017, 12:03 AM</div>
+                                <div style="flex-grow:1; flex-basis:0;">32 Players</div>
+                            </div>
+                            <div class="card card-body d-flex flex-row justify-content-between mt-2">
+                                <div style="flex-grow:1; flex-basis:0;">JQuery</div>
+                                <div style="flex-grow:1; flex-basis:0;">June 19 2018, 10:39 AM</div>
+                                <div style="flex-grow:1; flex-basis:0;">26 Players</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" ng-show="error">
+                <b>{{error.error}}</b>
+            </div>
+        </div>
+        <!-- </div> -->
+    </div>
+</div>

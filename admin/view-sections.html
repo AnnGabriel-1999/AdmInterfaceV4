@@ -5,7 +5,7 @@
         <div class="col-md-12 pt-7 h-100" style="padding: 6rem;">
             <div class="row">
                 <div class="col-md-9">
-                    <span class="h1">Handled Course(s)</span>
+                    <span class="h1">Handled Section(s)</span>
                 </div>
                 <nav class="col-md-12">
                     <ol class="breadcrumb px-0">
@@ -37,22 +37,31 @@
                         <div class="table-responsive ml-3">
                             <table class="table" style="border-collapse: separate; border-spacing: 0 10px;">
                                 <tbody>
-                                    <tr ng-repeat="x in handledCourses.slice(((currentPage-1)*pageSize), ((currentPage)*pageSize)) | filter: searchTxt" class="text-secondary p-4"
+                                    <tr ng-repeat="y in handledSections.slice(((currentPage-1)*pageSize), ((currentPage)*pageSize)) | filter: searchTxt" class="text-secondary p-4"
                                         style="border: 1px solid black;">
                                         <td class="align-middle py-4" style="height: 140px;">
                                             <div style="height: 100%;">
-                                                <p class="h3 mb-0">{{x.course}}</p>
-                                                <p class="h6 my-1">{{x.schoolyear}}</p>
+                                                <p class="h3 mb-0">{{y.section}}</p>
+                                                <p class="h6 my-1">{{y.schoolyear}}</p>
                                                 <div class="img-stacks">
+                                                    <img class="rounded-circle" src="images/marianne.jpg" width="32"
+                                                        height="32" />
+                                                    <img class="rounded-circle" src="images/chris.jpg" width="32"
+                                                        height="32" />
+                                                    <img class="rounded-circle" src="images/allen.jpg" width="32"
+                                                        height="32" />
+                                                    <div class="position-absolute section-count-players">
+                                                        {{y.students}} player(s)
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
 
                                         <td class="align-middle" style="width: 15%;">
-                                            <a ng-href="#!/viewsections2/{{x.course_id}}/{{userID}}">
+                                            <a ng-href="#!/viewstudents/{{y.section_id}}/{{y.schoolyear_id}}">
                                                 <button type="button" class="btn btn-qznsuccess" style="width: 100%;">
                                                     <i class="far fa-eye"></i>
-                                                    View Sections
+                                                    View Students
                                                 </button>
                                             </a>
                                         </td>
@@ -61,12 +70,11 @@
                             </table>
                         </div>
 
-                        <!-- Pagination -->
-                        <ul uib-pagination total-items="handledCourses.length" ng-model="currentPage" items-per-page="pageSize"
-                            max-size="5" class="pagination-md justify-content-center" ng-show='handledCourses.length > 0'
-                            boundary-links="true" force-ellipses="true"></ul>
+                        <ul uib-pagination total-items="handledSections.length" ng-model="currentPage" items-per-page="pageSize" max-size="5" class="pagination-md justify-content-center" ng-show='handledSections.length > 0' boundary-links="true" force-ellipses="true"></ul>
+
                     </div>
 
+                    
 
                     <div class="tab-pane col-md-12 px-0" id="deactivated">
                         <div class="table-responsive ml-3">
@@ -125,6 +133,10 @@
 
                 </div>
             </div>
+
+            <!-- Pagination -->
+            
+
         </div>
         <!-- </div> -->
     </div>

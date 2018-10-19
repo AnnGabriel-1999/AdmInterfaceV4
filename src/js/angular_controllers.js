@@ -95,6 +95,30 @@ theApp.config(['$routeProvider', function($routeProvider) {
 			controller: 'listSecCtrlr'
 		})
 
+		.when('/viewsections2/:course_id/:admin_id', {
+			resolve:{
+					 "check": function($location,$localStorage){
+							 if (!$localStorage.loggedIn){
+									 $location.path("/login");
+							 }
+						}
+			 },
+			templateUrl:'view-sections.html',
+			controller: 'viewSectionCtrlr'
+		})
+
+		.when('/viewstudents/:section_id/:sy_id', {
+			resolve:{
+					 "check": function($location,$localStorage){
+							 if (!$localStorage.loggedIn){
+									 $location.path("/login");
+							 }
+						}
+			 },
+			templateUrl:'view-students.html',
+			controller: 'viewStudentsCtrlr'
+		})
+
 		.when('/viewstudent', {
 			resolve:{
 					 "check": function($location,$localStorage){
@@ -442,95 +466,86 @@ theApp.controller('listSecCtrlr', function($scope, $http, $route, $location){
 
 	$scope.currentPage = 1;
 	$scope.pageSize = 4;
+	$scope.userID = localStorage.getItem('user_id');
 
-	getLink = '/restAPI/api/Hosts/list_courses.php';
-    $scope.prefix = "SECTION";
-
+	getLink = '/restAPI/api/Hosts/get_handled_courses.php?admin_id='+ localStorage.getItem('user_id');
 	$http.get(getLink).then(function(response){
-	  $scope.sections = response.data.sections;
-      console.log(response.data.sections);
+		if(response.data.message){
+			$scope.error = response.data;
+		}else{
+			$scope.handledCourses = response.data;
+			console.log(response.data);
+		}
 	}).catch(function(response){
-	  console.log(response);
+	
+	  console.log("x");
+	
 	});
 
-    //GET SECTION INFO
-    $scope.getSecData = function (section_id) {
-        getLink = '/restAPI/api/Sections/singleSection.php?section_id='+$scope.section_id;
-        $http.get(getLink).then(function (response) {
-            $scope.section_info = response.data;
-            console.log($scope.section_info[0].course);
-        }).catch(function (response) {
-            console.log(response);
-        });
+    // //GET SECTION INFO
+    // $scope.getSecData = function (section_id) {
+    //     getLink = '/restAPI/api/Sections/singleSection.php?section_id='+$scope.section_id;
+    //     $http.get(getLink).then(function (response) {
+    //         $scope.section_info = response.data;
+    //         console.log($scope.section_info[0].course);
+    //     }).catch(function (response) {
+    //         console.log(response);
+    //     });
+    // }
 
-    }
-
-    //GET ALL COURSES
-    $scope.getCourses = function() {
-        getLink = '/restAPI/api/Courses/viewCourses.php';
-        $http.get(getLink).then(function (response) {
-            $scope.courses = response.data;
-            console.log($scope.courses[0].course_id);
-        }).catch(function (response) {
-            console.log(response);
-        });
-    }
-
-
-   //SET PREFIX
-    $scope.setPrefix = function(course_id) {
-        getLink = '/restAPI/api/Courses/getCoursePrefix.php?course_id='+course_id;
-        $http.get(getLink).then(function (response) {
-            $scope.prefix = response.data[0].prefix;
-            console.log(response.data);
-        }).catch(function (response) {
-            console.log(response);
-        });
-
-    }
+    // //GET ALL COURSES
+    // $scope.getCourses = function() {
+    //     getLink = '/restAPI/api/Courses/viewCourses.php';
+    //     $http.get(getLink).then(function (response) {
+    //         $scope.courses = response.data;
+    //         console.log($scope.courses[0].course_id);
+    //     }).catch(function (response) {
+    //         console.log(response);
+    //     });
+    // }
 
 
-    //ADD SECTION
-    $scope.addSection = function(course_id) {
-        sendData = JSON.stringify({"course_id" : course_id, "admin_id" : localStorage.getItem('user_id'), "section" : $scope.sectionName});
-        link = '/restAPI/api/Sections/addSection.php';
-        $http.post(link,sendData).then(function(response){
-            alert('Section inserted.');
-            $('#sectionModalAdd').modal('show').modal('hide');
-            $route.reload();
-	     }).catch(function(response){
-            console.log(response);
-	     });
 
-    }
 
-    $scope.transferSectionData = function(section_id, course_id, section_name) {
-        $scope.courseID = course_id;
-        $scope.sectionName = section_name;
-        $scope.getCourses();
-        $scope.setPrefix(course_id);
-        $scope.section_id = section_id;
-        getLink = '/restAPI/api/Sections/singleSection.php?section_id='+section_id;
-        $http.get(getLink).then(function (response) {
-            $scope.section_info = response.data;
-            console.log($scope.section_info);
-            console.log($scope.section_info[0].course);
-        }).catch(function (response) {
-            console.log(response);
-        });
-    }
+});
 
-    $scope.updateSection = function(courseID, sectionName, section_id) {
-        sendData = JSON.stringify({"course_id": courseID, "admin_id": localStorage.getItem('user_id'), "section_id": $scope.section_id, "section": sectionName});
-        link = '/restAPI/api/Sections/updateSection.php';
-        $http.post(link,sendData).then(function(response){
-            alert('Section updated.');
-            $('#sectionModalEdit').modal('show').modal('hide');
-            $route.reload();
-	   }).catch(function(response){
-            console.log(response);
-	   });
-    }
+
+theApp.controller('viewStudentsCtrlr', function($http , $scope , $routeParams){
+
+	$scope.currentPage = 1;
+	$scope.pageSize = 4;
+
+	getLink = '/restAPI/api/Hosts/get_handled_students.php?section_id='+$routeParams.section_id + '&schoolyear_id='+$routeParams.sy_id;
+	$http.get(getLink).then(function(response){
+		if(response.data.error){
+			$scope.error = response.data;
+		}else{
+			$scope.handledStudents = response.data;
+		}
+	}).catch(function(response){
+	  console.log("x");
+	});
+
+});
+
+theApp.controller('viewSectionCtrlr', function($http , $scope , $routeParams){
+
+	$scope.currentPage = 1;
+	$scope.pageSize = 4;
+
+	getLink = '/restAPI/api/Hosts/get_handled_sections.php?admin_id='+$routeParams.admin_id + '&course_id='+$routeParams.course_id;
+	$http.get(getLink).then(function(response){
+		if(response.data.message){
+
+		}else{
+			$scope.handledSections = response.data;
+			console.log(response.data);
+		}
+	}).catch(function(response){
+	
+	  console.log("x");
+	
+	});
 
 });
 
@@ -687,7 +702,7 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
 		$http.post(link,fd,{transfromRequest:angular.identity,headers:{'Content-Type':undefined}})
 
 		.then(function(response){
-			
+
 			if(response.data.success){
 				$location.path('/home');
 
