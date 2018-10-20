@@ -683,8 +683,8 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
 theApp.controller('partsCtrlr', function($scope,$http,$route, $routeParams){
 	$scope.quiz_id = $routeParams.quiz_id;
 	getLink = "/restAPI/api/quizzes/viewQuizPart.php?quiz_id="+ $routeParams.quiz_id;
-
 	$http.get(getLink).then(function(response){
+		console.log(response.data);
 		if(response.data.message){
 			$scope.error = response.data.message;
 		}else{
@@ -692,8 +692,10 @@ theApp.controller('partsCtrlr', function($scope,$http,$route, $routeParams){
 			$scope.quizTitle= response.data[0].QuizTitle;
             $scope.description= response.data[0].Description;
 			$scope.parts = response.data;
+			console.log("eto: " + $scope.quizTitle);
 		}
-		$scope.set_color = function(TypeID) {
+
+	$scope.set_color = function(TypeID) {
     if(TypeID == 1)
         return {
 						"width": "auto", "display": "inline-block", "padding": "2px 10px", "border-radius": "50px", "background-color": "#FEDFC8","color": "rgba(176,96,0,.72)"

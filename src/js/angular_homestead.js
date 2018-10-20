@@ -222,6 +222,50 @@ homestead.controller('sectionsCtrl', function($scope, $http, $routeParams, $rout
 		console.log(response);
 	});
 
+	$scope.prefixer = function(yrlevel){
+		$scope.txt2 = $scope.sectionName.split('');
+		if(yrlevel == 1){
+			$scope.text = "1";	
+		}else if (yrlevel == 2){
+			$scope.text = "2";	
+		}else if (yrlevel == 3){
+			$scope.text = "3";	
+		}else if (yrlevel == 4) {
+			$scope.text = "4";	
+		}else{
+			$scope.text = "";
+		}
+
+		$scope.index = 0;
+		if (~$scope.index) {
+			$scope.txt2[$scope.index] = $scope.text;
+		}
+		if($scope.sectionName == undefined) {
+			$scope.sectionName = "";
+		}
+		$scope.sectionName = $scope.txt2.join('');
+		console.log($scope.sectionName);
+	}
+
+	$scope.addSection = function(){
+		sendData = JSON.stringify({"courseID" : $routeParams.courseID, "section_name" : $scope.sectionName, "year_level" : $scope.yrLevel});
+		link = "/restAPI/api/homestead/sections/add-section.php";
+		$http.post(link, sendData).then(function(response){
+			console.log(response.data);
+			if(response.data.success){
+				console.log('Success');
+				$('newSection-modal').modal('show').modal('hide');
+				$route.reload();
+			}else if (response.data.message){
+				alert(response.data.message);
+			}
+		}).catch(function(response){
+			console.log(response);
+		});
+	}
+
+
+
 	getLink = "/restAPI/api/homestead/courses/get-course.php?courseID="+$routeParams.courseID;
 	$http.get(getLink).then(function(response){
 		$scope.course = response.data[0].course;
@@ -297,6 +341,42 @@ homestead.controller('sectionsCtrl', function($scope, $http, $routeParams, $rout
 			console.log(response);
 		});
 	}
+
+	$scope.getSecData = function(sec_id){
+		getLink = "/restAPI/api/homestead/sections/get-section.php?section_id="+sec_id;
+		$http.get(getLink).then(function(response){
+			if(response.data.message){
+				$scope.msg = "No section";
+				$scope.sect = null;
+			}else{
+				$scope.sect = response.data;
+				$scope.msg = null;
+				$scope.sectionName = $scope.sect[0].section;
+				$scope.yrLevel = $scope.sect[0].year_level;
+				$scope.sec_id = $scope.sect[0].section_id;
+				console.log($scope.sect);
+			}
+		}).catch(function(response){
+			console.log(response);
+		});
+	}
+
+	$scope.updateSection = function(){
+		sendData = JSON.stringify({"section_id" : $scope.sec_id, "year_level" : $scope.yrLevel, "section_name" : $scope.sectionName, "courseID" : $scope.courseID});
+		link = "/restAPI/api/homestead/sections/edit-section.php";
+		$http.post(link, sendData).then(function(response){
+			console.log(response.data);
+			if(response.data.message){
+				console.log('Success');
+				$('updateSection-modal').modal('show').modal('hide');
+				$route.reload();
+			}
+		}).catch(function(response){
+			console.log(response);
+		});
+	}
+
+
 });
 
 homestead.controller('assignedCtrl', function($scope, $http, $routeParams, $route){
