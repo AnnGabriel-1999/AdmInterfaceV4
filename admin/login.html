@@ -1,40 +1,41 @@
-<div class="container-fluid h-100 bg-white">
-    <div class="row d-flex align-items-center h-100">
-        <div class="col-12 col-md-3 mx-auto bg-white rounded">
-            <form name="myForm">
-                <div class="col-md-12 text-center">
-                    <img src="images/game-controller (2).png">
-                </div>
+<div class="container-fluid h-100" style="background-color: #f9faff;">
+    <div class="row w-100">
+        <div class="col-md-12 d-flex justify-content-between mb-3" style="height: 58px;">
+            <div class="d-flex align-items-center">
+                <img src="images/game-controller.png" width="32" height="32">
+                <span class="h5 m-0 pl-2">Quizzen</span>
+            </div>
 
-                <h1 class="text-primary mb-3 text-center">Sign In</h1>
-                <div class="alert alert-danger alert-dismissible fade show" ng-show="error">
-                    <label>{{error.error}}</label>
-                    <button type="button" class="close" data-ng-click="reply = null">
-                        <span>&times;</span>
-                    </button>
-                </div>
+            <div class="d-flex align-items-center">
+                <button class="btn btn-outline-qznprimary">Get the App</button>
+            </div>
+        </div>
+    </div>
 
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="far fa-user"></i></span>
-                    </div>
+    <div class="text-center">
+        <h1 class="text-center mb-3">Login</h1>
+        <p class="text-qzndanger mb-3">{{error.error}}</p>
+    </div>
+
+    <div class="row">
+        <form name="myForm" class="w-100 d-flex align-items-center">
+            <div class="col-md-4 shadow-sm border rounded mx-auto pt-5 pr-5 pb-3 pl-5 bg-white">
+                <div class="form-group input-group-lg">
                     <input type="text" class="form-control" placeholder="Username" ng-model="angUsername" required>
                 </div>
 
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-key"></i></span>
-                    </div>
+                <div class="form-group input-group-lg mb-3">
                     <input type="password" class="form-control" placeholder="Password" ng-model="angPassword" required>
                 </div>
 
                 <div class="form-group">
-                    <input type="button" class="btn btn-outline-primary btn-block" value="Sign In" ng-click="logIn()" ng-disabled="myForm.$invalid">
+                    <input type="button" class="btn btn-primary btn-lg btn-block" value="LOGIN" ng-click="logIn()"
+                        ng-disabled="myForm.$invalid">
                 </div>
 
                 <p class="text-center">Forgot your password?</p>
-                <p class="text-primary text-center"><a href="#!/empCheck">Don't have an account? Sign Up</a></p>
-            </form>
-        </div>
+                <p class="text-primary text-center"><a href="#!/empCheck">Don't have an account? Register here.</a></p>
+            </div>
+        </form>
     </div>
 </div>

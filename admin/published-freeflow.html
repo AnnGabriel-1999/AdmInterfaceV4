@@ -1,118 +1,51 @@
-<body ng-app="theApp">
-    <!-- Page content -->
-    <div id="page-content-wrapper">
-        <div class="container-fluid p-0">
-            <div class="row no-gutters">
-                <div class="col-md-12 pt-5" style="padding: 6rem; padding-bottom: 3rem;">
-                    <div class="row">
-                        <div class="col-md-9">
-                            <span class="h1">PUBLISHED FREEFLOW</span>
+<div class="mainContainer">
+    <div class="quizzen-header">
+        <div class="header-title__container mb-0">
+            <h1 class="m-0">Published Freeflow</h1>
+            <button class="btn btn-qznprimary">Unknown Button</button>
+        </div>
+        <div class="header-nav__container">
+            <nav>
+                <ol class="breadcrumb m-0 p-0">
+                    <li class="breadcrumb-item">
+                        <a href="#">My Quizzens</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        {{quizTitle}}
+                    </li>
+                </ol>
+            </nav>
+            <p class="my-2">{{description}}</p>
+        </div>
+    </div>
+    <div class="quizzen-list__content-wrap">
+        <div ng-repeat="part in parts | filter: searchTxt">
+            <div class="quiz-item__container" data-ng-init="view(part.PartID,part.TypeID)">
+                <div class="freeflow-card__content-wrap card p-3">
+                    <div>{{part.Type}}</div>
+                    <div ng-repeat="question in questions">
+                        <h5 class="m-0">Question: {{question.Question}}</h5>
+
+                        <!--MULTIPLE CHOICE-->
+                        <div ng-show="validate_1" class="mb-2">
+                            <p class="m-0"> A. {{question.a}} </p>
+                            <p class="m-0"> B. {{question.b}} </p>
+                            <p class="m-0"> C. {{question.c}} </p>
+                            <p class="m-0"> D. {{question.d}} </p>
                         </div>
 
-                        <nav class="col-md-12">
-                            <ol class="breadcrumb px-0">
-                                <li class="breadcrumb-item">
-                                    <a href="#">Home</a>
-                                </li>
-                                <li class="breadcrumb-item active">
-                                {{quizTitle}}
-                                </li>
-                            </ol>
-                        </nav>
-                         <nav class="col-md-12">
-                            {{description}}
-                        </nav>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="accordion" id="parts-accordion">
-                                <div ng-repeat="part in parts | filter: searchTxt" class="card mt-2 part-card">
-                                    <div data-ng-init="view(part.PartID,part.TypeID)" class="card-body py-3 px-0">
-                                        <div class="row px-3" style="height: 119px;">
-                                            <div class="col-md-6 pl-4">
-                                                <div class="mb-1" ng-style="set_color(part.TypeID)">{{part.Type}}</div>
-                                                    <div  class="col-md-12">     
-                                                       <div ng-repeat="question in questions">
-                                                       <div class="col-md-9">    
-                                                            <h4>{{question.Question}}</h4>
-                                                        </div>      
-                                                        <!--MULTIPLE CHOICE-->
-                                                            <div ng-show="validate_1">
-                                                                <h5>   A. {{question.a}} </h5>
-                                                                    <h5> B. {{question.b}} </h5>
-                                                                    <h5>  C. {{question.c}} </h5>
-                                                                    <h5>   D. {{question.d}} </h5>
-                                                            </div>
-
-                                                            <!--TRUE OR FALSE-->
-                                                            <div ng-show="validate_2">
-                                                                <h5>   A. True </h5>
-                                                                    <h5> B. False</h5>
-                                                            </div>
-                                                            <!--GUESS WORD -->
-                                                            <div ng-show="validate_4">
-                                                                <h5> S_MP__</h5>
-                                                            </div>            
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!--<div class="collapse" id="ques_{{part.PartID}}_{{part.TypeID}}" data-parent="#parts-accordion">
-                                            <div class="row px-3">
-                                                <div class="col-md-12 mt-2">
-                                                    <h6 class="text-right text-qznprimary" data-toggle="collapse" data-target="#show_{{part.QuizID}}_{{part.PartID}}_{{part.TypeID}}" style="cursor: pointer;">Show answers</h6>
-                                                    <div ng-repeat="question in questions" class="card">
-                                                        <div class="card-body">
-                                                            <i class="far fa-question-circle" style="color: #748ffc;"></i>
-                                                            {{question.Question}}
-
-                                                            <!-- DELETE QUESTION BUTTON (No FUNCTION) 
-                                                            <a id="deleteQuestion" data-toggle="modal" data-target="#modalDeleteQues" class="btn btn-qzndanger float-right mx-2">
-                                                                <i class="far fa-trash-alt"></i> Delete
-                                                            </a>
-
-                                                             <!-- UPDATE QUESTION MULTIPLE TESTING
-                                                            <a id="updateMultiple" ng-click="transferMultipleData(question.QuestionID, question.QuizID, question.PartID,  question.Question, question.Answer,question.a,question.b,question.c,question.d)" data-toggle="modal" data-target="#multipleChoicemodal_{{part.TypeID}}" class="btn btn-qznwarning float-right">
-                                                                <i class="far fa-edit"></i> Update
-                                                            </a>     
-                                                                                                                                                                  
-                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <!--TRUE OR FALSE-->
+                        <div ng-show="validate_2" class="mb-2">
+                            <p class="m-0"> True </p>
+                            <p class="m-0"> False</p>
+                        </div>
+                        <!--GUESS WORD -->
+                        <div ng-show="validate_4" class="mb-2">
+                            <p class="m-0"> S_MP__</p>
                         </div>
                     </div>
-
-                    <!-- Pagination -->
-                    <nav>
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item disabled">
-                                <span class="page-link">Previous</span>
-                            </li>
-                            <li class="page-item active">
-                                <span class="page-link">1</span>
-                            </li>
-                            <li class="page-item">
-                                <a href="#" class="page-link">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a href="#" class="page-link">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a href="#" class="page-link">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
-
                 </div>
             </div>
         </div>
     </div>
-</body>
+</div>

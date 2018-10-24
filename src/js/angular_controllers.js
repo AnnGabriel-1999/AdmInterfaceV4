@@ -1,4 +1,17 @@
-var theApp = angular.module('theApp',['ngRoute','theApp.controller','ngStorage','ui.bootstrap']);
+var theApp = angular.module('theApp',['ngRoute','ngStorage','ui.bootstrap']);
+
+theApp.factory('myService', function($rootScope) {
+        return {
+            checkMeBaby: function() {
+                $rootScope.fucker = localStorage.getItem('user_id');
+            }
+        };
+});
+
+theApp.run(function($rootScope){
+	$rootScope.fucker = null;
+	$rootScope.fucker = localStorage.getItem('user_id');
+});
 
 theApp.directive('fileInput',function($parse){
 	return{
@@ -13,7 +26,6 @@ theApp.directive('fileInput',function($parse){
 		}
 	}
 });
-
 
 theApp.config(['$routeProvider', function($routeProvider) {
 
@@ -93,6 +105,30 @@ theApp.config(['$routeProvider', function($routeProvider) {
 			 },
 			templateUrl:'list-sections.html',
 			controller: 'listSecCtrlr'
+		})
+
+		.when('/viewsections2/:course_id/:admin_id', {
+			resolve:{
+					 "check": function($location,$localStorage){
+							 if (!$localStorage.loggedIn){
+									 $location.path("/login");
+							 }
+						}
+			 },
+			templateUrl:'view-sections.html',
+			controller: 'viewSectionCtrlr'
+		})
+
+		.when('/viewstudents/:section_id/:sy_id', {
+			resolve:{
+					 "check": function($location,$localStorage){
+							 if (!$localStorage.loggedIn){
+									 $location.path("/login");
+							 }
+						}
+			 },
+			templateUrl:'view-students.html',
+			controller: 'viewStudentsCtrlr'
 		})
 
 		.when('/viewstudent', {
@@ -180,15 +216,10 @@ theApp.config(['$routeProvider', function($routeProvider) {
 		})
 
         .when('/checker/1/:quiz_id/:part_id', {
-					resolve:{
-							 "check": function($location,$localStorage){
-									 if (!$localStorage.loggedIn){
-											 $location.path("/login");
-									 }
-								}
-					 },
+
                     templateUrl:'multiple_choice.html',
                     controller: 'multipleCtrlr'
+
         })
 
         .when('/checker/2/:quiz_id/:part_id', {
@@ -297,14 +328,14 @@ theApp.config(['$routeProvider', function($routeProvider) {
 			})
 	}]);
 
-	theApp.controller('logoutCtrlr',function($location,$window,$localStorage){
+	theApp.controller('logoutCtrlr',function($location,$window,$localStorage,myService){
 	     window.localStorage.removeItem('user_id');
 	       $localStorage.loggedIn = false;
+	       myService.checkMeBaby();
 	    $location.path("/login");
 	});
 
-	angular.module('theApp.controller',[])
-	.controller('logInCtrlr', ['$scope','$http','$location', '$localStorage',function($scope,$http,$location,$localStorage,$rootScope){
+	theApp.controller('logInCtrlr', ['$scope','$http','$location', '$localStorage', '$rootScope','myService' , function($scope,$http,$location,$localStorage,$rootScope,myService){
 		$scope.logIn = function(){
 			$localStorage.loggedIn = false;
 
@@ -315,7 +346,7 @@ theApp.config(['$routeProvider', function($routeProvider) {
 				if(response.data.success){
 					$localStorage.loggedIn = true;
 					localStorage.setItem('user_id',response.data.session);
-					console.log(localStorage.getItem("user_id"));
+					myService.checkMeBaby();
  					$location.path("/myquizzen");
 		}else{
 			$scope.error = response.data;
@@ -447,95 +478,86 @@ theApp.controller('listSecCtrlr', function($scope, $http, $route, $location){
 
 	$scope.currentPage = 1;
 	$scope.pageSize = 4;
+	$scope.userID = localStorage.getItem('user_id');
 
-	getLink = '/restAPI/api/Hosts/list_courses.php';
-    $scope.prefix = "SECTION";
-
+	getLink = '/restAPI/api/Hosts/get_handled_courses.php?admin_id='+ localStorage.getItem('user_id');
 	$http.get(getLink).then(function(response){
-	  $scope.sections = response.data.sections;
-      console.log(response.data.sections);
+		if(response.data.message){
+			$scope.error = response.data;
+		}else{
+			$scope.handledCourses = response.data;
+			console.log(response.data);
+		}
 	}).catch(function(response){
-	  console.log(response);
+	
+	  console.log("x");
+	
 	});
 
-    //GET SECTION INFO
-    $scope.getSecData = function (section_id) {
-        getLink = '/restAPI/api/Sections/singleSection.php?section_id='+$scope.section_id;
-        $http.get(getLink).then(function (response) {
-            $scope.section_info = response.data;
-            console.log($scope.section_info[0].course);
-        }).catch(function (response) {
-            console.log(response);
-        });
+    // //GET SECTION INFO
+    // $scope.getSecData = function (section_id) {
+    //     getLink = '/restAPI/api/Sections/singleSection.php?section_id='+$scope.section_id;
+    //     $http.get(getLink).then(function (response) {
+    //         $scope.section_info = response.data;
+    //         console.log($scope.section_info[0].course);
+    //     }).catch(function (response) {
+    //         console.log(response);
+    //     });
+    // }
 
-    }
-
-    //GET ALL COURSES
-    $scope.getCourses = function() {
-        getLink = '/restAPI/api/Courses/viewCourses.php';
-        $http.get(getLink).then(function (response) {
-            $scope.courses = response.data;
-            console.log($scope.courses[0].course_id);
-        }).catch(function (response) {
-            console.log(response);
-        });
-    }
-
-
-   //SET PREFIX
-    $scope.setPrefix = function(course_id) {
-        getLink = '/restAPI/api/Courses/getCoursePrefix.php?course_id='+course_id;
-        $http.get(getLink).then(function (response) {
-            $scope.prefix = response.data[0].prefix;
-            console.log(response.data);
-        }).catch(function (response) {
-            console.log(response);
-        });
-
-    }
+    // //GET ALL COURSES
+    // $scope.getCourses = function() {
+    //     getLink = '/restAPI/api/Courses/viewCourses.php';
+    //     $http.get(getLink).then(function (response) {
+    //         $scope.courses = response.data;
+    //         console.log($scope.courses[0].course_id);
+    //     }).catch(function (response) {
+    //         console.log(response);
+    //     });
+    // }
 
 
-    //ADD SECTION
-    $scope.addSection = function(course_id) {
-        sendData = JSON.stringify({"course_id" : course_id, "admin_id" : localStorage.getItem('user_id'), "section" : $scope.sectionName});
-        link = '/restAPI/api/Sections/addSection.php';
-        $http.post(link,sendData).then(function(response){
-            alert('Section inserted.');
-            $('#sectionModalAdd').modal('show').modal('hide');
-            $route.reload();
-	     }).catch(function(response){
-            console.log(response);
-	     });
 
-    }
 
-    $scope.transferSectionData = function(section_id, course_id, section_name) {
-        $scope.courseID = course_id;
-        $scope.sectionName = section_name;
-        $scope.getCourses();
-        $scope.setPrefix(course_id);
-        $scope.section_id = section_id;
-        getLink = '/restAPI/api/Sections/singleSection.php?section_id='+section_id;
-        $http.get(getLink).then(function (response) {
-            $scope.section_info = response.data;
-            console.log($scope.section_info);
-            console.log($scope.section_info[0].course);
-        }).catch(function (response) {
-            console.log(response);
-        });
-    }
+});
 
-    $scope.updateSection = function(courseID, sectionName, section_id) {
-        sendData = JSON.stringify({"course_id": courseID, "admin_id": localStorage.getItem('user_id'), "section_id": $scope.section_id, "section": sectionName});
-        link = '/restAPI/api/Sections/updateSection.php';
-        $http.post(link,sendData).then(function(response){
-            alert('Section updated.');
-            $('#sectionModalEdit').modal('show').modal('hide');
-            $route.reload();
-	   }).catch(function(response){
-            console.log(response);
-	   });
-    }
+
+theApp.controller('viewStudentsCtrlr', function($http , $scope , $routeParams){
+
+	$scope.currentPage = 1;
+	$scope.pageSize = 4;
+
+	getLink = '/restAPI/api/Hosts/get_handled_students.php?section_id='+$routeParams.section_id + '&schoolyear_id='+$routeParams.sy_id;
+	$http.get(getLink).then(function(response){
+		if(response.data.error){
+			$scope.error = response.data;
+		}else{
+			$scope.handledStudents = response.data;
+		}
+	}).catch(function(response){
+	  console.log("x");
+	});
+
+});
+
+theApp.controller('viewSectionCtrlr', function($http , $scope , $routeParams){
+
+	$scope.currentPage = 1;
+	$scope.pageSize = 4;
+
+	getLink = '/restAPI/api/Hosts/get_handled_sections.php?admin_id='+$routeParams.admin_id + '&course_id='+$routeParams.course_id;
+	$http.get(getLink).then(function(response){
+		if(response.data.message){
+
+		}else{
+			$scope.handledSections = response.data;
+			console.log(response.data);
+		}
+	}).catch(function(response){
+	
+	  console.log("x");
+	
+	});
 
 });
 
@@ -620,7 +642,7 @@ theApp.controller('viewSectionsCtrlr', function($scope,$http,$routeParams){
 
 });
 
-theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$location){
+theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$location,$route){
 
 	$scope.currentPage = 1;
 	$scope.pageSize = 4;
@@ -630,7 +652,9 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
    $http.get(getLink).then(function(response){
        if(response.data.message){
 		   $scope.error = response.data.message;
+		   console.log(response.data);
        }else{
+       	console.log(response.data);
 		$scope.quizInfo = response.data;
 		$scope.quizTitle = 'MyQuizzenNo.'+(response.data.length+1);
        }
@@ -646,14 +670,47 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
 
 
    $scope.getQuizData = function (quizID) {
-       $scope.quizID = quizID;
-		getLink = "/restAPI/api/Quizzes/readsingle_quiz.php?quizID="+ quizID;
-		$http.get(getLink).then(function(response){
-			console.log(response.data);
-			$scope.quizTitle = response.data.quiz_title;
-			$scope.quizDesc = response.data.description;
-		});
-   }
+		$scope.quizID = quizID;
+getLink = "/restAPI/api/Quizzes/readsingle_quiz.php?quizID="+ quizID;
+$http.get(getLink).then(function(response){
+	console.log(response.data);
+	$scope.quizTitle = response.data.quiz_title;
+	$scope.quizDesc = response.data.description;
+	$scope.quiz_id = response.data.quiz_id;
+	$scope.max_id = response.data.MaxID;
+	$scope.totality = response.data.partsTotal;
+	console.log("totalpartsto");
+	console.log($scope.totality);
+});
+}
+
+//INSERT LAHAT NUNG NA GET NA DATA TO ANOTHER ADMIN
+$scope.shareQuiz = function(quiz_id,id,max_id,totality) {
+$scope.quizID = quiz_id;
+$scope.admin_id = id;
+$scope.max = max_id
+$scope.totalParts = totality;
+alert($scope.admin_id);
+alert(  $scope.max);
+alert(  $scope.totalParts);
+
+getLink = "/restAPI/api/Quizzes/shareQuizzz.php?quizID="+ $scope.quizID + "&admID=" + $scope.admin_id  + "&MaxID=" + $scope.max + "&totalParts=" + $scope.totalParts;
+alert("Quiz Shared");
+$http.get(getLink).then(function(response){
+console.log(response.data);
+$('#newQuiz-modal').modal('show').modal('hide');
+$route.reload();
+});
+};
+
+$scope.adminList = function () {
+getLink = "/restAPI/api/Quizzes/shareQuiz.php"
+$http.get(getLink).then(function(response){
+ console.log(response.data);
+ $scope.fullname = response.data;
+});
+}
+
 
    $scope.updateQuiz = function(quizID, quizTitle, quizDesc){
 		sendData = JSON.stringify({"quizID" : quizID , "quizTitle" : quizTitle , "description" : quizDesc });
@@ -672,60 +729,51 @@ theApp.controller('viewQuizzesCtrlr', function($scope, $http , $routeParams ,$lo
 
 	};
 
-     
-    $scope.getQuizID = function (MaxID){
-        $scope.MaxID = MaxID;
-   }
+   $scope.addNewQuiz = function (){
 
-   $scope.addNewQuiz = function (MaxID){
-
-	   $scope.MaxID = MaxID;
-	   $scope.tags = angular.element('#addQ-hidden-input').val();
+		//DATA PAG SEGMENT YUNG QUIZ NA PWEDE MARAMING PARTS
+		$scope.tags = angular.element('#addQ-hidden-input').val();
 		var fd = new FormData();
 		if($scope.files){
 			fd.append('file',$scope.files[0]);
 		}
 		fd.append('quizTitle',$scope.quizTitle);
 		fd.append('description',$scope.quizDesc);
-		fd.append('part_type',$scope.type);
+		fd.append('part_type',$scope.typeNewQuiz);
 		fd.append('tags',$scope.tags);
 		fd.append('admin_id',localStorage.getItem("user_id"));
 		link = '/restAPI/api/Quizzes/add_quiz.php';
-		$http.post(link,fd,{
 
-			transfromRequest:angular.identity,
-			headers:{'Content-Type':undefined}
+		$http.post(link,fd,{transfromRequest:angular.identity,headers:{'Content-Type':undefined}})
 
-		}).then(function(response){
+		.then(function(response){
+
 			if(response.data.success){
 				$location.path('/home');
-				$('#newQuiz-modal').modal('show').modal('hide');
+
+				if ($scope.typeNewQuiz == 'Freeflow'){
+					alert('free');
+					sendData = JSON.stringify({"type_name" : $scope.typeName , "duration" : $scope.duration});
+					link = '/restAPI/api/Quizzes/setType.php';
+					$http.post(link,sendData).then(function(response){
+						alert(response.data);
+						console.log(response.data);
+					}).catch(function(response){
+						alert(response);
+					});
+        		}
+
 			}else{
 				$scope.error1 = response.data.message;
 				console.log(response.data);
 			}
-		}).catch(function(response){
-			console.log(response);
-		});
-       if ($scope.type == 'Freeflow'){
-       alert("freefloooooow");
-		sendData = JSON.stringify({"type_name" : $scope.typeName, "quizID" : parseInt($scope.MaxID) + 1 , "duration" : $scope.duration});
-		link = '/restAPI/api/Quizzes/setType.php';
-		$http.post(link,sendData).then(function(response){
-			if(response.data.success){
-				alert(response.data.success);
-				$('#newPart-modal').modal('show').modal('hide');
-				    $route.reload();
-			}else if(response.data.error){
-				$scope.error = response.data.error;
-				alert($scope.error);
-			}
-		}).catch(function(response){
-			console.log(response);
-		});
-           }
-	   };
+		})
 
+		.catch(function(response){
+			console.log(response);
+		});
+
+	};
 });
 
 theApp.controller('partsCtrlr', function($scope,$http,$route, $routeParams){
@@ -739,30 +787,48 @@ theApp.controller('partsCtrlr', function($scope,$http,$route, $routeParams){
 	$http.get(getLink).then(function(response){
 		if(response.data.message){
 			$scope.error = response.data.message;
+			console.log(response.data);
 		}else{
 			console.log(response.data);
 			$scope.quizTitle= response.data[0].QuizTitle;
             $scope.description= response.data[0].Description;
 			$scope.parts = response.data;
 		}
-		$scope.set_color = function(TypeID) {
-    if(TypeID == 1)
-        return {
-						"width": "auto", "display": "inline-block", "padding": "2px 10px", "border-radius": "50px", "background-color": "#FEDFC8","color": "rgba(176,96,0,.72)"
-					}
-    else if(TypeID == 2)
-        return {
-					"background-color": "#E9D2FD", "width": "auto", "display": "inline-block", "padding": "2px 10px", "border-radius": "50px","color": "rgba(104,29,168,.72)"
-				};
-				else if(TypeID == 3)
-		        return {
-							"background-color": "#CBF0F8", "width": "auto", "display": "inline-block", "padding": "2px 10px", "border-radius": "50px","color": "rgba(0,123,131,.72)"
-						};
-						else
-				        return {
-									"background-color": "#FEEFC3","width": "auto", "display": "inline-block", "padding": "2px 10px", "border-radius": "50px","color": "rgba(227,116,0,.72)"
-								};
-};
+
+	});
+
+	// HERE WILL RISE THE FREEFLOW QUIZ SOMETHING
+	getLink2 = "/restAPI/api/quizzes/fetchFreeFlow.php?quiz_id="+ $routeParams.quiz_id;
+	$http.get(getLink2).then(function(response){
+		$scope.freeFlow = response.data[0];
+		console.log($routeParams.quiz_id);
+	}).catch(function(response){
+		console.log(response);
+		console.log('x');
+	});
+
+	$scope.set_color = function(TypeID) {
+
+    	if(TypeID == 1)
+        	return {
+				"width": "auto", "display": "inline-block", "padding": "2px 10px", "border-radius": "50px", "background-color": "#FEDFC8","color": "rgba(176,96,0,.72)"
+			}
+
+    	else if(TypeID == 2)
+        	return {
+				"background-color": "#E9D2FD", "width": "auto", "display": "inline-block", "padding": "2px 10px", "border-radius": "50px","color": "rgba(104,29,168,.72)"
+			};
+				
+		else if(TypeID == 3)
+		    return {
+				"background-color": "#CBF0F8", "width": "auto", "display": "inline-block", "padding": "2px 10px", "border-radius": "50px","color": "rgba(0,123,131,.72)"
+			};
+		else
+			return {
+				"background-color": "#FEEFC3","width": "auto", "display": "inline-block", "padding": "2px 10px", "border-radius": "50px","color": "rgba(227,116,0,.72)"
+			};
+	};
+
 $scope.checkQuestions = function(TotalQs) {
  if ( TotalQs == 0 ) { // your question said "more than one element"
    return true;
@@ -771,7 +837,9 @@ $scope.checkQuestions = function(TotalQs) {
    return false;
   }
 };
+
 $scope.transferQuestionData = function(QuestionID, QuizID, PartID, Question, Answer) {
+
 		$scope.QuestionID = QuestionID;
 		$scope.QuizID = QuizID;
 		$scope.PartID = PartID;
@@ -784,6 +852,7 @@ $scope.transferQuestionData = function(QuestionID, QuizID, PartID, Question, Ans
 				console.log(response);
 		});
 }
+
 $scope.transferMultipleData = function(QuestionID,QuizID, PartID, Question, Answer,a,b,c,d) {
         $scope.QuizID = QuizID;
         $scope.PartID = PartID;
@@ -801,6 +870,7 @@ $scope.transferMultipleData = function(QuestionID,QuizID, PartID, Question, Answ
 				console.log(response);
 		});
 }
+
 $scope.updateTrueorFalse = function(QuestionID, QuizID, PartID, question, answer) {
 		sendData = JSON.stringify({"quizID": QuizID, "partID": PartID, "question_id": QuestionID, "new_question": question, "correct": answer});
 		link = '/restAPI/api/Quizzes/updatequestion.php';
@@ -835,21 +905,24 @@ $scope.updateMultiple = function(QuestionID, question, answer,a,b,c,d) {
 				console.log(response);
  });
 }
+	
+
+$scope.view = function(PartID){
+
+	$scope.PartID = PartID;
+
+	getLink = "/restAPI/api/quizzes/view_questions.php?part_id="+ $scope.PartID;
+
+	$http.get(getLink).then(function(response){
+		if(response.data.message){
+			$scope.error = response.data.message;
+			console.log("skashahkasdhk");
+		}else{
+			
+			$scope.questions = response.data;
+		}
 	});
-
-	$scope.view = function(PartID){
-		$scope.PartID = PartID;
-		getLink = "/restAPI/api/quizzes/view_questions.php?part_id="+ $scope.PartID;
-
-		$http.get(getLink).then(function(response){
-			if(response.data.message){
-				$scope.error = response.data.message;
-			}else{
-				console.log(response.data);
-				$scope.questions = response.data;
-			}
-		});
-	};
+};
 
 	$scope.addPart = function(){
 		sendData = JSON.stringify({"type_name" : $scope.typeName, "quizID" : $routeParams.quiz_id, "part_title" : $scope.partTitle, "duration" : $scope.duration});
@@ -941,55 +1014,7 @@ theApp.controller('createQuizCtrlr', function($scope,$http,$location){
 		$scope.quizTitle = 'MyQuizzenNo.'+(response.data.length+1);
        }
    });
-    $scope.getQuizID = function (MaxID){
-        $scope.MaxID = MaxID;
-   }
-   $scope.addNewQuiz = function (MaxID){
-       $scope.MaxID = MaxID;
-		var fd = new FormData();
-		if($scope.files){
-			fd.append('file',$scope.files[0]);
-		}
-		fd.append('quizTitle',$scope.quizTitle);
-		fd.append('description',$scope.quizDesc);
-        fd.append('part_type',$scope.type);
-		fd.append('admin_id',localStorage.getItem("user_id"));
-		link = '/restAPI/api/Quizzes/add_quiz.php';
-		$http.post(link,fd,{
 
-			transfromRequest:angular.identity,
-			headers:{'Content-Type':undefined}
-
-		}).then(function(response){
-			if(response.data.success){
-				$location.path('/home');
-				$('#newQuiz-modal').modal('show').modal('hide');
-			}else{
-				$scope.error1 = response.data.message;
-				console.log(response.data);
-			}
-		}).catch(function(response){
-			console.log(response);
-		});
-       if ($scope.type == 'Freeflow')
-           {
-       alert("freefloooooow");
-		sendData = JSON.stringify({"type_name" : $scope.typeName, "quizID" : parseInt($scope.MaxID) + 1 , "duration" : $scope.duration});
-		link = '/restAPI/api/Quizzes/setType.php';
-		$http.post(link,sendData).then(function(response){
-			if(response.data.success){
-				alert(response.data.success);
-				$('#newPart-modal').modal('show').modal('hide');
-				    $route.reload();
-			}else if(response.data.error){
-				$scope.error = response.data.error;
-				alert($scope.error);
-			}
-		}).catch(function(response){
-			console.log(response);
-		});
-           }
-	   };
 });
 
 theApp.controller('updatePart', function($scope, $http, $routeParams, $location){
@@ -1246,14 +1271,7 @@ theApp.controller('empRequest', function($scope, $http){
 	}
 });
 
-
-theApp.controller('showUp',function($scope,$http,$routeParams){
-	$http.get('/restAPI/api/Sections/readHandledSection.php?adminId='+localStorage.getItem("user_id")).then(function(response){
-		$scope.sectionsHandled = response.data;
-	});
-}
-
-theApp.controller('viewTagCtrl', function($scope, $http, $routeParams){
+	theApp.controller('viewTagCtrl', function($scope, $http, $routeParams){
 	$scope.tagName = $routeParams.tag_name;
 
 	getLink = '/restAPI/api/quizzes/filter_quiz_by_tag.php?admin_id=' +localStorage.getItem("user_id") + '&tag_id=' + $routeParams.tag_id;
@@ -1263,7 +1281,6 @@ theApp.controller('viewTagCtrl', function($scope, $http, $routeParams){
 	}).catch(function(response){
 		console.log(response);
 	});
-
 
 	$scope.streamQuiz = function($section_id){
 		$postData = JSON.stringify({"quiz_id" : $routeParams.quiz_id , "admin_id" : localStorage.getItem('user_id' ) , "section_id" : $section_id });
@@ -1275,4 +1292,12 @@ theApp.controller('viewTagCtrl', function($scope, $http, $routeParams){
 		});
 	}
 
+});
+
+theApp.controller('showUp',function($scope,$http,$routeParams){
+	$http.get('/restAPI/api/Sections/readHandledSection.php?adminId='+localStorage.getItem("user_id")).then(function(){
+		$scope.sectionsHandled = response.data;
+	}).catch(function(response){
+		console.log(response);
+	});
 });

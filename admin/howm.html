@@ -1,4 +1,4 @@
-<!-- New Quiz Modal -->
+New Quiz Modal -->
 <div class="modal fade" id="newQuiz-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -41,11 +41,11 @@
                     </div>
 
                     <label class="btn btn-secondary opt-quizMode active">
-                        <input id="opt-freeflow" type="radio" name="quizMode" autocomplete="off" ng-model="type"
+                        <input id="opt-freeflow" type="radio" name="quizMode" autocomplete="off" ng-model="typeNewQuiz"
                             ng-value="'Freeflow'"> Freeflow
                     </label>
                     <label class="btn btn-secondary opt-quizMode">
-                        <input id="opt-segments" type="radio" name="quizMode" autocomplete="off" ng-model="type"
+                        <input id="opt-segments" type="radio" name="quizMode" autocomplete="off" ng-model="typeNewQuiz"
                             ng-value="'Segment'" selected> Segments
                     </label>
 
@@ -135,15 +135,15 @@
             </div>
             <div class="modal-body">
             <div ng-repeat="fname in fullname">
-            <p>{{fname.fullname}}/{{fname.id}}</p>
-            <div ng-repeat="part in parts"></div>
-            <button ng-click="shareQuiz(quizTitle,quizDesc,part_type,fname.id,filepath,PartTitle,Duration,TypeID,QuizID,MaxID,totalParts)" class="btn btn-qznprimary">Share
+            <p>{{fname.username}}/{{fname.id}}</p>
+            <button ng-click="shareQuiz(quiz_id,fname.id,max_id,totality)" class="btn btn-qznprimary">Share
                     </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <!-- Delete Quiz Modal -->
 <div class="modal fade" id="deleteQuiz-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
@@ -194,172 +194,158 @@
     </div>
 </div>
 
-
 <!-- Page content -->
-<div id="page-content-wrapper">
-    <div class="container-fluid p-0 h-100">
-        <!-- <div class="row no-gutters"> -->
-        <div class="col-md-12 pt-7 h-100" style="padding: 6rem; padding-bottom: 3rem;">
-            <div class="row" ng-show="!error">
-                <div class="col-md-9">
-                    <span class="h1">My Quizzen</span>
-                </div>
+<div class="mainContainer">
+    <div class="quizzen-header" ng-show="!error">
+        <div class="header-title__container">
+            <h1 class="m-0">My Quizzen</h1>
+            <button ng-click="getQuizID(quizInfo[0].MaxID)" id="addStudent" class="btn btn-qznprimary" data-toggle="modal"
+                data-target="#newQuiz-modal">
+                <i class="far fa-plus-square"></i>
+                Add Quiz
+            </button>
+        </div>
 
-                <div class="col-md-3 py-1">
-                    <button ng-click="getQuizID(quizInfo[0].MaxID)" id="addStudent" class="btn btn-qznprimary float-right"
-                        data-toggle="modal" data-target="#newQuiz-modal">
-                        <i class="far fa-plus-square"></i>
-                        Add Quiz
-                    </button>
-                </div>
+        <div style="display: flex; flex-direction: column;">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a href="#quiz-list" class="nav-link active" target="_self" data-toggle="tab">Quiz List</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#favorites" class="nav-link" target="_self" data-toggle="tab">Favorites</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
-                <nav class="col-md-12">
-                    <ol class="breadcrumb p-0">
-                        <li class="breadcrumb-item">
-                            <a href="#">Home</a>
-                        </li>
-                        <li class="breadcrumb-item active">
-                            My Quizzen
-                        </li>
-                    </ol>
-                </nav>
+    <div class="quizzen-list__content-wrap tab-content">
+        <div class="tab-pane active" id="quiz-list">
 
-                <div class="col-md-12">
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item">
-                            <a href="#quiz-list" class="nav-link active" target="_self" data-toggle="tab">Quiz List</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#favorites" class="nav-link" target="_self" data-toggle="tab">Favorites</a>
-                        </li>
-                    </ul>
+            <!-- Folders -->
+            <div class="d-flex justify-content-between w-100 px-0">
+                <div class="card" style="width: calc(20% - 20px);" ng-repeat="folder in folders | filter: searchTxt" >
+                     <a href="#!/viewByTag/{{folder.tag_name}}/{{folder.tag_id}}">
+                        <div class="card-body text-secondary"><i class="fas fa-folder"></i> {{folder.tag_name}}</div>
+                    </a>
                 </div>
             </div>
 
-            <div class="row mt-2">
-                <div class="tab-content col-md-12">
-                    <div class="tab-pane active" id="quiz-list">
-                        <div class="d-flex justify-content-between w-100 px-0">
-                                <div class="card" style="width: calc(20% - 20px);" ng-repeat="folder in folders | filter: searchTxt">
-                                        <a href="#!/viewByTag/{{folder.tag_name}}/{{folder.tag_id}}"><div class="card-body text-secondary"><i class="fas fa-folder"></i>{{folder.tag_name}}</div></a>
-                                    </div>
-                            
+            <!-- Quiz Cards -->
+            <div ng-repeat="info in quizInfo.slice(((currentPage-1)*pageSize), ((currentPage)*pageSize)) | filter: searchTxt">
+                <div class="quiz-item__container">
+                    <div class="quizzen-card__content-wrap card">
+
+                        <!-- Quiz Image -->
+                        <div class="quiz-img__container m-2" style="background: url({{info.filepath}});">
+                            <span style="background-color: rgb(233, 210, 253); width: auto; padding: .25rem 1rem; border-radius: 0.4rem; color: rgba(104, 29, 168, 0.72); position: absolute; right: .5rem; top: .5rem; line-height: 1.25rem;">{{info.part_type}}</span>
                         </div>
 
-                        <div class="col-md-12 my-2 px-0 quizlist-item-container" ng-repeat="info in quizInfo.slice(((currentPage-1)*pageSize), ((currentPage)*pageSize)) | filter: searchTxt">
-                            <div class="card d-flex">
-                                <div class="card-body d-flex justify-content-between">
-                                    <div class="quizlist-img">
-                                        <img ng-src="{{info.filepath}}" style="min-height: 9.75rem; max-height: 9.75rem; width: 14.625rem; background-size: cover;"
-                                            alt="Marianne">
-                                    </div>
-                                    <div class="quizlist-info flex-grow-1 px-3">
-                                        <div style="background-color: rgb(233, 210, 253); width: auto; display: inline-block; padding: 2px 10px; border-radius: 50px; color: rgba(104, 29, 168, 0.72);">{{info.part_type}}</div>
-                                        <a ng-href="#!/viewparts/{{info.quizID}}/{{info.part_type}}">
-                                            <h5>{{info.quizTitle}}</h5>
-                                        </a>
-                                        <p class="text-secondary m-0">{{info.date_created}}</p>
-                                        <p class="m-0">TAGS</p>
-                                        <div style="background-color: rgb(233, 210, 253); width: auto; display: inline-block; padding: 2px 10px; border-radius: 50px; color: rgba(104, 29, 168, 0.72);">mess
-                                            ui</div>
-                                        <a ng-href="#!/published/{{info.quizID}}/{{info.part_type}}">
-                                            <p>PUBLISHED</p>
-                                        </a>
-                                        <a ng-init="adminList()" ng-click="getQuizData(info.quizID,quizInfo[0].MaxID)" data-toggle="modal" data-target="#shareQuiz-modal"
-                                            class="nav-link text-secondary">
-                                            <h5>Share</h5>
-                                        </a>
-                                    </div>
-                                    <div class="quizlist-options align-self-center">
-                                        <ul class="nav nav-justified quiz-options">
-                                            <li class="nav-item">
-                                                    
-                                                <a ng-href="#!/showWhere/{{info.quizID}}" class="nav-link text-secondary">
-                                                    <i class="far fa-play-circle fa-lg"></i>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a ng-click="getQuizData(info.quizID)" data-toggle="modal" data-target="#editQuiz-modal"
-                                                    class="nav-link text-secondary">
-                                                    <i class="far fa-edit fa-lg"></i>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link text-secondary" data-toggle="modal" data-target="#deleteQuiz-modal">
-                                                    <i class="far fa-trash-alt fa-lg"></i>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link text-secondary">
-                                                    <i class="far fa-heart fa-lg"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                        <!-- Quiz Information -->
+                        <div class="quiz-info__container">
+                            <main>
+                                <div class="quiz-title__container">
+                                    <h5 class="quiz-title">
+                                        <a ng-href="#!/viewparts/{{info.quizID}}/{{info.part_type}}"><p class="h5">{{info.quizTitle}}</p></a>
+                                    </h5>
+                                    <button class="quiz-info__action-star">
+                                        <i class="far fa-star fa-lg"></i>
+                                    </button>
+                                    <a class="quiz-info__action-publish" ng-href="#!/published/{{info.quizID}}/{{info.part_type}}">
+                                        <i class="fas fa-cloud fa-lg"></i>
+                                    </a>
+                                     <a ng-init="adminList()" ng-click="getQuizData(info.quizID,info.PartID)" data-toggle="modal" data-target="#shareQuiz-modal"
+                                        class="nav-link text-secondary">
+                                        <h5>Share</h5>
+                                    </a>
                                 </div>
-                            </div>
+                                <div class="quiz-created__container">
+                                    <p class="text-secondary m-0" style="text-overflow: ellipsis;">{{info.date_created}}</p>
+                                </div>
+                            </main>
+
+                            <!-- Quiz Navigation -->
+                            <footer>
+                                    <div>
+                                       
+                                        <!-- <div class="tags-badge">Warts</div>
+                                        <div class="tags-badge">ni</div>
+                                        <div class="tags-badge">Sir Arvin <3</div> -->
+                                    </div>
+
+                                <div>
+                                    <a href="#">
+                                        <button class="btn btn-qznsuccess btn-sm">
+                                            <i class="far fa-play-circle"></i> Play
+                                        </button>
+                                    </a>
+                                    <a ng-click="getQuizData(info.quizID)" data-toggle="modal" data-target="#editQuiz-modal">
+                                        <button class="btn btn-qznwarning btn-sm">
+                                            <i class="far fa-edit"></i> Edit
+                                        </button>
+                                    </a>
+
+                                    <a data-toggle="modal" data-target="#deleteQuiz-modal">
+                                        <button class="btn btn-qzndanger btn-sm">
+                                            <i class="far fa-trash-alt"></i> Delete
+                                        </button>
+                                    </a>
+                                </div>
+                            </footer>
                         </div>
-                        <!-- </div> End row -->
-
-                        <!-- Pagination -->
-                        <ul uib-pagination total-items="quizInfo.length" ng-model="currentPage" items-per-page="pageSize" max-size="5" class="pagination-md justify-content-center" ng-show='quizInfo.length > 0' boundary-links="true" force-ellipses="true"></ul>
-                        
                     </div>
 
-                    <div class="row" ng-show="!error">
-                        <!-- <div class="col-md-3 mb-4 px-1" ng-repeat="info in quizInfo | filter: searchTxt">
-                        <div class="card">
-                            <a ng-href="#!/viewparts/{{info.quizID}}"><img class="card-img-top" height="152" ng-src="{{info.filepath}}" alt="Card image cap"></a>
-                            <div class="card-body">
-                                <a ng-href="#!/viewparts/{{info.quizID}}"><h4 class="mb-0">{{info.quizTitle}}</h4></a>
-                                <p class="text-secondary my-1" style="font-size: 14px;">{{info.date_created}}</p>
-                                <p class="text-qznprimary my-1" style="font-size: 14px;">
-                                    <i class="far fa-play-circle"></i>
-                                    6 times played
-                                </p>
-                            </div>
-
-                            <div class="card-footer bg-white">
-                                <ul class="nav nav-justified quiz-options">
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link text-secondary">
-                                            <i class="far fa-play-circle fa-lg"></i>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a ng-click="getQuizData(info.quizID)" data-toggle="modal" data-target="#editQuiz-modal" class="nav-link text-secondary">
-                                            <i class="far fa-edit fa-lg"></i>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link text-secondary">
-                                            <i class="far fa-trash-alt fa-lg"></i>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link text-secondary">
-                                            <i class="far fa-heart fa-lg"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                        </div> -->
-                    </div>
+                    <!-- <div class="card d-flex">
+                                    <div class="card-body d-flex justify-content-between shadow-sm">
+                                        <div class="quizlist-img">
+                                            <img ng-src="{{info.filepath}}" style="min-height: 9.75rem; max-height: 9.75rem; width: 14.625rem; background-size: cover; border-radius: 10px;"
+                                                alt="Marianne">
+                                        </div>
+                                        <div class="quizlist-info flex-grow-1 px-3" style="overflow: hidden;">
+                                            <div style="background-color: rgb(233, 210, 253); width: auto; display: inline-block; padding: 2px 10px; border-radius: 50px; color: rgba(104, 29, 168, 0.72);">{{info.part_type}}</div>
+                                            <a ng-href="#!/viewparts/{{info.quizID}}/{{info.part_type}}">
+                                                <div class="module">
+                                                    <p class="h5">{{info.quizTitle}}</p>
+                                                </div>
+                                            </a>
+                                            <div class="w-100">
+                                                <p class="text-secondary m-0" style="text-overflow: ellipsis;">{{info.date_created}}</p>
+                                            </div>
+                                            <div style="background-color: rgb(233, 210, 253); width: auto; display: inline-block; padding: 2px 10px; border-radius: 50px; color: rgba(104, 29, 168, 0.72);">mess
+                                                ui</div>
+                                            <a ng-href="#!/published/{{info.quizID}}/{{info.part_type}}">
+                                                <p>PUBLISHED</p>
+                                            </a>
+                                        </div>
+                                        <div class="quizlist-options align-self-center">
+            
+                                        </div>
+                                    </div>
+                                </div> -->
                 </div>
             </div>
-            <!-- Error Message -->
-            <div class="row d-flex align-items-center h-100" ng-show="error">
-                <div class="col-12 text-center">
-                    <img src="images/thinking.png" class="img-reponsive">
-                    <h3>No quiz created.</h3>
-                    <p>
-                        <button ng-click="getQuizID(quizInfo[0].MaxID)" class="btn btn-primary" data-toggle="modal"
-                            data-target="#newQuiz-modal">
-                            <i class="far fa-plus-square"></i>
-                            Create now
-                        </button>
-                    </p>
-                </div>
-            </div> <!-- End container-fluid -->
-        </div> <!-- End page-content-wrapper -->
+            <!-- </div> End row -->
+
+            <!-- Pagination -->
+            <ul uib-pagination total-items="quizInfo.length" ng-model="currentPage" items-per-page="pageSize"
+                            max-size="5" class="pagination-md justify-content-center" ng-show='quizInfo.length > 0'
+                            boundary-links="true" force-ellipses="true"></ul>
+        </div>
+    </div>
+
+    <!-- Error Message -->
+    <div class="row d-flex align-items-center h-100" ng-show="error">
+        <div class="col-12 text-center">
+            <img src="images/thinking.png" class="img-reponsive">
+            <h3>No quiz created.</h3>
+            <p>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#newQuiz-modal">
+                    <i class="far fa-plus-square"></i>
+                    Create now
+                </button>
+            </p>
+        </div>
+    </div> <!-- End container-fluid -->
+</div>
+<!-- </div> -->
+<!-- </div> -->
+<!-- </div>

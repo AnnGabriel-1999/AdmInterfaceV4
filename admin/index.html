@@ -6,12 +6,6 @@
 
         <link rel="stylesheet" type="text/css" href="../src/css/main.css">
         <link rel="stylesheet" type="text/css" href="../src/fontawesome/css/all.css">
-        <script src="../src/js/angular.min.js"></script>
-        <script type="text/javascript" src="../src/js/angular-route.min.js"></script>
-        <script src="../src/js/angular_controllers.js"></script>
-        <script type="text/javascript" src="../src/js/angular-my-services.js"></script>
-        <script type="text/javascript" src="../src/js/ngStorage.js"></script>
-        <script type="text/javascript" src="../src/js/ui-bootstrap-tpls-3.0.5.js"></script>
 
         <title>Quizzen</title>
     </head>
@@ -19,7 +13,7 @@
         <div id="wrapper">
             <!-- SIDEBAR AND NAV BAR -->
             <!-- Sidebar -->
-            <div id="sidebar-wrapper" class="position-fixed border-right">
+            <div id="sidebar-wrapper" class="position-fixed border-right" ng-if="$root.fucker">
                 <ul class="sidebar-nav">
                     <li>
                         <a ng-href="#!/myquizzen" class="side-selected"><i class="fas fa-book fa-lg"></i></a>
@@ -37,19 +31,19 @@
             </div>
 
             <!-- Navbar -->
-            <nav class="col-md-12 navbar navbar-expand-lg navbar-light bg-white d-flex justify-content-end position-fixed shadow-sm main-nav">
-                <a ng-href="#!/myquizzen" class="mr-auto">
+            <nav class="col-md-12 navbar navbar-expand-lg navbar-light bg-white d-flex justify-content-end position-fixed shadow-sm main-nav" ng-if="$root.fucker">
+                <a ng-href="#!/myquizzen">
                     <div class="position-relative sidebar-logo-container">
                         <img src="images/game-controller.png" />
                     </div>
                 </a>
 
-                <div class="mr-3">
+                <div class="ml-4 mr-auto">
                     <div class="position-relative">
                         <div class="position-absolute text-secondary h-100 px-3 py-2">                            
                             <i class="fas fa-search"></i>                            
                         </div>
-                        <input type="text" class="form-control bg-light pl-5 border-0" placeholder="Type to search..." ng-model="searchTxt">
+                        <input type="text" class="form-control pl-5 border-0" placeholder="Type in to Search..." ng-model="searchTxt">
                     </div>
                 </div>
 
@@ -70,7 +64,10 @@
                     <img class="align-self-center ml-3 mr-2 rounded-circle dropdown-toggle" data-toggle="dropdown" src="images/marianne.jpg" width="40" height="40" />
 
                     <div class="align-self-center media-body dropdown-toggle" data-toggle="dropdown">
-                        <h6 class="m-0" id="nav-loggedUser">Vega Sometimes 666</h6>
+                        <h6 class="m-0" id="nav-loggedUser">
+                            Vega
+                            <i class="fas fa-angle-down"></i>
+                        </h6>
                     </div>
                     
                     <div class="dropdown-menu">
@@ -84,14 +81,17 @@
             <main ng-view class="h-100"></main>
         </div>
     </body>
-    <script src="../src/js/jquery.min.js"></script>
-    <script src="../src/js/popper.min.js"></script>
-    <script src="../src/js/bootstrap.min.js"></script>
-    <script src="../src/js/script.js"></script>
-    <script src="../src/js/angular.min.js"></script>
+    
+    <script type="text/javascript" src="../src/js/jquery.min.js"></script>
+    <script src="../src/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <script type="text/javascript" src="../src/js/popper.min.js"></script>
+    <script type="text/javascript" src="../src/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../src/js/script.js"></script>
+    <script type="text/javascript" src="../src/js/angular.min.js"></script>
     <script type="text/javascript" src="../src/js/angular-route.min.js"></script>
-    <script src="../src/js/angular_controllers.js"></script>
+    <script type="text/javascript" src="../src/js/angular_controllers.js"></script>
     <script type="text/javascript" src="../src/js/angular-my-services.js"></script>
     <script type="text/javascript" src="../src/js/ngStorage.js"></script>
+    <script type="text/javascript" src="../src/js/ui-bootstrap-tpls-3.0.5.js"></script>
 
 </html>
